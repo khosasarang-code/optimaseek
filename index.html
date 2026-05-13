@@ -10,8 +10,6 @@
 :root{--blue:#2563eb;--purple:#7c3aed;--bg:#f8fafc;--white:#fff;--border:#e2e8f0;--text:#0f172a;--muted:#64748b;--light:#f1f5f9;}
 html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--white);overflow:hidden;}
 body{display:flex;}
-
-/* SIDEBAR */
 .sidebar{width:240px;height:100vh;background:var(--bg);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;transition:transform 0.3s;}
 .logo{padding:10px 12px;display:flex;align-items:center;gap:8px;cursor:pointer;border-bottom:1px solid var(--border);}
 .logo-icon{width:26px;height:26px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:7px;display:flex;align-items:center;justify-content:center;}
@@ -25,12 +23,10 @@ body{display:flex;}
 .cats{flex:1;overflow-y:auto;padding:0 5px;}
 .cat{display:flex;align-items:center;gap:8px;padding:6px 9px;border-radius:7px;cursor:pointer;margin-bottom:1px;}
 .cat:hover,.cat.on{background:#eff6ff;}
-.cat:hover .cn,.cat.on .cn{color:var(--blue);font-weight:500;}
+.cat:hover .cn,.cat.on .cn{color:var(--blue);font-weight:600;}
 .ci{font-size:13px;width:16px;text-align:center;flex-shrink:0;}
 .cn{font-size:11.5px;color:#475569;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .pro-btn{margin:7px;padding:9px;background:linear-gradient(135deg,var(--blue),var(--purple));color:white;border:none;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;}
-
-/* MAIN */
 .main{flex:1;height:100vh;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
 .topbar{padding:8px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
 .tl{display:flex;align-items:center;gap:7px;font-family:'Sora',sans-serif;font-size:12px;font-weight:600;}
@@ -42,8 +38,6 @@ body{display:flex;}
 .tb.p{background:linear-gradient(135deg,var(--blue),var(--purple));color:white;border:none;}
 .menu-btn{display:none;background:none;border:none;cursor:pointer;padding:4px;flex-shrink:0;}
 .user-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--purple));color:white;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;}
-
-/* FREE SEARCH BANNER */
 .search-banner{margin:8px 14px 0;padding:8px 12px;background:linear-gradient(135deg,#eff6ff,#f5f3ff);border:1px solid #c7d2fe;border-radius:10px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
 .search-left{display:flex;align-items:center;gap:7px;}
 .search-dots{display:flex;gap:3px;}
@@ -52,13 +46,9 @@ body{display:flex;}
 .search-text{font-size:11px;color:var(--muted);}
 .search-text b{color:var(--blue);}
 .upgrade-small{padding:4px 10px;background:linear-gradient(135deg,var(--blue),var(--purple));color:white;border:none;border-radius:6px;font-size:10px;font-weight:600;cursor:pointer;white-space:nowrap;}
-
-/* CHAT AREA */
 .chat-area{flex:1;overflow-y:auto;padding:14px 16px 6px;display:flex;flex-direction:column;gap:14px;}
 .chat-area::-webkit-scrollbar{width:3px;}
 .chat-area::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:2px;}
-
-/* WELCOME */
 .welcome-state{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:14px;text-align:center;padding:16px;}
 .orb-wrap{position:relative;width:96px;height:96px;display:flex;align-items:center;justify-content:center;}
 .orb{width:64px;height:64px;border-radius:20px;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;animation:bob 3s ease-in-out infinite;box-shadow:0 10px 32px rgba(37,99,235,.38);position:relative;z-index:2;}
@@ -80,12 +70,10 @@ body{display:flex;}
 .wt{font-family:'Sora',sans-serif;font-size:22px;font-weight:800;}
 .wt span{color:var(--blue);}
 .ws{font-size:13px;color:var(--muted);max-width:340px;}
-
-/* MESSAGES */
 .msg{display:flex;flex-direction:column;gap:4px;max-width:78%;}
 .msg.user{align-self:flex-end;align-items:flex-end;}
 .msg.bot{align-self:flex-start;align-items:flex-start;}
-.bubble{padding:11px 15px;border-radius:14px;font-size:13.5px;line-height:1.6;word-break:break-word;}
+.bubble{padding:11px 15px;border-radius:14px;font-size:13.5px;line-height:1.7;word-break:break-word;white-space:pre-wrap;}
 .msg.user .bubble{background:linear-gradient(135deg,var(--blue),var(--purple));color:white;border-bottom-right-radius:4px;}
 .msg.bot .bubble{background:var(--light);color:var(--text);border-bottom-left-radius:4px;}
 .msg-img{max-width:200px;border-radius:10px;margin-bottom:4px;}
@@ -96,14 +84,10 @@ body{display:flex;}
 .typing span:nth-child(2){animation-delay:.2s;}
 .typing span:nth-child(3){animation-delay:.4s;}
 @keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
-
-/* UPGRADE WALL */
 .upgrade-wall{background:linear-gradient(135deg,#eff6ff,#f5f3ff);border:1.5px solid #c7d2fe;border-radius:14px;padding:20px;text-align:center;max-width:380px;}
 .upgrade-wall h3{font-family:'Sora',sans-serif;font-size:15px;font-weight:800;margin-bottom:6px;}
 .upgrade-wall p{font-size:12px;color:var(--muted);margin-bottom:14px;}
 .upgrade-wall button{padding:10px 24px;background:linear-gradient(135deg,var(--blue),var(--purple));color:white;border:none;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;}
-
-/* BOTTOM INPUT */
 .bottom{flex-shrink:0;padding:8px 14px 14px;background:white;}
 .input-wrap{background:var(--bg);border:2px solid var(--border);border-radius:18px;padding:14px 14px 10px;display:flex;flex-direction:column;gap:10px;transition:border-color .2s;box-shadow:0 4px 20px rgba(0,0,0,.08);}
 .input-wrap:focus-within{border-color:var(--blue);background:white;box-shadow:0 0 0 3px rgba(37,99,235,.08);}
@@ -115,15 +99,13 @@ body{display:flex;}
 .icon-btn:hover{background:var(--light);color:var(--blue);border-color:var(--blue);}
 .icon-btn svg{width:17px;height:17px;}
 .send-btn{width:42px;height:42px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--blue),var(--purple));cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(37,99,235,.35);}
-.send-btn:hover{opacity:.88;}
+.send-btn:disabled{opacity:.5;cursor:not-allowed;}
 .send-btn svg{width:17px;height:17px;color:white;}
 .input-hint{font-size:10px;color:#94a3b8;text-align:center;}
 .img-preview{display:none;position:relative;width:fit-content;}
 .img-preview img{max-width:90px;max-height:65px;border-radius:8px;border:1px solid var(--border);}
 .img-remove{position:absolute;top:-5px;right:-5px;width:16px;height:16px;background:#ef4444;border-radius:50%;color:white;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;border:none;}
 #fileInput{display:none;}
-
-/* MODALS */
 .ov{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);z-index:100;display:none;align-items:center;justify-content:center;padding:16px;}
 .ov.on{display:flex;}
 .modal{background:white;border-radius:18px;padding:26px;max-width:500px;width:100%;position:relative;}
@@ -140,8 +122,6 @@ body{display:flex;}
 .signin-btn{width:100%;padding:11px;border-radius:9px;border:none;background:linear-gradient(135deg,var(--blue),var(--purple));color:white;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:10px;}
 .signin-note{font-size:11px;color:#94a3b8;}
 .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:49;}
-
-/* MOBILE */
 @media(max-width:680px){
   .sidebar{position:fixed;left:0;top:0;z-index:50;transform:translateX(-100%);width:260px;}
   .sidebar.open{transform:translateX(0);}
@@ -156,7 +136,6 @@ body{display:flex;}
   .input-wrap{padding:12px 10px 8px;border-radius:14px;}
   #chatInput{font-size:16px;min-height:26px;}
   .wt{font-size:18px;}
-  .ws{font-size:12px;}
   .orb{width:52px;height:52px;}
   .orb svg{width:24px;height:24px;}
   .orb-wrap{width:76px;height:76px;}
@@ -168,9 +147,7 @@ body{display:flex;}
 </style>
 </head>
 <body>
-
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
-
 <aside class="sidebar" id="sidebar">
   <div class="logo" onclick="resetChat();closeSidebar()">
     <div class="logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
@@ -184,7 +161,6 @@ body{display:flex;}
   <div class="cats" id="cats"></div>
   <button class="pro-btn" onclick="openModal('pricing')">🚀 Upgrade Pro — $19.99/mo</button>
 </aside>
-
 <main class="main">
   <div class="topbar">
     <div style="display:flex;align-items:center;gap:8px;">
@@ -200,7 +176,6 @@ body{display:flex;}
       <div class="user-avatar" id="userAvatar" style="display:none;" onclick="signOut()"></div>
     </div>
   </div>
-
   <div class="search-banner">
     <div class="search-left">
       <div class="search-dots" id="searchDots"></div>
@@ -208,7 +183,6 @@ body{display:flex;}
     </div>
     <button class="upgrade-small" onclick="openModal('pricing')">Upgrade ✨</button>
   </div>
-
   <div class="chat-area" id="chatArea">
     <div class="welcome-state" id="welcomeState">
       <div class="orb-wrap">
@@ -221,7 +195,6 @@ body{display:flex;}
       <div class="ws">OptimaSeek AI — 30 categories • Instant answers • World-class support</div>
     </div>
   </div>
-
   <div class="bottom">
     <div class="input-wrap">
       <div class="img-preview" id="imgPreview">
@@ -237,7 +210,7 @@ body{display:flex;}
           <button class="icon-btn" id="micBtn" onclick="toggleMic()" title="Voice">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
           </button>
-          <button class="send-btn" onclick="sendMessage()">
+          <button class="send-btn" id="sendBtn" onclick="sendMessage()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
           </button>
         </div>
@@ -301,7 +274,6 @@ body{display:flex;}
 </div>
 
 <script>
-// CATEGORIES
 const cats=[
   {i:"🧠",n:"Mental Health & Wellness"},{i:"💼",n:"Jobs & Careers"},{i:"✈️",n:"Travel, Vacations & Cruises"},
   {i:"💰",n:"Finance & Money"},{i:"🏢",n:"Small Business"},{i:"🍽️",n:"Food & Nutrition"},
@@ -314,6 +286,7 @@ const cats=[
   {i:"🛩️",n:"Aviation Technical & Cockpit"},{i:"🏥",n:"Medical & First Aid"},{i:"🏡",n:"Real Estate Worldwide"},
   {i:"⚓",n:"Marine & Shipping"},{i:"🚛",n:"Trucking & Logistics"},{i:"☀️",n:"Renewable Energy & Solar"}
 ];
+
 const catsEl=document.getElementById('cats');
 cats.forEach(c=>{
   const el=document.createElement('div');el.className='cat';
@@ -321,9 +294,9 @@ cats.forEach(c=>{
   el.onclick=()=>{
     document.querySelectorAll('.cat').forEach(x=>x.classList.remove('on'));
     el.classList.add('on');
-    inp.value=c.i+' '+c.n+': ';
-    inp.focus();
     closeSidebar();
+    // When category clicked, send a greeting message for that category
+    askCategory(c.i, c.n);
   };
   catsEl.appendChild(el);
 });
@@ -340,64 +313,79 @@ function updateBanner(){
   for(let i=0;i<6;i++){const d=document.createElement('div');d.className='sdot'+(i<(6-searchesLeft)?' used':'');dots.appendChild(d);}
 }
 
-// AI RESPONSES - built-in smart responses
-const responses={
-  greet:["Hi! I'm OptimaSeek AI. How can I help you today? 😊","Hello! What can I help you with today?","Hey there! Ask me anything — I'm here to help!"],
-  mental:["Mental health is so important. Some tips:\n\n• Take deep breaths when stressed\n• Talk to someone you trust\n• Exercise regularly — even a short walk helps\n• Get enough sleep (7-9 hours)\n• Consider speaking with a professional therapist\n\nWould you like more specific advice?"],
-  jobs:["For job searching, here are some great tips:\n\n• Update your resume and LinkedIn profile\n• Use job sites: Indeed, LinkedIn, Glassdoor\n• Network with people in your field\n• Tailor your resume for each application\n• Practice common interview questions\n\nWhat type of job are you looking for?"],
-  immigration:["Immigration questions can be complex. Here's a general guide:\n\n• Determine which visa category fits your situation\n• Check the official government immigration website\n• Gather required documents early\n• Consider consulting an immigration lawyer\n• Track processing times at travel.state.gov\n\nWhich country are you trying to immigrate to?"],
-  auto:["For auto repair help:\n\n• Check your car's owner manual first\n• Use OBD-II scanner to read error codes\n• Common issues: battery, alternator, brakes\n• Get multiple quotes from mechanics\n• Use RepairPal.com for fair price estimates\n\nWhat specific problem is your car having?"],
-  finance:["Here are some solid financial tips:\n\n• Build an emergency fund (3-6 months expenses)\n• Pay off high-interest debt first\n• Invest early — compound interest is powerful\n• Use the 50/30/20 budget rule\n• Consider index funds for long-term investing\n\nWhat specific financial question do you have?"],
-  legal:["For legal matters:\n\n• Document everything in writing\n• Know your rights in your jurisdiction\n• Many lawyers offer free initial consultations\n• Legal aid societies help those who can't afford lawyers\n• Check LegalZoom or Rocket Lawyer for basic documents\n\nWhat type of legal issue are you dealing with?"],
-  medical:["Important: For emergencies, call 911 immediately.\n\nFor general health questions:\n• Always consult a licensed doctor for diagnosis\n• Use WebMD or Mayo Clinic for reliable information\n• Keep a record of your symptoms and medications\n• Get regular check-ups and screenings\n\nWhat health topic can I help you with?"],
-  travel:["Great travel tips:\n\n• Book flights 6-8 weeks in advance for best prices\n• Use Google Flights to compare prices\n• Get travel insurance\n• Check visa requirements early\n• Pack light — carry-on only if possible\n\nWhere are you planning to travel?"],
-  tech:["Tech support tips:\n\n• Always restart first — fixes 80% of issues!\n• Check for software/driver updates\n• Clear cache and cookies for browser issues\n• Run antivirus scan for slow computers\n• Google the exact error message for quick fixes\n\nWhat device or software is giving you trouble?"],
-  default:["That's a great question! Here's what I can tell you:\n\nOptimaSeek AI covers 30 help categories including mental health, jobs, immigration, auto repair, finance, legal, medical, travel, and tech support.\n\nCould you give me more details about your question so I can provide a more specific answer? 😊","I'd be happy to help with that! To give you the best answer, could you share a bit more detail about your specific situation?\n\nI cover topics like immigration, jobs, cars, finance, health, legal questions, and much more across 30 categories!","Thanks for your question! I'm here to help. Please tell me more about what you need and I'll do my best to assist you with accurate and helpful information."]
-};
+let attachedImage=null,micActive=false,recognition=null,currentUser=null,isLoading=false;
+// Conversation history for context
+let conversationHistory=[];
 
-function getResponse(text){
-  const t=text.toLowerCase();
-  if(t.match(/hi|hello|hey|good morning|good evening/))return pick(responses.greet);
-  if(t.match(/mental|stress|anxiety|depress|sad|lonely|therapy/))return responses.mental[0];
-  if(t.match(/job|career|resume|interview|work|employ|hire/))return responses.jobs[0];
-  if(t.match(/immigr|visa|green card|citizenship|passport|border/))return responses.immigration[0];
-  if(t.match(/car|auto|vehicle|engine|brake|tire|mechanic/))return responses.auto[0];
-  if(t.match(/money|finance|invest|debt|budget|bank|loan|credit/))return responses.finance[0];
-  if(t.match(/legal|law|lawyer|attorney|court|sue|contract/))return responses.legal[0];
-  if(t.match(/medical|health|doctor|sick|pain|symptom|hospital/))return responses.medical[0];
-  if(t.match(/travel|flight|hotel|vacation|trip|cruise|visa/))return responses.travel[0];
-  if(t.match(/computer|laptop|phone|wifi|internet|software|app|tech/))return responses.tech[0];
-  return pick(responses.default);
-}
-function pick(arr){return arr[Math.floor(Math.random()*arr.length)];}
-
-// STATE
-let attachedImage=null,micActive=false,recognition=null,currentUser=null;
-
-// INPUT
 const inp=document.getElementById('chatInput');
 inp.addEventListener('input',()=>{inp.style.height='auto';inp.style.height=Math.min(inp.scrollHeight,130)+'px';});
 inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}});
 
-function sendMessage(){
+function askCategory(icon, name){
+  if(searchesLeft<=0){showUpgradeWall();return;}
+  hideWelcome();
+  const question=`Tell me about ${name} — what kind of help do you provide in this area and what are the most common questions people ask?`;
+  addMessage('user', icon+' '+name, null);
+  searchesLeft--;updateBanner();
+  const t=addTyping();
+  callAI(question, t);
+}
+
+async function sendMessage(){
   const text=inp.value.trim();
   if(!text&&!attachedImage)return;
+  if(isLoading)return;
   if(searchesLeft<=0){showUpgradeWall();return;}
   hideWelcome();
   addMessage('user',text,attachedImage);
+  conversationHistory.push({role:'user',content:text||'[Image attached]'});
   const imgCopy=attachedImage;
   inp.value='';inp.style.height='auto';
   removeImage();
   searchesLeft--;updateBanner();
   const t=addTyping();
-  // Generate response with slight delay for natural feel
-  setTimeout(()=>{
-    t.remove();
-    const reply = imgCopy
-      ? "I can see you've attached an image! 🖼️\n\nFor full image analysis including reading documents, identifying objects, and answering questions about images, upgrade to Pro.\n\nYour question: \""+esc(text||'Image analysis request')+"\"\n\nWould you like to upgrade for unlimited image analysis?"
-      : getResponse(text);
+  if(imgCopy){
+    setTimeout(()=>{
+      t.remove();
+      const reply="I can see you've attached an image! 🖼️\n\nFor full image analysis — reading documents, identifying objects, answering questions from photos — upgrade to Pro.\n\nYour question: \""+esc(text||'Please analyze this image')+"\"\n\nUpgrade to Pro for unlimited image analysis!";
+      addBotMessage(reply);
+      conversationHistory.push({role:'assistant',content:reply});
+    },600);
+  } else {
+    callAI(text, t);
+  }
+}
+
+async function callAI(userText, typingEl){
+  isLoading=true;
+  document.getElementById('sendBtn').disabled=true;
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system:`You are OptimaSeek AI, a world-class help desk assistant covering 30 categories: Mental Health, Jobs & Careers, Travel, Finance, Small Business, Food & Nutrition, Insurance, Legal Help, IT Solutions, Laptop Repair, Apple Devices, Gaming, Cars & Vehicles, Online Shopping, Kids Education, Immigration, Student Visas, Universities, Education Support, Aviation Help, Auto Repair, Home Repair, Cryptocurrency, Recipes, Aviation Technical, Medical & First Aid, Real Estate, Marine & Shipping, Trucking & Logistics, Renewable Energy.
+
+Give helpful, practical, specific answers. Be friendly and conversational. Keep answers clear and well-organized. Use bullet points when listing steps or options. Always answer the specific question asked. If someone asks about a specific topic, give detailed helpful information about that exact topic.`,
+        messages:[
+          ...conversationHistory.slice(-6),
+          {role:'user',content:userText}
+        ]
+      })
+    });
+    const data=await response.json();
+    typingEl.remove();
+    const reply=data.content&&data.content[0]?data.content[0].text:'I apologize, I had trouble connecting. Please try again!';
     addBotMessage(reply);
-  }, 800+Math.random()*400);
+    conversationHistory.push({role:'assistant',content:reply});
+  } catch(err){
+    typingEl.remove();
+    addBotMessage("I'm having a connection issue right now. Please try again in a moment! 🔄");
+  }
+  isLoading=false;
+  document.getElementById('sendBtn').disabled=false;
 }
 
 function hideWelcome(){const w=document.getElementById('welcomeState');if(w)w.style.display='none';}
@@ -417,9 +405,7 @@ function addBotMessage(text){
   const area=document.getElementById('chatArea');
   const div=document.createElement('div');div.className='msg bot';
   const time=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-  // Convert newlines to <br> for display
-  const formatted=esc(text).replace(/\n/g,'<br>');
-  div.innerHTML=`<div class="bot-name">🌟 OptimaSeek AI</div><div class="bubble">${formatted}</div><div class="msg-time">${time}</div>`;
+  div.innerHTML=`<div class="bot-name">🌟 OptimaSeek AI</div><div class="bubble">${esc(text)}</div><div class="msg-time">${time}</div>`;
   area.appendChild(div);area.scrollTop=area.scrollHeight;
 }
 
@@ -442,7 +428,7 @@ function showUpgradeWall(){
   area.appendChild(div);area.scrollTop=area.scrollHeight;
 }
 
-function esc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function esc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');}
 
 function handleImage(e){
   const file=e.target.files[0];if(!file)return;
@@ -463,6 +449,7 @@ function toggleMic(){
 }
 
 function resetChat(){
+  conversationHistory=[];
   document.getElementById('chatArea').innerHTML=`<div class="welcome-state" id="welcomeState">
     <div class="orb-wrap">
       <div class="orbit"><div class="odot od1"></div><div class="odot od2"></div></div>
