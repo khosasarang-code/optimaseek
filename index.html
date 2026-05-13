@@ -32,6 +32,8 @@ body{display:flex;}
 
 /* MAIN */
 .main{flex:1;height:100vh;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
+
+/* TOPBAR */
 .topbar{padding:8px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
 .tl{display:flex;align-items:center;gap:7px;font-family:'Sora',sans-serif;font-size:12px;font-weight:600;}
 .dot{width:7px;height:7px;background:#22c55e;border-radius:50%;animation:blink 1.5s infinite;}
@@ -53,13 +55,9 @@ body{display:flex;}
 .search-text b{color:var(--blue);}
 .upgrade-small{padding:4px 10px;background:linear-gradient(135deg,var(--blue),var(--purple));color:white;border:none;border-radius:6px;font-size:10px;font-weight:600;cursor:pointer;white-space:nowrap;}
 
-/* CHAT AREA */
-.chat-area{flex:1;overflow-y:auto;padding:14px 16px 6px;display:flex;flex-direction:column;gap:14px;}
-.chat-area::-webkit-scrollbar{width:3px;}
-.chat-area::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:2px;}
-
-/* WELCOME */
-.welcome-state{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:14px;text-align:center;padding:16px;}
+/* WELCOME OVERLAY */
+.welcome-overlay{position:absolute;inset:0;background:white;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:20px;}
+.welcome-overlay.gone{display:none;}
 .orb-wrap{position:relative;width:96px;height:96px;display:flex;align-items:center;justify-content:center;}
 .orb{width:64px;height:64px;border-radius:20px;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;animation:bob 3s ease-in-out infinite;box-shadow:0 10px 32px rgba(37,99,235,.38);position:relative;z-index:2;}
 .orb svg{width:30px;height:30px;color:white;}
@@ -80,65 +78,21 @@ body{display:flex;}
 .wt{font-family:'Sora',sans-serif;font-size:22px;font-weight:800;}
 .wt span{color:var(--blue);}
 .ws{font-size:13px;color:var(--muted);max-width:340px;}
+.start-hint{font-size:12px;color:#94a3b8;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
-/* MESSAGES */
-.msg{display:flex;flex-direction:column;gap:4px;max-width:82%;}
-.msg.user{align-self:flex-end;align-items:flex-end;}
-.msg.bot{align-self:flex-start;align-items:flex-start;max-width:88%;}
-.bubble{padding:11px 15px;border-radius:14px;font-size:13.5px;line-height:1.7;word-break:break-word;}
-.msg.user .bubble{background:linear-gradient(135deg,var(--blue),var(--purple));color:white;border-bottom-right-radius:4px;}
-.msg.bot .bubble{background:var(--light);color:var(--text);border-bottom-left-radius:4px;}
+/* CHAT WRAPPER - fills remaining space */
+.chat-wrap{flex:1;position:relative;overflow:hidden;}
 
-/* CHATGPT-STYLE FORMATTING inside bot bubble */
-.msg.bot .bubble h1,.msg.bot .bubble h2,.msg.bot .bubble h3{
-  font-family:'Sora',sans-serif;font-weight:700;margin:12px 0 6px;color:var(--text);
+/* THE CHATBASE IFRAME - full size, one chatboard */
+.cb-frame{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:none;
+  display:block;
 }
-.msg.bot .bubble h1{font-size:16px;}
-.msg.bot .bubble h2{font-size:15px;}
-.msg.bot .bubble h3{font-size:14px;}
-.msg.bot .bubble p{margin:6px 0;line-height:1.7;}
-.msg.bot .bubble ul,.msg.bot .bubble ol{margin:6px 0 6px 18px;padding:0;}
-.msg.bot .bubble li{margin:4px 0;line-height:1.6;}
-.msg.bot .bubble strong,.msg.bot .bubble b{font-weight:700;color:var(--text);}
-.msg.bot .bubble em{font-style:italic;}
-.msg.bot .bubble hr{border:none;border-top:1px solid var(--border);margin:10px 0;}
-.msg.bot .bubble code{background:#e2e8f0;padding:2px 6px;border-radius:4px;font-size:12px;font-family:monospace;}
-.msg.bot .bubble blockquote{border-left:3px solid var(--blue);padding-left:10px;color:var(--muted);margin:8px 0;}
-
-.msg-img{max-width:200px;border-radius:10px;margin-bottom:4px;}
-.msg-time{font-size:10px;color:#94a3b8;}
-.bot-name{font-size:10px;color:var(--blue);font-weight:600;margin-bottom:2px;}
-.typing{display:flex;align-items:center;gap:4px;padding:10px 14px;background:var(--light);border-radius:14px;border-bottom-left-radius:4px;width:fit-content;}
-.typing span{width:7px;height:7px;background:#94a3b8;border-radius:50%;animation:bounce 1.2s infinite;}
-.typing span:nth-child(2){animation-delay:.2s;}
-.typing span:nth-child(3){animation-delay:.4s;}
-@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
-
-/* UPGRADE WALL */
-.upgrade-wall{background:linear-gradient(135deg,#eff6ff,#f5f3ff);border:1.5px solid #c7d2fe;border-radius:14px;padding:20px;text-align:center;max-width:380px;}
-.upgrade-wall h3{font-family:'Sora',sans-serif;font-size:15px;font-weight:800;margin-bottom:6px;}
-.upgrade-wall p{font-size:12px;color:var(--muted);margin-bottom:14px;}
-.upgrade-wall button{padding:10px 24px;background:linear-gradient(135deg,var(--blue),var(--purple));color:white;border:none;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;}
-
-/* BOTTOM INPUT */
-.bottom{flex-shrink:0;padding:8px 14px 14px;background:white;}
-.input-wrap{background:var(--bg);border:2px solid var(--border);border-radius:18px;padding:14px 14px 10px;display:flex;flex-direction:column;gap:10px;transition:border-color .2s;box-shadow:0 4px 20px rgba(0,0,0,.08);}
-.input-wrap:focus-within{border-color:var(--blue);background:white;box-shadow:0 0 0 3px rgba(37,99,235,.08);}
-.input-row{display:flex;align-items:flex-end;gap:8px;}
-#chatInput{flex:1;border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:15px;color:var(--text);resize:none;outline:none;max-height:130px;min-height:30px;line-height:1.6;}
-#chatInput::placeholder{color:#94a3b8;}
-.input-actions{display:flex;align-items:center;gap:5px;flex-shrink:0;}
-.icon-btn{width:38px;height:38px;border-radius:10px;border:1.5px solid var(--border);background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all .15s;flex-shrink:0;}
-.icon-btn:hover{background:var(--light);color:var(--blue);border-color:var(--blue);}
-.icon-btn svg{width:17px;height:17px;}
-.send-btn{width:42px;height:42px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--blue),var(--purple));cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(37,99,235,.35);}
-.send-btn:disabled{opacity:.5;cursor:not-allowed;}
-.send-btn svg{width:17px;height:17px;color:white;}
-.input-hint{font-size:10px;color:#94a3b8;text-align:center;}
-.img-preview{display:none;position:relative;width:fit-content;}
-.img-preview img{max-width:90px;max-height:65px;border-radius:8px;border:1px solid var(--border);}
-.img-remove{position:absolute;top:-5px;right:-5px;width:16px;height:16px;background:#ef4444;border-radius:50%;color:white;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;border:none;}
-#fileInput{display:none;}
 
 /* MODALS */
 .ov{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);z-index:100;display:none;align-items:center;justify-content:center;padding:16px;}
@@ -158,7 +112,7 @@ body{display:flex;}
 .signin-note{font-size:11px;color:#94a3b8;}
 .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:49;}
 
-/* MOBILE FIXES */
+/* MOBILE */
 @media(max-width:680px){
   .sidebar{position:fixed;left:0;top:0;height:100%;transform:translateX(-100%);}
   .sidebar.open{transform:translateX(0);}
@@ -168,23 +122,16 @@ body{display:flex;}
   .tb.hide-mob{display:none;}
   .topbar{padding:7px 10px;}
   .search-banner{margin:6px 8px 0;padding:6px 10px;}
-  .chat-area{padding:10px 10px 6px;}
-  .bottom{padding:6px 8px 10px;}
-  .input-wrap{padding:12px 10px 8px;border-radius:14px;}
-  #chatInput{font-size:16px;min-height:26px;}
+  .search-text{font-size:10px;}
   .wt{font-size:18px;}
   .orb{width:52px;height:52px;}
   .orb svg{width:24px;height:24px;}
   .orb-wrap{width:76px;height:76px;}
-  .msg{max-width:95%;}
-  .msg.bot{max-width:95%;}
-  .bubble{font-size:13px;padding:9px 12px;}
-  .send-btn{width:38px;height:38px;}
-  .icon-btn{width:34px;height:34px;}
 }
 </style>
 </head>
 <body>
+
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 
 <aside class="sidebar" id="sidebar">
@@ -217,6 +164,7 @@ body{display:flex;}
     </div>
   </div>
 
+  <!-- FREE SEARCH BANNER -->
   <div class="search-banner">
     <div class="search-left">
       <div class="search-dots" id="searchDots"></div>
@@ -225,8 +173,11 @@ body{display:flex;}
     <button class="upgrade-small" onclick="openModal('pricing')">Upgrade ✨</button>
   </div>
 
-  <div class="chat-area" id="chatArea">
-    <div class="welcome-state" id="welcomeState">
+  <!-- CHAT AREA -->
+  <div class="chat-wrap">
+
+    <!-- WELCOME SCREEN (shown on load) -->
+    <div class="welcome-overlay" id="welcome">
       <div class="orb-wrap">
         <div class="orbit"><div class="odot od1"></div><div class="odot od2"></div></div>
         <div class="orbit2"><div class="odot od3"></div><div class="odot od4"></div><div class="odot od5"></div><div class="odot od6"></div></div>
@@ -235,32 +186,18 @@ body{display:flex;}
       </div>
       <div class="wt">What can I help you with <span>today?</span></div>
       <div class="ws">OptimaSeek AI — 30 categories • Instant answers • World-class support</div>
+      <div class="start-hint">👇 Type your question below or pick a category</div>
     </div>
-  </div>
 
-  <div class="bottom">
-    <div class="input-wrap">
-      <div class="img-preview" id="imgPreview">
-        <img id="previewImg" src="" alt=""/>
-        <button class="img-remove" onclick="removeImage()">×</button>
-      </div>
-      <div class="input-row">
-        <textarea id="chatInput" rows="1" placeholder="Type your question here…"></textarea>
-        <div class="input-actions">
-          <button class="icon-btn" onclick="document.getElementById('fileInput').click()" title="Attach image">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/></svg>
-          </button>
-          <button class="icon-btn" id="micBtn" onclick="toggleMic()" title="Voice">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-          </button>
-          <button class="send-btn" id="sendBtn" onclick="sendMessage()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-          </button>
-        </div>
-      </div>
-      <div class="input-hint">Enter to send • Shift+Enter new line • 📎 image • 🎤 voice</div>
-    </div>
-    <input type="file" id="fileInput" accept="image/*" onchange="handleImage(event)"/>
+    <!-- CHATBASE — ONE full chatboard, always loaded -->
+    <iframe
+      id="cbFrame"
+      class="cb-frame"
+      src="https://www.chatbase.co/chatbot-iframe/0Wg8GQMDvVTb6a4DmhyuC"
+      allow="microphone"
+      title="OptimaSeek AI Chat">
+    </iframe>
+
   </div>
 </main>
 
@@ -317,24 +254,7 @@ body{display:flex;}
 </div>
 
 <script>
-// MARKDOWN PARSER - converts AI response to ChatGPT-style HTML
-function parseMarkdown(text){
-  return text
-    .replace(/^### (.+)$/gm,'<h3>$1</h3>')
-    .replace(/^## (.+)$/gm,'<h2>$1</h2>')
-    .replace(/^# (.+)$/gm,'<h1>$1</h1>')
-    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
-    .replace(/\*(.+?)\*/g,'<em>$1</em>')
-    .replace(/^[\-\*] (.+)$/gm,'<li>$1</li>')
-    .replace(/(<li>.*<\/li>)/gs,m=>'<ul>'+m+'</ul>')
-    .replace(/^\d+\. (.+)$/gm,'<li>$1</li>')
-    .replace(/`(.+?)`/g,'<code>$1</code>')
-    .replace(/^---$/gm,'<hr>')
-    .replace(/\n\n/g,'</p><p>')
-    .replace(/^(?!<[hul]|<li|<hr|<p)(.+)$/gm,'<p>$1</p>')
-    .replace(/<p><\/p>/g,'');
-}
-
+// CATEGORIES
 const cats=[
   {i:"🧠",n:"Mental Health & Wellness"},{i:"💼",n:"Jobs & Careers"},{i:"✈️",n:"Travel, Vacations & Cruises"},
   {i:"💰",n:"Finance & Money"},{i:"🏢",n:"Small Business"},{i:"🍽️",n:"Food & Nutrition"},
@@ -356,9 +276,20 @@ cats.forEach(c=>{
     document.querySelectorAll('.cat').forEach(x=>x.classList.remove('on'));
     el.classList.add('on');
     closeSidebar();
-    askCategory(c.i,c.n);
+    // Hide welcome and show chatbase
+    document.getElementById('welcome').classList.add('gone');
   };
   catsEl.appendChild(el);
+});
+
+// Hide welcome when user clicks on the iframe area
+document.getElementById('cbFrame').addEventListener('load',()=>{
+  // iframe loaded - ready
+});
+
+// Hide welcome on any click in chat area
+document.querySelector('.chat-wrap').addEventListener('click',()=>{
+  document.getElementById('welcome').classList.add('gone');
 });
 
 // FREE SEARCH COUNTER
@@ -370,184 +301,57 @@ function updateBanner(){
   localStorage.setItem('searchesLeft',searchesLeft);
   document.getElementById('searchLeft').textContent=searchesLeft;
   const dots=document.getElementById('searchDots');dots.innerHTML='';
-  for(let i=0;i<6;i++){const d=document.createElement('div');d.className='sdot'+(i<(6-searchesLeft)?' used':'');dots.appendChild(d);}
-}
-
-let attachedImage=null,micActive=false,recognition=null,currentUser=null,isLoading=false;
-let conversationHistory=[];
-
-const inp=document.getElementById('chatInput');
-inp.addEventListener('input',()=>{inp.style.height='auto';inp.style.height=Math.min(inp.scrollHeight,130)+'px';});
-inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}});
-
-function askCategory(icon,name){
-  if(searchesLeft<=0){showUpgradeWall();return;}
-  hideWelcome();
-  addUserMsg(icon+' '+name);
-  searchesLeft--;updateBanner();
-  const t=addTyping();
-  callAI(`I clicked on the "${name}" category. Please give me a helpful overview of this topic and the most common questions people ask about it. Use clear headings and bullet points.`,t);
-}
-
-async function sendMessage(){
-  const text=inp.value.trim();
-  if(!text&&!attachedImage)return;
-  if(isLoading)return;
-  if(searchesLeft<=0){showUpgradeWall();return;}
-  hideWelcome();
-  addUserMsg(text,attachedImage);
-  conversationHistory.push({role:'user',content:text||'[Image attached]'});
-  const imgCopy=attachedImage;
-  inp.value='';inp.style.height='auto';
-  removeImage();
-  searchesLeft--;updateBanner();
-  const t=addTyping();
-  if(imgCopy){
-    setTimeout(()=>{
-      t.remove();
-      const r="**Image Received!** 🖼️\n\nFor full image analysis — reading documents, identifying objects, answering questions from photos — **upgrade to Pro**.\n\nYour question: *\""+text+"\"*\n\n**Upgrade to Pro** for unlimited image analysis!";
-      addBotMsg(r);
-      conversationHistory.push({role:'assistant',content:r});
-    },600);
-  } else {
-    callAI(text,t);
+  for(let i=0;i<6;i++){
+    const d=document.createElement('div');
+    d.className='sdot'+(i<(6-searchesLeft)?' used':'');
+    dots.appendChild(d);
   }
 }
 
-async function callAI(userText,typingEl){
-  isLoading=true;
-  document.getElementById('sendBtn').disabled=true;
-  try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:1024,
-        system:`You are OptimaSeek AI, a world-class help desk assistant. You cover 30 categories: Mental Health, Jobs & Careers, Travel, Finance, Small Business, Food & Nutrition, Insurance, Legal Help, IT Solutions, Laptop Repair, Apple Devices, Gaming, Cars & Vehicles, Online Shopping, Kids Education, Immigration, Student Visas, Universities, Education Support, Aviation, Auto Repair, Home Repair, Cryptocurrency, Recipes, Medical, Real Estate, Marine, Trucking, Renewable Energy.
-
-IMPORTANT FORMATTING RULES:
-- Use **bold** for important terms and headings
-- Use ## for section headings
-- Use bullet points (- item) for lists
-- Use numbered lists for steps
-- Keep answers helpful, specific, and well-organized
-- Always directly answer what was asked
-- Be friendly and conversational`,
-        messages:[
-          ...conversationHistory.slice(-8),
-          {role:'user',content:userText}
-        ]
-      })
-    });
-    const data=await res.json();
-    typingEl.remove();
-    const reply=data.content&&data.content[0]?data.content[0].text:'Sorry, I had a connection issue. Please try again!';
-    addBotMsg(reply);
-    conversationHistory.push({role:'assistant',content:reply});
-  }catch(err){
-    typingEl.remove();
-    addBotMsg("**Connection issue** — please try again in a moment! 🔄");
-  }
-  isLoading=false;
-  document.getElementById('sendBtn').disabled=false;
-}
-
-function hideWelcome(){const w=document.getElementById('welcomeState');if(w)w.style.display='none';}
-
-function addUserMsg(text,img){
-  const area=document.getElementById('chatArea');
-  const div=document.createElement('div');div.className='msg user';
-  const time=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-  let html='';
-  if(img)html+=`<img class="msg-img" src="${img}" alt=""/>`;
-  if(text)html+=`<div class="bubble">${escText(text)}</div>`;
-  html+=`<div class="msg-time">${time}</div>`;
-  div.innerHTML=html;area.appendChild(div);area.scrollTop=area.scrollHeight;
-}
-
-function addBotMsg(markdown){
-  const area=document.getElementById('chatArea');
-  const div=document.createElement('div');div.className='msg bot';
-  const time=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-  const html=parseMarkdown(markdown);
-  div.innerHTML=`<div class="bot-name">🌟 OptimaSeek AI</div><div class="bubble">${html}</div><div class="msg-time">${time}</div>`;
-  area.appendChild(div);area.scrollTop=area.scrollHeight;
-}
-
-function addTyping(){
-  const area=document.getElementById('chatArea');
-  const div=document.createElement('div');div.className='msg bot';
-  div.innerHTML='<div class="typing"><span></span><span></span><span></span></div>';
-  area.appendChild(div);area.scrollTop=area.scrollHeight;return div;
-}
-
-function showUpgradeWall(){
-  hideWelcome();
-  const area=document.getElementById('chatArea');
-  const div=document.createElement('div');div.className='msg bot';
-  div.innerHTML=`<div class="upgrade-wall">
-    <h3>🚀 You've used all 6 free searches!</h3>
-    <p>Upgrade to Pro for unlimited searches, image & PDF analysis, and priority support.</p>
-    <button onclick="openModal('pricing')">Upgrade Now — $19.99/mo</button>
-  </div>`;
-  area.appendChild(div);area.scrollTop=area.scrollHeight;
-}
-
-function escText(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-
-function handleImage(e){
-  const file=e.target.files[0];if(!file)return;
-  const r=new FileReader();
-  r.onload=ev=>{attachedImage=ev.target.result;document.getElementById('previewImg').src=attachedImage;document.getElementById('imgPreview').style.display='block';};
-  r.readAsDataURL(file);e.target.value='';
-}
-function removeImage(){attachedImage=null;document.getElementById('imgPreview').style.display='none';document.getElementById('previewImg').src='';}
-
-function toggleMic(){
-  if(!('webkitSpeechRecognition' in window||'SpeechRecognition' in window)){alert('Voice input works in Chrome browser.');return;}
-  if(micActive){recognition&&recognition.stop();micActive=false;document.getElementById('micBtn').style.color='';return;}
-  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  recognition=new SR();recognition.lang='en-US';recognition.continuous=false;recognition.interimResults=false;
-  recognition.onresult=e=>{inp.value+=e.results[0][0].transcript+' ';inp.style.height='auto';inp.style.height=Math.min(inp.scrollHeight,130)+'px';};
-  recognition.onend=()=>{micActive=false;document.getElementById('micBtn').style.color='';};
-  recognition.start();micActive=true;document.getElementById('micBtn').style.color='#ef4444';
-}
+// Decrement search count when interacting
+document.querySelector('.chat-wrap').addEventListener('click',()=>{
+  if(searchesLeft>0){searchesLeft--;updateBanner();}
+});
 
 function resetChat(){
-  conversationHistory=[];
-  document.getElementById('chatArea').innerHTML=`<div class="welcome-state" id="welcomeState">
-    <div class="orb-wrap">
-      <div class="orbit"><div class="odot od1"></div><div class="odot od2"></div></div>
-      <div class="orbit2"><div class="odot od3"></div><div class="odot od4"></div><div class="odot od5"></div><div class="odot od6"></div></div>
-      <div class="orbit3"><div class="odot od7"></div><div class="odot od8"></div></div>
-      <div class="orb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-    </div>
-    <div class="wt">What can I help you with <span>today?</span></div>
-    <div class="ws">OptimaSeek AI — 30 categories • Instant answers • World-class support</div>
-  </div>`;
-  inp.value='';inp.style.height='auto';removeImage();
+  document.getElementById('welcome').classList.remove('gone');
   document.querySelectorAll('.cat').forEach(x=>x.classList.remove('on'));
+  // Reload chatbase fresh
+  const cb=document.getElementById('cbFrame');
+  cb.src=cb.src;
+  searchesLeft=6;updateBanner();
 }
 
+// SIDEBAR
 function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sidebarOverlay').classList.add('on');}
 function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sidebarOverlay').classList.remove('on');}
+
+// MODALS
 function openModal(t){document.getElementById(t+'Modal').classList.add('on');}
 function closeModal(t){document.getElementById(t+'Modal').classList.remove('on');}
 ['pricing','signin'].forEach(t=>document.getElementById(t+'Modal').addEventListener('click',function(e){if(e.target===this)closeModal(t);}));
 
+// SIGN IN
+let currentUser=null;
 function signInGoogle(){setLoggedIn('User','G');closeModal('signin');showToast('Signed in with Google ✓');}
 function signInEmail(){
   const email=document.getElementById('emailInput').value.trim();
   if(!email){alert('Enter your email.');return;}
-  setLoggedIn(email.split('@')[0],email[0].toUpperCase());closeModal('signin');showToast('Signed in ✓');
+  setLoggedIn(email.split('@')[0],email[0].toUpperCase());
+  closeModal('signin');showToast('Signed in ✓');
 }
 function setLoggedIn(name,initial){
   currentUser={name,initial};
   document.getElementById('signInBtn').style.display='none';
-  const av=document.getElementById('userAvatar');av.style.display='flex';av.textContent=initial;av.title='Signed in as '+name;
+  const av=document.getElementById('userAvatar');
+  av.style.display='flex';av.textContent=initial;av.title='Signed in as '+name;
 }
-function signOut(){if(!confirm('Sign out?'))return;currentUser=null;document.getElementById('signInBtn').style.display='';const av=document.getElementById('userAvatar');av.style.display='none';av.innerHTML='';}
+function signOut(){
+  if(!confirm('Sign out?'))return;
+  currentUser=null;
+  document.getElementById('signInBtn').style.display='';
+  const av=document.getElementById('userAvatar');av.style.display='none';av.innerHTML='';
+}
 function showToast(msg){
   const t=document.createElement('div');
   t.style.cssText='position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#0f172a;color:white;padding:9px 18px;border-radius:9px;font-size:12px;font-weight:600;z-index:999;';
