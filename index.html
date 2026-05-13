@@ -1,11 +1,10 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OptimaSeek AI</title>
-
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
@@ -215,6 +214,17 @@ background:#f3f4f6 !important;
 color:#111827 !important;
 }
 
+.bot .bubble h1,.bot .bubble h2,.bot .bubble h3{margin-top:18px;margin-bottom:10px;font-weight:700;}
+.bot .bubble h1{font-size:28px;}
+.bot .bubble h2{font-size:22px;}
+.bot .bubble h3{font-size:18px;}
+.bot .bubble p{margin-bottom:14px;line-height:1.8;}
+.bot .bubble ul,.bot .bubble ol{padding-left:24px;margin-bottom:16px;}
+.bot .bubble li{margin-bottom:8px;line-height:1.7;}
+.bot .bubble strong{font-weight:700;color:#111827;}
+.bot .bubble code{background:#e5e7eb;padding:2px 6px;border-radius:6px;font-size:14px;}
+.bot .bubble pre{background:#111827;color:white;padding:16px;border-radius:12px;overflow:auto;margin:14px 0;}
+
 </style>
 </head>
 
@@ -222,152 +232,42 @@ color:#111827 !important;
 
 <div class="sidebar">
 <div class="logo">OptimaSeek AI</div>
-
-<button class="new-chat" onclick="newChat()">
-+ New Chat
-</button>
+<button class="new-chat" onclick="newChat()">+ New Chat</button>
 </div>
 
 <div class="main">
 
 <div class="topbar">
 <div>AI Assistant</div>
-
-<button class="auth-btn" onclick="openModal()">
-Sign In
-</button>
+<button class="auth-btn" onclick="openModal()">Sign In</button>
 </div>
 
 <div class="chat" id="chat">
-
 <div class="welcome" id="welcome">
 <h1>How can I help you today?</h1>
 <p>Powered by Claude AI</p>
 </div>
-
 </div>
 
 <div class="bottom">
 <div class="input-wrap">
-
-<textarea
-id="input"
-placeholder="Message OptimaSeek AI..."
-></textarea>
-
-<button class="send" onclick="sendMessage()">
-↑
-</button>
-
+<textarea id="input" placeholder="Message OptimaSeek AI..."></textarea>
+<button class="send" onclick="sendMessage()">↑</button>
 </div>
 </div>
 
 </div>
 
 <div class="modal" id="modal">
-
 <div class="modal-box">
-
 <h2>Sign in</h2>
-
 <input type="email" id="email" placeholder="Email">
-
 <input type="password" id="password" placeholder="Password">
-
-<button onclick="signIn()">
-Continue
-</button>
-
-<button class="google" onclick="googleSignIn()">
-Continue with Google
-</button>
-
+<button onclick="signIn()">Continue</button>
+<button class="google" onclick="googleSignIn()">Continue with Google</button>
 </div>
-
 </div>
 
 <script>
 
-const API_URL = "https://optimaseek.vercel.app/api/chat";
-function openModal(){
-document.getElementById("modal").style.display="flex";
-}
-
-window.onclick=function(e){
-if(e.target.id==="modal"){
-document.getElementById("modal").style.display="none";
-}
-}
-
-async function sendMessage(){
-
-const input=document.getElementById("input");
-const text=input.value.trim();
-
-if(!text)return;
-
-document.getElementById("welcome").style.display="none";
-
-addMessage(text,"user");
-
-input.value="";
-
-const responseDiv=addMessage("Thinking...","bot");
-
-try{
-
-const response=await fetch(API_URL,{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-message:text
-})
-});
-
-const data=await response.json();
-
-responseDiv.querySelector(".bubble").innerHTML=data.reply;
-
-}catch(err){
-
-responseDiv.querySelector(".bubble").innerHTML=
-"Error connecting to AI.";
-
-}
-
-}
-
-function addMessage(text,type){
-
-const chat=document.getElementById("chat");
-
-const div=document.createElement("div");
-
-div.className=`msg ${type}`;
-
-div.innerHTML=
-`<div class="bubble">${text}</div>`;
-
-chat.appendChild(div);
-
-chat.scrollTop=chat.scrollHeight;
-
-return div;
-}
-
-function newChat(){
-document.getElementById("chat").innerHTML=`
-<div class="welcome" id="welcome">
-<h1>How can I help you today?</h1>
-<p>Powered by Claude AI</p>
-</div>
-`;
-}
-
-</script>
-
-</body>
-</html>
-```
+const API_URL = "https://optimaseek.vercel.app/api/ch
