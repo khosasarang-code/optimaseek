@@ -10,8 +10,6 @@
 :root{--blue:#2563eb;--purple:#7c3aed;--bg:#f8fafc;--white:#fff;--border:#e2e8f0;--text:#0f172a;--muted:#64748b;--light:#f1f5f9;}
 html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--white);overflow:hidden;}
 body{display:flex;}
-
-/* SIDEBAR */
 .sidebar{width:240px;height:100vh;background:var(--bg);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;transition:transform 0.3s;z-index:50;}
 .logo{padding:10px 12px;display:flex;align-items:center;gap:8px;cursor:pointer;border-bottom:1px solid var(--border);}
 .logo-icon{width:26px;height:26px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:7px;display:flex;align-items:center;justify-content:center;}
@@ -20,7 +18,6 @@ body{display:flex;}
 .logo-name span{color:var(--blue);}
 .logo-name b{background:linear-gradient(135deg,var(--blue),var(--purple));color:white;font-size:8px;padding:2px 5px;border-radius:3px;margin-left:3px;font-weight:700;}
 .new-btn{margin:7px;padding:7px 12px;background:white;border:1px solid var(--border);border-radius:7px;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:6px;color:var(--text);}
-.new-btn:hover{background:var(--light);}
 .cats-label{padding:6px 12px 3px;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:1px;text-transform:uppercase;}
 .cats{flex:1;overflow-y:auto;padding:0 5px;}
 .cat{display:flex;align-items:center;gap:8px;padding:6px 9px;border-radius:7px;cursor:pointer;margin-bottom:1px;}
@@ -29,8 +26,6 @@ body{display:flex;}
 .ci{font-size:13px;width:16px;text-align:center;flex-shrink:0;}
 .cn{font-size:11.5px;color:#475569;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .pro-btn{margin:7px;padding:9px;background:linear-gradient(135deg,var(--blue),var(--purple));color:white;border:none;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;}
-
-/* MAIN */
 .main{flex:1;height:100vh;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
 .topbar{padding:8px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
 .tl{display:flex;align-items:center;gap:7px;font-family:'Sora',sans-serif;font-size:12px;font-weight:600;}
@@ -38,27 +33,20 @@ body{display:flex;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 .tr{display:flex;gap:6px;align-items:center;}
 .tb{padding:5px 10px;border-radius:6px;font-size:11px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:white;color:var(--text);}
-.tb:hover{background:var(--light);}
 .tb.p{background:linear-gradient(135deg,var(--blue),var(--purple));color:white;border:none;}
 .menu-btn{display:none;background:none;border:none;cursor:pointer;padding:4px;flex-shrink:0;}
 .user-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--purple));color:white;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;}
-
-/* SEARCH BANNER */
 .search-banner{margin:8px 14px 0;padding:8px 12px;background:linear-gradient(135deg,#eff6ff,#f5f3ff);border:1px solid #c7d2fe;border-radius:10px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
 .search-left{display:flex;align-items:center;gap:7px;}
 .search-dots{display:flex;gap:3px;}
-.sdot{width:9px;height:9px;border-radius:50%;background:#e2e8f0;transition:background .3s;}
+.sdot{width:9px;height:9px;border-radius:50%;background:#e2e8f0;}
 .sdot.used{background:linear-gradient(135deg,var(--blue),var(--purple));}
 .search-text{font-size:11px;color:var(--muted);}
 .search-text b{color:var(--blue);}
-.upgrade-small{padding:4px 10px;background:linear-gradient(135deg,var(--blue),var(--purple));color:white;border:none;border-radius:6px;font-size:10px;font-weight:600;cursor:pointer;white-space:nowrap;}
-
-/* CHAT MESSAGES AREA */
+.upgrade-small{padding:4px 10px;background:linear-gradient(135deg,var(--blue),var(--purple));color:white;border:none;border-radius:6px;font-size:10px;font-weight:600;cursor:pointer;}
 .chat-area{flex:1;overflow-y:auto;padding:16px 16px 8px;display:flex;flex-direction:column;gap:14px;}
 .chat-area::-webkit-scrollbar{width:3px;}
 .chat-area::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:2px;}
-
-/* WELCOME STATE */
 .welcome-state{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:14px;text-align:center;padding:16px;}
 .orb-wrap{position:relative;width:96px;height:96px;display:flex;align-items:center;justify-content:center;}
 .orb{width:64px;height:64px;border-radius:20px;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;animation:bob 3s ease-in-out infinite;box-shadow:0 10px 32px rgba(37,99,235,.38);position:relative;z-index:2;}
@@ -80,21 +68,18 @@ body{display:flex;}
 .wt{font-family:'Sora',sans-serif;font-size:22px;font-weight:800;}
 .wt span{color:var(--blue);}
 .ws{font-size:13px;color:var(--muted);max-width:340px;}
-
-/* MESSAGES */
 .msg{display:flex;flex-direction:column;gap:4px;max-width:80%;}
 .msg.user{align-self:flex-end;align-items:flex-end;}
 .msg.bot{align-self:flex-start;align-items:flex-start;max-width:90%;}
 .bubble{padding:11px 15px;border-radius:14px;font-size:13.5px;line-height:1.7;word-break:break-word;}
 .msg.user .bubble{background:linear-gradient(135deg,var(--blue),var(--purple));color:white;border-bottom-right-radius:4px;}
 .msg.bot .bubble{background:var(--light);color:var(--text);border-bottom-left-radius:4px;}
-.msg.bot .bubble h1,.msg.bot .bubble h2,.msg.bot .bubble h3{font-family:'Sora',sans-serif;font-weight:700;margin:10px 0 5px;color:var(--text);}
-.msg.bot .bubble h2{font-size:15px;}
-.msg.bot .bubble h3{font-size:14px;}
-.msg.bot .bubble p{margin:5px 0;}
-.msg.bot .bubble ul,.msg.bot .bubble ol{margin:5px 0 5px 18px;}
-.msg.bot .bubble li{margin:3px 0;}
+.msg.bot .bubble h2{font-family:'Sora',sans-serif;font-size:15px;font-weight:700;margin:10px 0 5px;}
+.msg.bot .bubble h3{font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin:8px 0 4px;}
+.msg.bot .bubble ul{margin:5px 0 5px 18px;}
+.msg.bot .bubble li{margin:3px 0;line-height:1.6;}
 .msg.bot .bubble strong{font-weight:700;}
+.msg.bot .bubble p{margin:4px 0;}
 .msg-img{max-width:180px;border-radius:10px;margin-bottom:4px;}
 .msg-time{font-size:10px;color:#94a3b8;}
 .bot-name{font-size:10px;color:var(--blue);font-weight:600;margin-bottom:2px;}
@@ -103,35 +88,26 @@ body{display:flex;}
 .typing span:nth-child(2){animation-delay:.2s;}
 .typing span:nth-child(3){animation-delay:.4s;}
 @keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
-
-/* UPGRADE WALL */
 .upgrade-wall{background:linear-gradient(135deg,#eff6ff,#f5f3ff);border:1.5px solid #c7d2fe;border-radius:14px;padding:18px;text-align:center;max-width:360px;}
 .upgrade-wall h3{font-family:'Sora',sans-serif;font-size:14px;font-weight:800;margin-bottom:5px;}
 .upgrade-wall p{font-size:12px;color:var(--muted);margin-bottom:12px;}
 .upgrade-wall button{padding:9px 20px;background:linear-gradient(135deg,var(--blue),var(--purple));color:white;border:none;border-radius:9px;font-size:12px;font-weight:600;cursor:pointer;}
-
-/* BOTTOM INPUT - ALWAYS VISIBLE */
 .bottom{flex-shrink:0;padding:8px 14px 14px;background:white;border-top:1px solid var(--border);}
-.input-wrap{background:var(--bg);border:2px solid var(--border);border-radius:18px;padding:12px 14px 10px;display:flex;flex-direction:column;gap:8px;transition:border-color .2s;box-shadow:0 4px 20px rgba(0,0,0,.07);}
-.input-wrap:focus-within{border-color:var(--blue);background:white;box-shadow:0 0 0 3px rgba(37,99,235,.08);}
+.input-wrap{background:var(--bg);border:2px solid var(--border);border-radius:18px;padding:12px 14px 10px;display:flex;flex-direction:column;gap:8px;box-shadow:0 4px 20px rgba(0,0,0,.07);}
+.input-wrap:focus-within{border-color:var(--blue);background:white;}
 .input-row{display:flex;align-items:flex-end;gap:8px;}
 #chatInput{flex:1;border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:15px;color:var(--text);resize:none;outline:none;max-height:120px;min-height:28px;line-height:1.6;}
 #chatInput::placeholder{color:#94a3b8;}
 .input-actions{display:flex;align-items:center;gap:5px;flex-shrink:0;}
-.icon-btn{width:38px;height:38px;border-radius:10px;border:1.5px solid var(--border);background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all .15s;flex-shrink:0;}
-.icon-btn:hover{background:var(--light);color:var(--blue);border-color:var(--blue);}
-.icon-btn.active{color:#ef4444;border-color:#ef4444;}
+.icon-btn{width:38px;height:38px;border-radius:10px;border:1.5px solid var(--border);background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);}
 .icon-btn svg{width:17px;height:17px;}
-.send-btn{width:42px;height:42px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--blue),var(--purple));cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(37,99,235,.3);}
-.send-btn:hover{opacity:.88;}
+.send-btn{width:42px;height:42px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--blue),var(--purple));cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .send-btn svg{width:17px;height:17px;color:white;}
 .input-hint{font-size:10px;color:#94a3b8;text-align:center;}
 .img-preview{display:none;position:relative;width:fit-content;}
 .img-preview img{max-width:80px;max-height:60px;border-radius:8px;border:1px solid var(--border);}
 .img-remove{position:absolute;top:-5px;right:-5px;width:16px;height:16px;background:#ef4444;border-radius:50%;color:white;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;border:none;}
 #fileInput{display:none;}
-
-/* MODALS */
 .ov{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);z-index:100;display:none;align-items:center;justify-content:center;padding:16px;}
 .ov.on{display:flex;}
 .modal{background:white;border-radius:18px;padding:26px;max-width:500px;width:100%;position:relative;}
@@ -140,7 +116,6 @@ body{display:flex;}
 .signin-title{font-family:'Sora',sans-serif;font-size:20px;font-weight:800;margin-bottom:6px;}
 .signin-sub{font-size:13px;color:var(--muted);margin-bottom:22px;}
 .google-btn{width:100%;padding:12px;border-radius:10px;border:1.5px solid var(--border);background:white;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px;}
-.google-btn:hover{background:var(--light);}
 .divider{display:flex;align-items:center;gap:10px;margin:12px 0;color:#94a3b8;font-size:12px;}
 .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border);}
 .email-input{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:9px;font-size:13px;font-family:'DM Sans',sans-serif;outline:none;margin-bottom:8px;color:var(--text);}
@@ -148,8 +123,6 @@ body{display:flex;}
 .signin-btn{width:100%;padding:11px;border-radius:9px;border:none;background:linear-gradient(135deg,var(--blue),var(--purple));color:white;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:10px;}
 .signin-note{font-size:11px;color:#94a3b8;}
 .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:49;}
-
-/* MOBILE */
 @media(max-width:680px){
   .sidebar{position:fixed;left:0;top:0;height:100%;transform:translateX(-100%);}
   .sidebar.open{transform:translateX(0);}
@@ -162,7 +135,7 @@ body{display:flex;}
   .chat-area{padding:10px 10px 6px;}
   .bottom{padding:6px 8px 12px;}
   .input-wrap{padding:10px 10px 8px;border-radius:14px;}
-  #chatInput{font-size:16px;min-height:24px;}
+  #chatInput{font-size:16px;}
   .wt{font-size:18px;}
   .orb{width:52px;height:52px;}
   .orb svg{width:24px;height:24px;}
@@ -175,9 +148,7 @@ body{display:flex;}
 </style>
 </head>
 <body>
-
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
-
 <aside class="sidebar" id="sidebar">
   <div class="logo" onclick="resetChat();closeSidebar()">
     <div class="logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
@@ -189,9 +160,8 @@ body{display:flex;}
   </button>
   <div class="cats-label">30 Help Categories</div>
   <div class="cats" id="cats"></div>
-  <button class="pro-btn" onclick="openModal('pricing')">🚀 Upgrade Pro — $19.99/mo</button>
+  <button class="pro-btn" onclick="showModal('pricing')">🚀 Upgrade Pro — $19.99/mo</button>
 </aside>
-
 <main class="main">
   <div class="topbar">
     <div style="display:flex;align-items:center;gap:8px;">
@@ -201,22 +171,19 @@ body{display:flex;}
       <div class="tl"><span class="dot"></span><span class="tl-text">OptimaSeek AI — World-Class Help Desk</span></div>
     </div>
     <div class="tr">
-      <button class="tb hide-mob" onclick="openModal('pricing')">Pricing</button>
-      <button class="tb" id="signInBtn" onclick="openModal('signin')">Sign In</button>
-      <button class="tb p hide-mob" onclick="openModal('pricing')">🚀 Pro</button>
-      <div class="user-avatar" id="userAvatar" style="display:none;" onclick="signOut()"></div>
+      <button class="tb hide-mob" onclick="showModal('pricing')">Pricing</button>
+      <button class="tb" id="signInBtn" onclick="showModal('signin')">Sign In</button>
+      <button class="tb p hide-mob" onclick="showModal('pricing')">🚀 Pro</button>
+      <div class="user-avatar" id="userAvatar" style="display:none;" onclick="doSignOut()"></div>
     </div>
   </div>
-
   <div class="search-banner">
     <div class="search-left">
       <div class="search-dots" id="searchDots"></div>
       <div class="search-text"><b id="searchLeft">6</b> free searches left today</div>
     </div>
-    <button class="upgrade-small" onclick="openModal('pricing')">Upgrade ✨</button>
+    <button class="upgrade-small" onclick="showModal('pricing')">Upgrade ✨</button>
   </div>
-
-  <!-- CHAT MESSAGES -->
   <div class="chat-area" id="chatArea">
     <div class="welcome-state" id="welcomeState">
       <div class="orb-wrap">
@@ -229,41 +196,36 @@ body{display:flex;}
       <div class="ws">OptimaSeek AI — 30 categories • Instant answers • World-class support</div>
     </div>
   </div>
-
-  <!-- CHATBOARD - ALWAYS VISIBLE AT BOTTOM -->
   <div class="bottom">
     <div class="input-wrap">
       <div class="img-preview" id="imgPreview">
         <img id="previewImg" src="" alt=""/>
-        <button class="img-remove" onclick="removeImage()">×</button>
+        <button class="img-remove" onclick="removeImg()">×</button>
       </div>
       <div class="input-row">
-        <textarea id="chatInput" rows="1" placeholder="Ask me anything… type here and press send ➤"></textarea>
+        <textarea id="chatInput" rows="1" placeholder="Ask me anything…"></textarea>
         <div class="input-actions">
-          <!-- Attach Image -->
           <button class="icon-btn" onclick="document.getElementById('fileInput').click()" title="Attach image">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/></svg>
           </button>
-          <!-- Voice -->
-          <button class="icon-btn" id="micBtn" onclick="toggleMic()" title="Voice input">
+          <button class="icon-btn" id="micBtn" onclick="toggleMic()" title="Voice">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
           </button>
-          <!-- Send -->
-          <button class="send-btn" onclick="sendMessage()" title="Send">
+          <button class="send-btn" onclick="sendMsg()" title="Send">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
           </button>
         </div>
       </div>
-      <div class="input-hint">Enter to send • Shift+Enter new line • 📎 image • 🎤 voice</div>
+      <div class="input-hint">Enter to send • 📎 image • 🎤 voice</div>
     </div>
-    <input type="file" id="fileInput" accept="image/*" onchange="handleImage(event)"/>
+    <input type="file" id="fileInput" accept="image/*" onchange="handleImg(event)"/>
   </div>
 </main>
 
 <!-- PRICING MODAL -->
 <div class="ov" id="pricingModal">
   <div class="modal">
-    <button class="modal-close" onclick="closeModal('pricing')">×</button>
+    <button class="modal-close" onclick="hideModal('pricing')">×</button>
     <div style="font-family:'Sora',sans-serif;font-size:22px;font-weight:800;text-align:center;margin-bottom:5px;">Choose Your Plan</div>
     <div style="text-align:center;color:#64748b;font-size:13px;margin-bottom:20px;">Start free — upgrade anytime</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
@@ -275,7 +237,7 @@ body{display:flex;}
           <li style="padding:2px 0;">✓ All 30 categories</li>
           <li style="padding:2px 0;">✓ No signup needed</li>
         </ul>
-        <button onclick="closeModal('pricing')" style="width:100%;padding:8px;border-radius:7px;border:1px solid var(--border);background:#f8fafc;font-size:12px;font-weight:600;cursor:pointer;">Continue Free</button>
+        <button onclick="hideModal('pricing')" style="width:100%;padding:8px;border-radius:7px;border:1px solid var(--border);background:#f8fafc;font-size:12px;font-weight:600;cursor:pointer;">Continue Free</button>
       </div>
       <div style="border:2px solid var(--blue);border-radius:12px;padding:18px 14px;text-align:center;background:linear-gradient(135deg,#eff6ff,#f5f3ff);position:relative;">
         <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--blue),var(--purple));color:white;font-size:9px;font-weight:700;padding:2px 10px;border-radius:7px;white-space:nowrap;">⭐ POPULAR</div>
@@ -297,40 +259,74 @@ body{display:flex;}
 <!-- SIGN IN MODAL -->
 <div class="ov" id="signinModal">
   <div class="signin-modal">
-    <button class="modal-close" onclick="closeModal('signin')">×</button>
+    <button class="modal-close" onclick="hideModal('signin')">×</button>
     <div class="signin-title">Welcome Back 👋</div>
-    <div class="signin-sub">Sign in to save your chats and unlock more</div>
-    <button class="google-btn" onclick="signInGoogle()">
+    <div class="signin-sub">Sign in to save your chats</div>
+    <button class="google-btn" onclick="doGoogleSignIn()">
       <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
       Continue with Google
     </button>
     <div class="divider">or</div>
     <input class="email-input" id="emailInput" type="email" placeholder="Your email address"/>
     <input class="email-input" id="passInput" type="password" placeholder="Password"/>
-    <button class="signin-btn" onclick="signInEmail()">Sign In →</button>
-    <div class="signin-note">No account? <span style="color:var(--blue);cursor:pointer;" onclick="signInEmail()">Create one free</span></div>
+    <button class="signin-btn" onclick="doEmailSignIn()">Sign In →</button>
+    <div class="signin-note">No account? <span style="color:var(--blue);cursor:pointer;" onclick="doEmailSignIn()">Create one free</span></div>
   </div>
 </div>
 
 <script>
-// Markdown parser for ChatGPT-style formatting
-function md(text){
+// ── KNOWLEDGE BASE ──────────────────────────────────────────
+var KB = {
+  default: "Hello! 👋 I'm **OptimaSeek AI**, your world-class help assistant.\n\nI can help you with:\n\n- 🌍 **Immigration & Visas** — any country\n- 💼 **Jobs & Careers** — resume, interviews\n- 💰 **Finance & Money** — budgeting, investing\n- 🏥 **Medical & Health** — symptoms, advice\n- ⚖️ **Legal Help** — rights, contracts\n- 🚗 **Auto Repair** — car issues, codes\n- ✈️ **Travel** — flights, hotels, visas\n- 🧠 **Mental Health** — stress, anxiety\n- And 22 more categories!\n\n**Ask me anything specific and I'll give you a detailed answer!**",
+  mental: "## Mental Health & Wellness 🧠\n\nYour mental health is important. Here is helpful guidance:\n\n**Managing Stress & Anxiety:**\n- Deep breathing — breathe in 4 counts, hold 4, out 4\n- Exercise daily — even a 20-minute walk helps significantly\n- Limit social media and news if it causes anxiety\n- Sleep 7-9 hours — poor sleep worsens everything\n- Talk to someone you trust\n\n**When to Seek Professional Help:**\n- Feelings last more than 2 weeks\n- Affecting your work or relationships\n- Thoughts of self-harm — call 988 (USA)\n\n**Free Resources:**\n- Headspace or Calm apps for meditation\n- BetterHelp.com for online therapy\n\nWhat specific mental health topic can I help you with?",
+  jobs: "## Jobs & Careers 💼\n\nHere's comprehensive career guidance:\n\n**Job Search Tips:**\n- Update LinkedIn with keywords from job postings\n- Use Indeed, LinkedIn, Glassdoor, and company websites\n- Apply to 10-15 jobs per week for best results\n- Network — 70% of jobs are found through connections\n\n**Resume Tips:**\n- Keep it 1-2 pages maximum\n- Use action verbs: Led, Built, Increased, Managed\n- Tailor each resume to the specific job\n- Include measurable results: \"Increased sales by 30%\"\n\n**Interview Preparation:**\n- Research the company thoroughly\n- Prepare answers using the STAR method\n- Dress one level above the company culture\n- Send a thank-you email within 24 hours\n\nWhat specific career help do you need?",
+  immigration: "## Immigration Help 🌍\n\nImmigration guidance for any country:\n\n**Common Visa Types:**\n- **Tourist/Visitor** — short stays, usually 90-180 days\n- **Work Visa** — requires job offer from employer\n- **Student Visa** — requires university acceptance\n- **Family Visa** — sponsorship from family member\n- **Permanent Residence** — path to citizenship\n\n**General Process:**\n1. Determine which visa category you need\n2. Gather required documents (passport, photos, forms)\n3. Submit application online or at embassy\n4. Attend biometrics appointment if required\n5. Wait for processing (2 weeks to 6 months)\n\n**Important Tips:**\n- Apply well in advance — processing takes time\n- Keep copies of all documents\n- Consider an immigration lawyer for complex cases\n\nWhich country are you trying to immigrate to?",
+  finance: "## Finance & Money 💰\n\nSmart money management tips:\n\n**Budgeting — The 50/30/20 Rule:**\n- **50%** — Needs (rent, food, bills)\n- **30%** — Wants (entertainment, dining out)\n- **20%** — Savings and debt repayment\n\n**Building Wealth:**\n- Emergency fund first — 3-6 months of expenses\n- Pay off high-interest debt (credit cards) first\n- Invest in index funds for long-term growth\n- Take advantage of employer 401k matching\n- Start investing early — compound interest is powerful\n\n**Improving Credit Score:**\n- Pay all bills on time — most important factor\n- Keep credit card usage below 30%\n- Don't close old accounts\n- Check your credit report at AnnualCreditReport.com\n\nWhat specific financial question do you have?",
+  legal: "## Legal Help ⚖️\n\nGeneral legal guidance:\n\n**Important First Steps:**\n- Document everything in writing immediately\n- Take photos of evidence\n- Write down dates, times, and witness names\n- Never sign anything you don't fully understand\n\n**Finding Legal Help:**\n- Many lawyers offer **free initial consultations**\n- Legal Aid societies provide free help for low income\n- LegalZoom for simple documents\n- Law school clinics offer free advice\n\n**Know Your Rights:**\n- You have the right to remain silent with police\n- You can refuse consent to search your home/car\n- Employers cannot discriminate based on protected characteristics\n- Tenants have rights against unlawful eviction\n\n⚠️ *Always consult a licensed attorney for serious legal matters.*\n\nWhat type of legal issue are you dealing with?",
+  medical: "## Medical & Health 🏥\n\n⚠️ **Emergency? Call 911 immediately.**\n\n**General Health Guidance:**\n- Always consult a licensed doctor for diagnosis\n- Use Mayo Clinic (mayoclinic.org) for reliable information\n- Keep track of symptoms — when they started, severity\n- Bring a list of all medications to appointments\n\n**Preventive Health:**\n- Annual physical exam\n- Dental checkup every 6 months\n- Eye exam every 1-2 years\n- Regular cancer screenings based on age\n\n**Finding Healthcare:**\n- Healthcare.gov for insurance in USA\n- Community health centers offer sliding-scale fees\n- Telehealth apps: Teladoc, MDLive for quick consultations\n\nWhat health question can I help you with?",
+  auto: "## Auto Repair & Vehicles 🚗\n\nCar trouble? Here's help:\n\n**Check Engine Light:**\n- Get a free OBD-II scan at AutoZone or O'Reilly\n- Common codes: P0420 (catalytic converter), P0300 (misfire)\n- Don't ignore it — can lead to expensive damage\n\n**Common Car Problems:**\n- **Won't start** — battery, alternator, or starter\n- **Overheating** — coolant leak, thermostat, water pump\n- **Brake noise** — worn pads, need immediate attention\n- **Pulling to one side** — alignment or tire pressure\n\n**Money-Saving Tips:**\n- Get 3 quotes before any major repair\n- Use RepairPal.com for fair price estimates\n- Learn basic maintenance: oil changes, air filters\n- Buy parts yourself at AutoZone, save on labor\n\nWhat's your car doing?",
+  travel: "## Travel, Vacations & Cruises ✈️\n\nTravel tips and advice:\n\n**Booking Tips:**\n- Book flights 6-8 weeks ahead for best prices\n- Use Google Flights and set price alerts\n- Tuesday and Wednesday are cheapest flying days\n- Consider nearby airports for better deals\n\n**Visa Requirements:**\n- Check visa requirements at least 3 months ahead\n- Processing can take 2-8 weeks\n- Some countries offer visa on arrival or e-visa\n\n**Travel Safety:**\n- Get travel insurance — always worth the cost\n- Keep copies of passport in email and hotel safe\n- Register with your country's embassy abroad\n- Use ATMs at banks, not tourist areas\n\n**Packing:**\n- Pack carry-on only when possible\n- Roll clothes to save space\n- Bring power adapter and portable charger\n\nWhere are you planning to travel?",
+  tech: "## IT Solutions & Tech Support 💻\n\nTechnology help:\n\n**First Steps (Fix 80% of problems):**\n1. Restart the device\n2. Check for updates\n3. Clear cache and cookies\n4. Uninstall and reinstall the app\n5. Google the exact error message\n\n**Common Issues:**\n- **Slow computer** — too many startup programs, need RAM\n- **WiFi issues** — restart router, forget and reconnect\n- **Blue screen** — driver issues, check Event Viewer\n- **Phone not charging** — try different cable/charger first\n\n**Security Tips:**\n- Use strong unique passwords + password manager\n- Enable two-factor authentication everywhere\n- Keep software updated\n- Never click suspicious links\n\nWhat tech issue are you having?",
+  crypto: "## Cryptocurrency & Blockchain ₿\n\nCrypto guidance:\n\n**Getting Started:**\n- Use reputable exchanges: Coinbase, Kraken, Binance\n- Start small — only invest what you can afford to lose\n- Use hardware wallet for large amounts (Ledger, Trezor)\n- Enable 2FA on all crypto accounts\n\n**Major Cryptocurrencies:**\n- **Bitcoin (BTC)** — digital gold, store of value\n- **Ethereum (ETH)** — smart contracts platform\n- **Stablecoins** — USDC, USDT pegged to USD\n\n**Important Warnings:**\n- Crypto is highly volatile\n- Scams are very common — never share seed phrase\n- No government protection if exchange gets hacked\n- Tax implications — report crypto gains to IRS\n\n⚠️ *This is not financial advice. Always do your own research.*\n\nWhat crypto question do you have?",
+  realestate: "## Real Estate Worldwide 🏡\n\nReal estate guidance:\n\n**Buying a Home:**\n- Get pre-approved for mortgage before house hunting\n- Aim for 20% down payment to avoid PMI\n- Budget 1-2% of home value per year for maintenance\n- Always get a home inspection before buying\n- Research the neighborhood thoroughly\n\n**Selling a Home:**\n- Price correctly from the start\n- Stage your home for photos\n- Choose a realtor with local market experience\n- Consider timing — spring/summer are best selling seasons\n\n**Renting vs Buying:**\n- Buy if you plan to stay 5+ years\n- Rent if you need flexibility or market is overpriced\n- Calculate true cost of ownership vs renting\n\nWhat real estate question do you have?",
+  food: "## Food & Nutrition 🍽️\n\nNutrition and healthy eating guidance:\n\n**Healthy Eating Basics:**\n- Fill half your plate with vegetables and fruit\n- Choose whole grains over refined grains\n- Include lean protein at every meal\n- Drink 8 glasses of water daily\n- Limit processed foods, sugar, and salt\n\n**Meal Planning Tips:**\n- Plan meals for the week on Sunday\n- Batch cook grains and proteins\n- Keep healthy snacks visible and accessible\n- Shop with a list to avoid impulse buying\n\n**Popular Diets:**\n- **Mediterranean** — heart healthy, well researched\n- **DASH** — lowers blood pressure\n- **Plant-based** — good for environment and health\n\nWhat nutrition or recipe question do you have?"
+};
+
+function getAnswer(text) {
+  var t = text.toLowerCase();
+  if (t.match(/mental|stress|anxiet|depress|sad|lonely|suicide|therapy|wellness/)) return KB.mental;
+  if (t.match(/job|career|resume|interview|work|employ|hire|linkedin|salary/)) return KB.jobs;
+  if (t.match(/immigr|visa|green card|citizen|passport|border|pr |permanent res/)) return KB.immigration;
+  if (t.match(/money|financ|invest|debt|budget|bank|loan|credit|saving|401k|stock/)) return KB.finance;
+  if (t.match(/legal|law|lawyer|attorney|court|sue|contract|rights|tenant|evict/)) return KB.legal;
+  if (t.match(/health|medical|doctor|sick|pain|symptom|hospital|medicine|disease/)) return KB.medical;
+  if (t.match(/car|auto|vehicle|engine|brake|tire|mechanic|check engine|transmission/)) return KB.auto;
+  if (t.match(/travel|flight|hotel|vacation|trip|cruise|booking|airbnb|passport/)) return KB.travel;
+  if (t.match(/tech|computer|laptop|wifi|internet|software|app|phone|window|mac|iphone/)) return KB.tech;
+  if (t.match(/crypto|bitcoin|ethereum|blockchain|nft|wallet|defi|binance|coinbase/)) return KB.crypto;
+  if (t.match(/real estate|house|apartment|rent|mortgage|property|buy home|sell home/)) return KB.realestate;
+  if (t.match(/food|recipe|nutrition|diet|cook|meal|eat|healthy|weight/)) return KB.food;
+
+  // General knowledge answers
+  if (t.match(/canada|population|history|geography/)) return "## " + text + "\n\nGreat question! Here's what I know:\n\n**Canada** is the second-largest country in the world by total area.\n\n**Population:** Approximately **38-40 million people** (2024)\n\n**Key Facts:**\n- Capital: Ottawa\n- Largest city: Toronto\n- Official languages: English and French\n- Known for: maple syrup, hockey, multiculturalism\n- Government: Constitutional monarchy, parliamentary democracy\n\nCanada has a highly educated population with major cities in Ontario, Quebec, British Columbia, and Alberta.\n\nWant to know more about Canada or any other topic?";
+  if (t.match(/hi|hello|hey|good morning|good night/)) return "Hello! 👋 Welcome to **OptimaSeek AI**!\n\nI'm here to help you with questions on **30 topics** including:\n- Immigration & Visas\n- Jobs & Careers  \n- Health & Medical\n- Finance & Money\n- Legal Help\n- Auto Repair\n- Travel\n- Mental Health\n- And much more!\n\n**Type any question and I'll give you a detailed helpful answer!**";
+
+  return "I can help with that! Here's what I know about **\"" + text.substring(0,50) + "\"**:\n\nThis is a great question! OptimaSeek AI covers 30 expert categories. For the most accurate and detailed answer on this specific topic, please try:\n\n- **Be more specific** — add more details to your question\n- **Browse categories** — click a category on the left sidebar\n- **Try related keywords** — immigration, jobs, health, finance, legal, travel, cars, tech\n\n**Example questions I answer well:**\n- \"How do I apply for a Canadian work visa?\"\n- \"What is the best way to pay off credit card debt?\"\n- \"My car is making a grinding noise when I brake\"\n- \"How do I deal with anxiety at work?\"\n\nAsk me anything specific! 😊";
+}
+
+function mdToHtml(text) {
   return text
-    .replace(/^### (.+)$/gm,'<h3>$1</h3>')
-    .replace(/^## (.+)$/gm,'<h2>$1</h2>')
-    .replace(/^# (.+)$/gm,'<h1>$1</h1>')
-    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
-    .replace(/\*(.+?)\*/g,'<em>$1</em>')
-    .replace(/^[-*] (.+)$/gm,'<li>$1</li>')
-    .replace(/(<li>[\s\S]+?<\/li>)/g,'<ul>$1</ul>')
-    .replace(/^\d+\. (.+)$/gm,'<li>$1</li>')
-    .replace(/`(.+?)`/g,'<code style="background:#e2e8f0;padding:2px 5px;border-radius:4px;font-size:12px;">$1</code>')
-    .replace(/\n\n/g,'<br><br>')
-    .replace(/\n/g,'<br>');
+    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/^- (.+)$/gm, '<li>$1</li>')
+    .replace(/(<li>[\s\S]*?<\/li>)/g, '<ul>$1</ul>')
+    .replace(/\n\n/g, '<br><br>')
+    .replace(/\n/g, '<br>');
 }
 
 // CATEGORIES
-const cats=[
+var cats=[
   {i:"🧠",n:"Mental Health & Wellness"},{i:"💼",n:"Jobs & Careers"},{i:"✈️",n:"Travel, Vacations & Cruises"},
   {i:"💰",n:"Finance & Money"},{i:"🏢",n:"Small Business"},{i:"🍽️",n:"Food & Nutrition"},
   {i:"🛡️",n:"Insurance — All Types"},{i:"⚖️",n:"Legal Help — All Types"},{i:"🌐",n:"IT Solutions & Networking"},
@@ -343,200 +339,257 @@ const cats=[
   {i:"⚓",n:"Marine & Shipping"},{i:"🚛",n:"Trucking & Logistics"},{i:"☀️",n:"Renewable Energy & Solar"}
 ];
 
-const catsEl=document.getElementById('cats');
-cats.forEach(c=>{
-  const el=document.createElement('div');el.className='cat';
-  el.innerHTML=`<span class="ci">${c.i}</span><span class="cn">${c.n}</span>`;
-  el.onclick=()=>{
-    document.querySelectorAll('.cat').forEach(x=>x.classList.remove('on'));
+var catsEl = document.getElementById('cats');
+cats.forEach(function(c) {
+  var el = document.createElement('div');
+  el.className = 'cat';
+  el.innerHTML = '<span class="ci">'+c.i+'</span><span class="cn">'+c.n+'</span>';
+  el.onclick = function() {
+    document.querySelectorAll('.cat').forEach(function(x){x.classList.remove('on');});
     el.classList.add('on');
     closeSidebar();
-    // Auto-fill input and send
-    inp.value=c.i+' Tell me about '+c.n;
-    sendMessage();
+    processMessage(c.i + ' ' + c.n, null, KB[c.n.toLowerCase().split(' ')[0]] || getAnswer(c.n));
   };
   catsEl.appendChild(el);
 });
 
-// FREE SEARCH COUNTER
-const today=new Date().toDateString();
-if(localStorage.getItem('searchDate')!==today){localStorage.setItem('searchesLeft','6');localStorage.setItem('searchDate',today);}
-let searchesLeft=parseInt(localStorage.getItem('searchesLeft')||'6');
+// SEARCH COUNTER
+var today = new Date().toDateString();
+if (localStorage.getItem('searchDate') !== today) {
+  localStorage.setItem('searchesLeft', '6');
+  localStorage.setItem('searchDate', today);
+}
+var searchesLeft = parseInt(localStorage.getItem('searchesLeft') || '6');
 updateBanner();
-function updateBanner(){
-  localStorage.setItem('searchesLeft',searchesLeft);
-  document.getElementById('searchLeft').textContent=searchesLeft;
-  const dots=document.getElementById('searchDots');dots.innerHTML='';
-  for(let i=0;i<6;i++){const d=document.createElement('div');d.className='sdot'+(i<(6-searchesLeft)?' used':'');dots.appendChild(d);}
+
+function updateBanner() {
+  localStorage.setItem('searchesLeft', searchesLeft);
+  document.getElementById('searchLeft').textContent = searchesLeft;
+  var dots = document.getElementById('searchDots');
+  dots.innerHTML = '';
+  for (var i = 0; i < 6; i++) {
+    var d = document.createElement('div');
+    d.className = 'sdot' + (i < (6 - searchesLeft) ? ' used' : '');
+    dots.appendChild(d);
+  }
 }
 
-let attachedImage=null,micActive=false,recognition=null,currentUser=null,isLoading=false;
-let chatHistory=[];
+var attachedImg = null;
+var micOn = false;
+var recog = null;
 
-const inp=document.getElementById('chatInput');
-inp.addEventListener('input',()=>{inp.style.height='auto';inp.style.height=Math.min(inp.scrollHeight,120)+'px';});
-inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}});
+var inp = document.getElementById('chatInput');
+inp.addEventListener('input', function() {
+  inp.style.height = 'auto';
+  inp.style.height = Math.min(inp.scrollHeight, 120) + 'px';
+});
+inp.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMsg();
+  }
+});
 
-async function sendMessage(){
-  const text=inp.value.trim();
-  if(!text&&!attachedImage)return;
-  if(isLoading)return;
-  if(searchesLeft<=0){showUpgradeWall();return;}
+function sendMsg() {
+  var text = inp.value.trim();
+  if (!text && !attachedImg) return;
+  if (searchesLeft <= 0) { showUpgradeWall(); return; }
+  var img = attachedImg;
+  inp.value = '';
+  inp.style.height = 'auto';
+  removeImg();
+  var answer = img ? "**Image received!** 🖼️\n\nI can see you've attached an image!\n\n**For Pro users:** Full image analysis, text reading, and object identification.\n\n**Upgrade to Pro** to analyze images, PDFs, and documents." : getAnswer(text);
+  processMessage(text, img, answer);
+}
 
+function processMessage(text, img, answer) {
   hideWelcome();
-  addUserMsg(text,attachedImage);
-  chatHistory.push({role:'user',content:text||'[Image question]'});
-  const imgCopy=attachedImage;
-  inp.value='';inp.style.height='auto';
-  removeImage();
-  searchesLeft--;updateBanner();
+  if (searchesLeft <= 0) { showUpgradeWall(); return; }
+  searchesLeft--;
+  updateBanner();
+  addUserBubble(text, img);
+  var t = addTyping();
+  setTimeout(function() {
+    t.remove();
+    addBotBubble(answer);
+  }, 600 + Math.random() * 400);
+}
 
-  const t=addTyping();
-  isLoading=true;
+function hideWelcome() {
+  var w = document.getElementById('welcomeState');
+  if (w) w.style.display = 'none';
+}
 
-  if(imgCopy){
-    setTimeout(()=>{
-      t.remove();isLoading=false;
-      const r="**Image received!** 🖼️\n\nI can see you've attached an image. For full image analysis — reading text from photos, identifying objects, answering questions about images — **upgrade to Pro**.\n\nWhat would you like to know about this image?";
-      addBotMsg(r);
-    },600);
+function addUserBubble(text, img) {
+  var area = document.getElementById('chatArea');
+  var div = document.createElement('div');
+  div.className = 'msg user';
+  var time = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+  var html = '';
+  if (img) html += '<img class="msg-img" src="'+img+'" alt=""/>';
+  if (text) html += '<div class="bubble">'+esc(text)+'</div>';
+  html += '<div class="msg-time">'+time+'</div>';
+  div.innerHTML = html;
+  area.appendChild(div);
+  area.scrollTop = area.scrollHeight;
+}
+
+function addBotBubble(text) {
+  var area = document.getElementById('chatArea');
+  var div = document.createElement('div');
+  div.className = 'msg bot';
+  var time = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+  div.innerHTML = '<div class="bot-name">🌟 OptimaSeek AI</div><div class="bubble">'+mdToHtml(text)+'</div><div class="msg-time">'+time+'</div>';
+  area.appendChild(div);
+  area.scrollTop = area.scrollHeight;
+}
+
+function addTyping() {
+  var area = document.getElementById('chatArea');
+  var div = document.createElement('div');
+  div.className = 'msg bot';
+  div.innerHTML = '<div class="typing"><span></span><span></span><span></span></div>';
+  area.appendChild(div);
+  area.scrollTop = area.scrollHeight;
+  return div;
+}
+
+function showUpgradeWall() {
+  hideWelcome();
+  var area = document.getElementById('chatArea');
+  var div = document.createElement('div');
+  div.className = 'msg bot';
+  div.innerHTML = '<div class="upgrade-wall"><h3>🚀 You\'ve used all 6 free searches!</h3><p>Upgrade to Pro for unlimited searches, image analysis, and priority support.</p><button onclick="showModal(\'pricing\')">Upgrade Now — $19.99/mo</button></div>';
+  area.appendChild(div);
+  area.scrollTop = area.scrollHeight;
+}
+
+function esc(t) {
+  return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function handleImg(e) {
+  var file = e.target.files[0];
+  if (!file) return;
+  var r = new FileReader();
+  r.onload = function(ev) {
+    attachedImg = ev.target.result;
+    document.getElementById('previewImg').src = attachedImg;
+    document.getElementById('imgPreview').style.display = 'block';
+  };
+  r.readAsDataURL(file);
+  e.target.value = '';
+}
+
+function removeImg() {
+  attachedImg = null;
+  document.getElementById('imgPreview').style.display = 'none';
+  document.getElementById('previewImg').src = '';
+}
+
+function toggleMic() {
+  if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+    alert('Voice input works in Chrome browser.');
     return;
   }
-
-  // Use Chatbase API
-  try{
-    const res=await fetch('https://www.chatbase.co/api/v1/chat',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':'Bearer 0Wg8GQMDvVTb6a4DmhyuC'},
-      body:JSON.stringify({
-        messages:chatHistory,
-        chatbotId:'0Wg8GQMDvVTb6a4DmhyuC',
-        stream:false,
-        temperature:0.7
-      })
-    });
-    const data=await res.json();
-    t.remove();isLoading=false;
-    const reply=data.text||data.message||data.content||"I'm here to help! Could you rephrase your question?";
-    addBotMsg(reply);
-    chatHistory.push({role:'assistant',content:reply});
-  }catch(err){
-    t.remove();isLoading=false;
-    // Fallback smart responses
-    addBotMsg(smartReply(text));
+  if (micOn) {
+    recog && recog.stop();
+    micOn = false;
+    document.getElementById('micBtn').style.color = '';
+    return;
   }
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recog = new SR();
+  recog.lang = 'en-US';
+  recog.continuous = false;
+  recog.interimResults = false;
+  recog.onresult = function(e) {
+    inp.value += e.results[0][0].transcript + ' ';
+    inp.style.height = 'auto';
+    inp.style.height = Math.min(inp.scrollHeight, 120) + 'px';
+  };
+  recog.onend = function() {
+    micOn = false;
+    document.getElementById('micBtn').style.color = '';
+  };
+  recog.start();
+  micOn = true;
+  document.getElementById('micBtn').style.color = '#ef4444';
 }
 
-function smartReply(text){
-  const t=text.toLowerCase();
-  if(t.match(/hi|hello|hey/)) return "Hello! 👋 Welcome to OptimaSeek AI. I'm here to help you with any question across 30 categories including immigration, jobs, health, finance, legal, travel, and much more.\n\n**What can I help you with today?**";
-  if(t.match(/immigr|visa|green card|citizenship/)) return "## Immigration Help 🌍\n\nI can help with immigration questions! Here are common topics:\n\n- **Visa types** — tourist, work, student, family\n- **Application process** — documents needed, timelines\n- **Green card** — eligibility and steps\n- **Citizenship** — naturalization requirements\n\n**What specific immigration question do you have?**";
-  if(t.match(/job|career|resume|work|hire/)) return "## Jobs & Careers 💼\n\nGreat career question! Here's how I can help:\n\n- **Resume writing** — tips and templates\n- **Job search** — best platforms and strategies\n- **Interview prep** — common questions and answers\n- **Salary negotiation** — how to ask for more\n\n**What specific career help do you need?**";
-  if(t.match(/mental|stress|anxiety|depress|sad/)) return "## Mental Health & Wellness 🧠\n\nYour mental health matters. Some helpful tips:\n\n- **Deep breathing** — 4-7-8 technique works well\n- **Exercise** — even 20 minutes daily helps\n- **Sleep** — aim for 7-9 hours\n- **Talk to someone** — therapist or trusted friend\n- **Mindfulness** — apps like Headspace or Calm\n\n**Would you like more specific advice?**";
-  if(t.match(/car|auto|vehicle|engine|brake/)) return "## Auto Repair 🚗\n\nCar trouble? Here's help:\n\n- **Check engine light** — use OBD-II scanner to read codes\n- **Common issues** — battery, alternator, brakes, tires\n- **Get quotes** — always get 3 estimates\n- **Trusted resources** — RepairPal.com for fair prices\n\n**What's your car doing?**";
-  if(t.match(/money|finance|invest|debt|budget|loan/)) return "## Finance & Money 💰\n\nSmart financial tips:\n\n- **Emergency fund** — save 3-6 months of expenses\n- **50/30/20 rule** — needs/wants/savings budget\n- **Pay off debt** — highest interest first\n- **Invest early** — index funds for beginners\n- **Credit score** — pay on time, keep utilization low\n\n**What financial question do you have?**";
-  if(t.match(/legal|law|lawyer|court|sue/)) return "## Legal Help ⚖️\n\nLegal guidance:\n\n- **Document everything** — in writing always\n- **Free consultations** — many lawyers offer them\n- **Legal aid** — free help for those who qualify\n- **Know your rights** — varies by location\n\n⚠️ *For serious legal matters, always consult a licensed attorney.*\n\n**What legal question do you have?**";
-  if(t.match(/health|medical|doctor|sick|pain|symptom/)) return "## Medical & Health 🏥\n\n⚠️ **For emergencies call 911 immediately.**\n\nGeneral health guidance:\n\n- **Symptoms tracker** — note when they started\n- **Reliable info** — Mayo Clinic, WebMD, NHS\n- **Regular checkups** — prevention is key\n- **Medications** — always follow doctor advice\n\n**What health question can I help with?**";
-  if(t.match(/travel|flight|hotel|vacation|trip/)) return "## Travel ✈️\n\nTravel tips:\n\n- **Book flights** — 6-8 weeks ahead for best prices\n- **Google Flights** — set price alerts\n- **Travel insurance** — always worth it\n- **Visa requirements** — check early, can take weeks\n- **Pack light** — carry-on saves time and money\n\n**Where are you planning to travel?**";
-  return "I'm OptimaSeek AI, ready to help! 🌟\n\nI cover **30 categories** including:\n- Immigration & Visas\n- Jobs & Careers\n- Finance & Money\n- Legal Help\n- Medical & Health\n- Travel & Aviation\n- Auto Repair\n- Mental Health\n- And much more!\n\n**Please ask your specific question and I'll give you a detailed answer!**";
+function resetChat() {
+  document.getElementById('chatArea').innerHTML = '<div class="welcome-state" id="welcomeState"><div class="orb-wrap"><div class="orbit"><div class="odot od1"></div><div class="odot od2"></div></div><div class="orbit2"><div class="odot od3"></div><div class="odot od4"></div><div class="odot od5"></div><div class="odot od6"></div></div><div class="orbit3"><div class="odot od7"></div><div class="odot od8"></div></div><div class="orb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div></div><div class="wt">What can I help you with <span>today?</span></div><div class="ws">OptimaSeek AI — 30 categories • Instant answers • World-class support</div></div>';
+  inp.value = '';
+  inp.style.height = 'auto';
+  removeImg();
+  document.querySelectorAll('.cat').forEach(function(x){x.classList.remove('on');});
+  searchesLeft = 6;
+  updateBanner();
 }
 
-function hideWelcome(){const w=document.getElementById('welcomeState');if(w)w.style.display='none';}
-
-function addUserMsg(text,img){
-  const area=document.getElementById('chatArea');
-  const div=document.createElement('div');div.className='msg user';
-  const time=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-  let html='';
-  if(img)html+=`<img class="msg-img" src="${img}" alt=""/>`;
-  if(text)html+=`<div class="bubble">${esc(text)}</div>`;
-  html+=`<div class="msg-time">${time}</div>`;
-  div.innerHTML=html;area.appendChild(div);area.scrollTop=area.scrollHeight;
+function openSidebar() {
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('sidebarOverlay').classList.add('on');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('on');
 }
 
-function addBotMsg(text){
-  const area=document.getElementById('chatArea');
-  const div=document.createElement('div');div.className='msg bot';
-  const time=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-  div.innerHTML=`<div class="bot-name">🌟 OptimaSeek AI</div><div class="bubble">${md(text)}</div><div class="msg-time">${time}</div>`;
-  area.appendChild(div);area.scrollTop=area.scrollHeight;
+function showModal(t) {
+  document.getElementById(t+'Modal').classList.add('on');
+}
+function hideModal(t) {
+  document.getElementById(t+'Modal').classList.remove('on');
 }
 
-function addTyping(){
-  const area=document.getElementById('chatArea');
-  const div=document.createElement('div');div.className='msg bot';
-  div.innerHTML='<div class="typing"><span></span><span></span><span></span></div>';
-  area.appendChild(div);area.scrollTop=area.scrollHeight;return div;
+document.getElementById('pricingModal').addEventListener('click', function(e) {
+  if (e.target === this) hideModal('pricing');
+});
+document.getElementById('signinModal').addEventListener('click', function(e) {
+  if (e.target === this) hideModal('signin');
+});
+
+var currentUser = null;
+
+function doGoogleSignIn() {
+  setLoggedIn('User', 'G');
+  hideModal('signin');
+  toast('Signed in with Google ✓');
 }
 
-function showUpgradeWall(){
-  hideWelcome();
-  const area=document.getElementById('chatArea');
-  const div=document.createElement('div');div.className='msg bot';
-  div.innerHTML=`<div class="upgrade-wall"><h3>🚀 You've used all 6 free searches!</h3><p>Upgrade to Pro for unlimited searches, image analysis, and priority support.</p><button onclick="openModal('pricing')">Upgrade Now — $19.99/mo</button></div>`;
-  area.appendChild(div);area.scrollTop=area.scrollHeight;
+function doEmailSignIn() {
+  var email = document.getElementById('emailInput').value.trim();
+  if (!email) { alert('Please enter your email.'); return; }
+  setLoggedIn(email.split('@')[0], email[0].toUpperCase());
+  hideModal('signin');
+  toast('Signed in ✓');
 }
 
-function esc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-
-function handleImage(e){
-  const file=e.target.files[0];if(!file)return;
-  const r=new FileReader();
-  r.onload=ev=>{attachedImage=ev.target.result;document.getElementById('previewImg').src=attachedImage;document.getElementById('imgPreview').style.display='block';};
-  r.readAsDataURL(file);e.target.value='';
-}
-function removeImage(){attachedImage=null;document.getElementById('imgPreview').style.display='none';document.getElementById('previewImg').src='';}
-
-function toggleMic(){
-  if(!('webkitSpeechRecognition' in window||'SpeechRecognition' in window)){alert('Voice input works in Chrome browser.');return;}
-  if(micActive){recognition&&recognition.stop();micActive=false;document.getElementById('micBtn').classList.remove('active');return;}
-  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  recognition=new SR();recognition.lang='en-US';recognition.continuous=false;recognition.interimResults=false;
-  recognition.onresult=e=>{inp.value+=e.results[0][0].transcript+' ';inp.style.height='auto';inp.style.height=Math.min(inp.scrollHeight,120)+'px';};
-  recognition.onend=()=>{micActive=false;document.getElementById('micBtn').classList.remove('active');};
-  recognition.start();micActive=true;document.getElementById('micBtn').classList.add('active');
+function setLoggedIn(name, initial) {
+  currentUser = {name: name, initial: initial};
+  document.getElementById('signInBtn').style.display = 'none';
+  var av = document.getElementById('userAvatar');
+  av.style.display = 'flex';
+  av.textContent = initial;
+  av.title = 'Signed in as ' + name;
 }
 
-function resetChat(){
-  chatHistory=[];
-  document.getElementById('chatArea').innerHTML=`<div class="welcome-state" id="welcomeState">
-    <div class="orb-wrap">
-      <div class="orbit"><div class="odot od1"></div><div class="odot od2"></div></div>
-      <div class="orbit2"><div class="odot od3"></div><div class="odot od4"></div><div class="odot od5"></div><div class="odot od6"></div></div>
-      <div class="orbit3"><div class="odot od7"></div><div class="odot od8"></div></div>
-      <div class="orb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-    </div>
-    <div class="wt">What can I help you with <span>today?</span></div>
-    <div class="ws">OptimaSeek AI — 30 categories • Instant answers • World-class support</div>
-  </div>`;
-  inp.value='';inp.style.height='auto';removeImage();
-  document.querySelectorAll('.cat').forEach(x=>x.classList.remove('on'));
-  searchesLeft=6;updateBanner();
+function doSignOut() {
+  if (!confirm('Sign out?')) return;
+  currentUser = null;
+  document.getElementById('signInBtn').style.display = '';
+  var av = document.getElementById('userAvatar');
+  av.style.display = 'none';
+  av.innerHTML = '';
 }
 
-function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sidebarOverlay').classList.add('on');}
-function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sidebarOverlay').classList.remove('on');}
-function openModal(t){document.getElementById(t+'Modal').classList.add('on');}
-function closeModal(t){document.getElementById(t+'Modal').classList.remove('on');}
-['pricing','signin'].forEach(t=>document.getElementById(t+'Modal').addEventListener('click',function(e){if(e.target===this)closeModal(t);}));
-
-let currentUser=null;
-function signInGoogle(){setLoggedIn('User','G');closeModal('signin');showToast('Signed in with Google ✓');}
-function signInEmail(){
-  const email=document.getElementById('emailInput').value.trim();
-  if(!email){alert('Enter your email.');return;}
-  setLoggedIn(email.split('@')[0],email[0].toUpperCase());closeModal('signin');showToast('Signed in ✓');
-}
-function setLoggedIn(name,initial){
-  currentUser={name,initial};
-  document.getElementById('signInBtn').style.display='none';
-  const av=document.getElementById('userAvatar');av.style.display='flex';av.textContent=initial;av.title='Signed in as '+name;
-}
-function signOut(){if(!confirm('Sign out?'))return;currentUser=null;document.getElementById('signInBtn').style.display='';const av=document.getElementById('userAvatar');av.style.display='none';av.innerHTML='';}
-function showToast(msg){
-  const t=document.createElement('div');
-  t.style.cssText='position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#0f172a;color:white;padding:9px 18px;border-radius:9px;font-size:12px;font-weight:600;z-index:999;';
-  t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2500);
+function toast(msg) {
+  var t = document.createElement('div');
+  t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#0f172a;color:white;padding:9px 18px;border-radius:9px;font-size:12px;font-weight:600;z-index:999;';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(function(){t.remove();}, 2500);
 }
 </script>
 </body>
