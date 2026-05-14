@@ -38,47 +38,65 @@ textarea {
     padding: 16px;
     gap: 18px;
   }
-
   .bubble {
     max-width: 92%;
     font-size: 15px;
     line-height: 1.6;
   }
-
   .welcome h1 {
     font-size: 28px;
   }
-
   .input-wrap {
     border-radius: 20px;
   }
-
   .sidebar {
     display: none;
   }
-
   .topbar {
     padding: 10px;
   }
 }
 
-/* ==================== ORIGINAL STYLES ==================== */
+/* ==================== MAIN STYLES ==================== */
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:Inter,sans-serif;background:#fff;color:#0d0d0d;min-height:100dvh;display:flex;overflow:hidden;}
+body{
+  font-family:Inter,sans-serif;
+  background:#fff;
+  color:#0d0d0d;
+  min-height:100dvh;
+  display:flex;
+  overflow:hidden;
+}
 .sidebar{width:260px;background:#f9f9f9;border-right:1px solid #e5e7eb;display:flex;flex-direction:column;padding:10px;gap:4px;}
 .logo{display:flex;align-items:center;gap:10px;padding:12px 10px;font-size:17px;font-weight:700;cursor:pointer;}
 .logo-icon{width:32px;height:32px;background:#0d0d0d;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:14px;font-weight:700;flex-shrink:0;}
 .side-btn{height:40px;border:none;background:transparent;border-radius:8px;cursor:pointer;font-size:14px;font-weight:500;text-align:left;padding:0 12px;color:#0d0d0d;transition:.15s;display:flex;align-items:center;gap:10px;width:100%;}
 .side-btn:hover{background:#ececec;}
 .sidebar-bottom{margin-top:auto;display:flex;flex-direction:column;gap:4px;border-top:1px solid #e5e7eb;padding-top:10px;}
-.main{flex:1;display:flex;flex-direction:column;min-height:100dvh;overflow:hidden;}
+.main{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  min-height:100dvh;
+  overflow:hidden;
+}
 .topbar{height:56px;display:flex;align-items:center;justify-content:flex-end;padding:0 16px;gap:8px;flex-shrink:0;}
 .login-btn{height:36px;padding:0 16px;border:none;background:#0d0d0d;color:white;border-radius:999px;font-weight:600;font-size:14px;cursor:pointer;}
 .signup-btn{height:36px;padding:0 16px;border:1px solid #d1d5db;background:white;border-radius:999px;font-weight:600;font-size:14px;cursor:pointer;}
 .page{flex:1;overflow-y:auto;display:none;flex-direction:column;}
 .page.active{display:flex;}
 .chat-container{flex:1;display:flex;flex-direction:column;overflow:hidden;}
-.chat{flex:1;overflow-y:auto;padding:20px 20px 20px;display:flex;flex-direction:column;gap:24px;max-width:760px;width:100%;margin:auto;}
+.chat{
+  flex:1;
+  overflow-y:auto;
+  padding:20px 20px 20px;
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+  max-width:760px;
+  width:100%;
+  margin:auto;
+}
 .welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;text-align:center;min-height:300px;}
 .welcome h1{font-size:36px;font-weight:600;margin-bottom:8px;}
 .welcome p{color:#6b7280;font-size:15px;}
@@ -88,7 +106,15 @@ body{font-family:Inter,sans-serif;background:#fff;color:#0d0d0d;min-height:100dv
 .bubble{padding:14px 18px;border-radius:18px;font-size:15px;line-height:1.75;max-width:85%;}
 .user .bubble{background:#0d0d0d;color:white;}
 .bot .bubble{background:#f3f4f6;color:#0d0d0d;}
-.bottom{padding:12px 24px 20px;background:white;border-top:1px solid #f3f4f6;flex-shrink:0;display:flex;flex-direction:column;align-items:center;}
+.bottom{
+  padding:12px 24px 20px;
+  background:white;
+  border-top:1px solid #f3f4f6;
+  flex-shrink:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
 .msg-count{text-align:center;font-size:13px;color:#6b7280;margin-bottom:8px;width:100%;max-width:760px;}
 .input-wrap{max-width:760px;width:100%;background:white;border:1px solid #d1d5db;border-radius:16px;padding:12px 12px 8px 16px;box-shadow:0 4px 20px rgba(0,0,0,.06);}
 .input-top{display:flex;align-items:flex-end;gap:8px;}
@@ -170,7 +196,6 @@ textarea{flex:1;border:none;outline:none;resize:none;font-size:15px;font-family:
 </head>
 <body>
 
-<!-- Rest of your HTML remains exactly the same -->
 <div class="sidebar">
   <div class="logo" onclick="showPage('chat')">
     <div class="logo-icon">O</div>
@@ -195,7 +220,6 @@ textarea{flex:1;border:none;outline:none;resize:none;font-size:15px;font-family:
     </div>
   </div>
 
-  <!-- All other pages (chat, pricing, login, help) remain unchanged -->
   <div class="page active" id="page-chat">
     <div class="chat-container">
       <div class="chat" id="chat">
@@ -224,19 +248,151 @@ textarea{flex:1;border:none;outline:none;resize:none;font-size:15px;font-family:
     </div>
   </div>
 
-  <!-- Pricing, Login, Help pages are unchanged (same as previous version) -->
-  <div class="page" id="page-pricing"> ... </div>
-  <div class="page" id="page-login"> ... </div>
-  <div class="page" id="page-help"> ... </div>
+  <div class="page" id="page-pricing">
+    <div class="pricing-page">
+      <h1>Simple, transparent pricing</h1>
+      <p>Start free. Upgrade anytime.</p>
+      <div class="plans">
+        <div class="plan">
+          <div class="plan-name">Free</div>
+          <div class="plan-price">CA$0<span>/month</span></div>
+          <div class="plan-desc">See what AI can do</div>
+          <button class="plan-btn light">Your current plan</button>
+          <ul class="plan-features">
+            <li>7 free messages</li>
+            <li>Core AI model</li>
+            <li>Basic responses</li>
+            <li>Web access</li>
+          </ul>
+        </div>
+        <div class="plan">
+          <div class="plan-name">Go</div>
+          <div class="plan-price">CA$8<span>/month</span></div>
+          <div class="plan-desc">Keep chatting with expanded access</div>
+          <button class="plan-btn dark" onclick="showPage('login')">Upgrade to Go</button>
+          <ul class="plan-features">
+            <li>50 messages/day</li>
+            <li>Core AI model</li>
+            <li>File uploads</li>
+            <li>Image creation</li>
+            <li>Voice mode</li>
+          </ul>
+        </div>
+        <div class="plan popular">
+          <div class="plan-badge">POPULAR</div>
+          <div class="plan-name">Plus</div>
+          <div class="plan-price">CA$0<span> first month<br>then CA$19.99</span></div>
+          <div class="plan-desc">More access to advanced intelligence</div>
+          <button class="plan-btn dark" onclick="showPage('login')">Claim free offer</button>
+          <ul class="plan-features">
+            <li>Unlimited messages</li>
+            <li>Advanced AI model</li>
+            <li>Image generation</li>
+            <li>File analysis</li>
+            <li>Voice mode</li>
+            <li>Priority support</li>
+          </ul>
+        </div>
+        <div class="plan">
+          <div class="plan-name">Pro</div>
+          <div class="plan-price">CA$110<span>/month</span></div>
+          <div class="plan-desc">Maximum productivity for power users</div>
+          <button class="plan-btn dark" onclick="showPage('login')">Upgrade to Pro</button>
+          <ul class="plan-features">
+            <li>Everything in Plus</li>
+            <li>5x more usage</li>
+            <li>Frontier AI model</li>
+            <li>Max image creation</li>
+            <li>Deep research</li>
+            <li>Unlimited core chat</li>
+            <li>Early access features</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="page-login">
+    <div class="login-page">
+      <div class="login-box">
+        <h2>Welcome back</h2>
+        <p>Sign in to your OptimaSeek account</p>
+        <button class="lbtn google" onclick="googleLogin()">
+          <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.35-8.16 2.35-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+          Continue with Google
+        </button>
+        <div class="divider">— or —</div>
+        <input type="email" placeholder="Email address" id="loginEmail">
+        <input type="password" placeholder="Password" id="loginPassword">
+        <button class="lbtn dark" onclick="emailLogin()">Continue</button>
+        <div class="switch">Don't have an account? <a onclick="showPage('pricing')">Sign up</a></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="page-help">
+    <div class="help-page">
+      <h1>❓ Help Center</h1>
+      <p>Everything you need to know about OptimaSeek AI</p>
+      <div class="help-item">
+        <h3>💬 How do I start chatting?</h3>
+        <p>Simply type your question in the message box at the bottom and press Enter or click the ↑ button.</p>
+      </div>
+      <div class="help-item">
+        <h3>🖼️ How do I create an image?</h3>
+        <p>Click the "🖼️ Create image" button below the chat box.</p>
+      </div>
+      <div class="help-item">
+        <h3>📊 How do I create an Excel file?</h3>
+        <p>Click the "📊 Create Excel" button or type in chat.</p>
+      </div>
+      <div class="help-item">
+        <h3>📝 How do I create a Word document?</h3>
+        <p>Type "create word document resume" in chat.</p>
+      </div>
+      <div class="help-item">
+        <h3>📄 How do I create a PDF?</h3>
+        <p>Type "create pdf resume" in chat.</p>
+      </div>
+      <button class="mbtn dark" style="margin-top:20px" onclick="showPage('chat')">← Back to Chat</button>
+    </div>
+  </div>
 </div>
 
-<!-- Modals remain the same -->
-<!-- UPGRADE MODAL, EXCEL MODAL, IMAGE MODAL -->
+<!-- Modals -->
+<div class="modal" id="upgradeModal">
+  <div class="modal-box">
+    <h2>🚀 Messages used up!</h2>
+    <p>Upgrade to continue chatting with OptimaSeek AI!</p>
+    <button class="mbtn dark" onclick="showPage('pricing');closeModal()">⚡ Upgrade Now</button>
+    <button class="mbtn light" onclick="closeModal()">Maybe later</button>
+  </div>
+</div>
+
+<div class="img-modal" id="excelModal">
+  <div class="img-modal-box">
+    <h2>📊 Create Excel File</h2>
+    <input type="text" id="excelPrompt" placeholder="Describe your spreadsheet...">
+    <div style="display:flex;gap:10px;">
+      <button class="mbtn dark" style="flex:1" onclick="generateExcel()">Create & Download ⬇️</button>
+      <button class="mbtn light" style="flex:1" onclick="document.getElementById('excelModal').classList.remove('active')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="img-modal" id="imgModal">
+  <div class="img-modal-box">
+    <h2>🖼️ Create an Image</h2>
+    <input type="text" id="imgPrompt" placeholder="Describe the image you want...">
+    <div style="display:flex;gap:10px;">
+      <button class="mbtn dark" style="flex:1" onclick="generateImage()">Generate ✨</button>
+      <button class="mbtn light" style="flex:1" onclick="document.getElementById('imgModal').classList.remove('active')">Cancel</button>
+    </div>
+  </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script type="module">
-  // Your entire script remains exactly the same as last version
-  // (I didn't change any JS, only CSS)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
@@ -264,10 +420,298 @@ let attachedFile = null;
 let attachedBase64 = null;
 let attachedMediaType = null;
 
-// ... [All your functions remain the same - loadUserData, sendMessage, etc.] ...
+async function loadUserData(user) {
+  const today = new Date().toISOString().split('T')[0];
+  const ref = doc(db, 'users', user.uid);
+  const snap = await getDoc(ref);
+  if(!snap.exists()) {
+    await setDoc(ref, { email: user.email, date: today, count: 0 });
+    msgUsed = 0;
+  } else {
+    const data = snap.data();
+    if(data.date !== today) {
+      await updateDoc(ref, { date: today, count: 0 });
+      msgUsed = 0;
+    } else {
+      msgUsed = data.count || 0;
+    }
+  }
+  updateCount();
+}
 
-// (For brevity I didn't paste the entire 300+ line script again, but you should keep your full script from the previous version)
+async function saveUserCount() {
+  if(!currentUser) return;
+  const today = new Date().toISOString().split('T')[0];
+  const ref = doc(db, 'users', currentUser.uid);
+  await updateDoc(ref, { count: msgUsed, date: today });
+}
 
+onAuthStateChanged(auth, async (user) => {
+  currentUser = user;
+  if(user) {
+    await loadUserData(user);
+    document.getElementById('topbarAuth').innerHTML = `
+      <span style="font-size:14px;font-weight:500;color:#374151">${user.displayName||user.email}</span>
+      <button class="login-btn" style="background:#ef4444" onclick="window.doLogout()">Log out</button>
+    `;
+    document.getElementById('sidebarAuth').innerHTML = `
+      <div class="user-bar">
+        <div class="user-avatar">${(user.displayName||user.email||'U')[0].toUpperCase()}</div>
+        <div class="user-name">${user.displayName||user.email}</div>
+        <button class="logout-btn" onclick="window.doLogout()" title="Log out">↩</button>
+      </div>
+    `;
+    showPage('chat');
+  } else {
+    msgUsed = 0;
+    document.getElementById('topbarAuth').innerHTML = `
+      <button class="login-btn" onclick="showPage('login')">Log in</button>
+      <button class="signup-btn" onclick="showPage('pricing')">Sign up for free</button>
+    `;
+    document.getElementById('sidebarAuth').innerHTML = `
+      <button class="side-btn" onclick="showPage('login')">🔑 Log in</button>
+    `;
+    updateCount();
+  }
+});
+
+window.googleLogin = async function() {
+  try { await signInWithPopup(auth, provider); }
+  catch(e) { alert('Google login failed: ' + e.message); }
+}
+
+window.emailLogin = async function() {
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+  if(!email||!password){alert('Please enter email and password.');return;}
+  try { await signInWithEmailAndPassword(auth, email, password); }
+  catch(e) { alert('Login failed: ' + e.message); }
+}
+
+window.doLogout = async function() {
+  await signOut(auth);
+  msgUsed = 0;
+  showPage('chat');
+  updateCount();
+}
+
+window.showPage = function(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+}
+
+window.closeModal = function() {
+  document.getElementById('upgradeModal').classList.remove('active');
+}
+
+window.onMsgCountClick = function() {
+  const limit = currentUser ? LOGGED_IN_LIMIT : FREE_LIMIT;
+  if(msgUsed >= limit) showPage('pricing');
+}
+
+function updateCount() {
+  const el = document.getElementById('msgCount');
+  const limit = currentUser ? LOGGED_IN_LIMIT : FREE_LIMIT;
+  const remaining = limit - msgUsed;
+  if(remaining > 0) {
+    el.textContent = remaining + (currentUser ? ' messages remaining today' : ' free messages remaining');
+    el.style.color = '#6b7280';
+  } else {
+    el.textContent = '⚡ No messages left — click here to upgrade';
+    el.style.color = '#ef4444';
+    el.style.cursor = 'pointer';
+  }
+}
+
+window.openImageModal = function() {
+  document.getElementById('imgModal').classList.add('active');
+  setTimeout(() => document.getElementById('imgPrompt').focus(), 100);
+}
+
+window.openExcelModal = function() {
+  document.getElementById('excelModal').classList.add('active');
+  setTimeout(() => document.getElementById('excelPrompt').focus(), 100);
+}
+
+window.generateExcel = async function() {
+  const promptEl = document.getElementById('excelPrompt');
+  const promptText = promptEl.value.trim();
+  if(!promptText) { alert('Please describe your spreadsheet!'); return; }
+  document.getElementById('excelModal').classList.remove('active');
+  const welcome = document.getElementById("welcome");
+  if(welcome) welcome.style.display = "none";
+  addMessage("📊 Create Excel: " + promptText, "user");
+  const loading = addMessage("⏳ Creating your Excel file...", "bot");
+  promptEl.value = '';
+  try {
+    const response = await fetch("/api/chat", { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({ message: promptText, mode: "excel" }) });
+    const data = await response.json();
+    if(data.type === "excel") {
+      const link = document.createElement('a');
+      link.href = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,' + data.data;
+      link.download = data.filename || 'spreadsheet.xlsx';
+      link.click();
+      loading.querySelector(".bubble").innerHTML = `✅ <strong>Excel file downloaded!</strong>`;
+    } else {
+      loading.querySelector(".bubble").innerHTML = data.reply || "Failed.";
+    }
+  } catch(err) {
+    loading.querySelector(".bubble").innerHTML = "Error creating Excel.";
+  }
+}
+
+window.generateImage = async function() {
+  const promptEl = document.getElementById('imgPrompt');
+  const promptText = promptEl.value.trim();
+  if(!promptText) { alert('Please describe the image!'); return; }
+  document.getElementById('imgModal').classList.remove('active');
+  const welcome = document.getElementById("welcome");
+  if(welcome) welcome.style.display = "none";
+  addMessage("🎨 Create image: " + promptText, "user");
+  const loading = addMessage("🖌️ Generating...", "bot");
+  promptEl.value = '';
+  try {
+    const response = await fetch("/api/chat", { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({ message: promptText, mode: "image" }) });
+    const data = await response.json();
+    if(data.type === "image") {
+      loading.querySelector(".bubble").innerHTML = `<img src="${data.image}" class="generated-img" onclick="window.open('${data.image}')">`;
+    } else {
+      loading.querySelector(".bubble").innerHTML = data.reply || "Failed.";
+    }
+  } catch(err) {
+    loading.querySelector(".bubble").innerHTML = "Error generating image.";
+  }
+}
+
+window.newChat = function() {
+  showPage('chat');
+  document.getElementById("chat").innerHTML = `<div class="welcome" id="welcome"><h1>What can I help with?</h1><p>Powered by OptimaSeek AI</p></div>`;
+  attachedFile = attachedBase64 = attachedMediaType = null;
+  document.getElementById('filePreviewWrap').innerHTML = '';
+}
+
+window.handleFile = function(input) {
+  const file = input.files[0];
+  if(!file) return;
+  attachedFile = file;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    attachedBase64 = e.target.result.split(',')[1];
+    attachedMediaType = file.type;
+    let preview = file.type.startsWith('image/') ? `<img src="${e.target.result}" class="img-preview">` : '';
+    document.getElementById('filePreviewWrap').innerHTML = `<div class="file-preview"><span>📄 ${file.name}</span><button onclick="removeFile()">✕</button></div>${preview}`;
+  };
+  reader.readAsDataURL(file);
+}
+
+window.removeFile = function() {
+  attachedFile = attachedBase64 = attachedMediaType = null;
+  document.getElementById('filePreviewWrap').innerHTML = '';
+  document.getElementById('fileInput').value = '';
+}
+
+window.sendMessage = async function() {
+  const limit = currentUser ? LOGGED_IN_LIMIT : FREE_LIMIT;
+  if(msgUsed >= limit) {
+    document.getElementById('upgradeModal').classList.add('active');
+    return;
+  }
+  const input = document.getElementById("input");
+  const text = input.value.trim();
+  if(!text && !attachedFile) return;
+
+  const welcome = document.getElementById("welcome");
+  if(welcome) welcome.style.display = "none";
+
+  addMessage(text || "[File attached]", "user");
+  const sentBase64 = attachedBase64;
+  const sentMediaType = attachedMediaType;
+
+  input.value = "";
+  attachedFile = attachedBase64 = attachedMediaType = null;
+  document.getElementById('filePreviewWrap').innerHTML = '';
+  document.getElementById('fileInput').value = '';
+
+  msgUsed++;
+  updateCount();
+  if(currentUser) await saveUserCount();
+
+  const sendBtn = document.getElementById('sendBtn');
+  sendBtn.disabled = true;
+  const thinking = addMessage("Thinking...", "bot");
+
+  try {
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ message: text })
+    });
+    const data = await response.json();
+
+    if(data.type === "word") {
+      const link = document.createElement('a');
+      link.href = 'data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,' + data.data;
+      link.download = data.filename || 'document.docx';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      thinking.querySelector(".bubble").innerHTML = `✅ Word document downloaded`;
+    } else if(data.type === "pdf") {
+      const link = document.createElement('a');
+      link.href = 'data:application/pdf;base64,' + data.data;
+      link.download = data.filename || 'document.pdf';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      thinking.querySelector(".bubble").innerHTML = `✅ PDF downloaded`;
+    } else if(data.type === "excel") {
+      const link = document.createElement('a');
+      link.href = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,' + data.data;
+      link.download = data.filename || 'spreadsheet.xlsx';
+      link.click();
+      thinking.querySelector(".bubble").innerHTML = `✅ Excel downloaded`;
+    } else {
+      thinking.querySelector(".bubble").innerHTML = marked.parse(data.reply || "Sorry, no response.");
+    }
+  } catch(err) {
+    thinking.querySelector(".bubble").innerHTML = "Error connecting to AI.";
+  }
+  sendBtn.disabled = false;
+  document.getElementById("chat").scrollTop = document.getElementById("chat").scrollHeight;
+}
+
+window.startVoice = function() {
+  if(!('SpeechRecognition' in window || 'webkitSpeechRecognition' in window)) {
+    alert('Voice not supported in this browser.');
+    return;
+  }
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const recognition = new SR();
+  recognition.lang = 'en-US';
+  recognition.start();
+  recognition.onresult = (e) => document.getElementById('input').value = e.results[0][0].transcript;
+};
+
+function addMessage(text, type) {
+  const chat = document.getElementById("chat");
+  const div = document.createElement("div");
+  div.className = `msg ${type}`;
+  div.innerHTML = `<div class="bubble">${text}</div>`;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+  return div;
+}
+
+const input = document.getElementById("input");
+input.addEventListener("keydown", function(e) {
+  if(e.key==="Enter" && !e.shiftKey) { e.preventDefault(); window.sendMessage(); }
+});
+input.addEventListener("input", function() {
+  this.style.height = "auto";
+  this.style.height = Math.min(this.scrollHeight, 160) + "px";
+});
+
+updateCount();
 </script>
 </body>
 </html>
