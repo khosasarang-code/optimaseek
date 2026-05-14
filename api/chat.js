@@ -5,7 +5,25 @@ module.exports = async function handler(req, res) {
   if (req.method === "OPTIONS") return res.status(200).end();
 
   try {
-    const message = (req.body && req.body.message) ? req.body.message : "Hello";
+    const { message, image } = req.body;
+
+    let content = [];
+
+    if (image) {
+      content.push({
+        type: "image",
+        source: {
+          type: "base64",
+          media_type: image.mediaType,
+          data: image.data
+        }
+      });
+    }
+
+    content.push({
+      type: "text",
+      text: message || "What is in this image?"
+    });
 
     const response = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
@@ -17,12 +35,11 @@ module.exports = async function handler(req, res) {
       body: JSON.stringify({
         model: "claude-haiku-4-5",
         max_tokens: 1024,
-        messages: [{ role: "user", content: message }]
+        messages: [{ role: "user", content: content }]
       })
     });
 
     const data = await response.json();
-    console.log("API Response:", JSON.stringify(data));
 
     if (data.content && data.content[0] && data.content[0].text) {
       res.status(200).json({ reply: data.content[0].text });
