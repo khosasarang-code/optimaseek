@@ -629,6 +629,8 @@ window.sendMessage = async function() {
       body: JSON.stringify(payload)
     });
     const data = await response.json();
+
+    // === REPLACED BLOCK START ===
     if(data.type === "excel") {
       const link = document.createElement('a');
       link.href = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,' + data.data;
@@ -637,19 +639,25 @@ window.sendMessage = async function() {
       thinking.querySelector(".bubble").innerHTML = `✅ <strong>Excel file downloaded!</strong><br><small style="color:#6b7280">"${data.filename}" saved to your downloads.</small>`;
     } else if(data.type === "word") {
       const link = document.createElement('a');
-      link.href = 'data:text/plain;base64,' + data.data;
-      link.download = data.filename || 'document.txt';
+      link.href = 'data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,' + data.data;
+      link.download = data.filename || 'document.docx';
+      document.body.appendChild(link);
       link.click();
-      thinking.querySelector(".bubble").innerHTML = `✅ <strong>Word document downloaded!</strong><br><small style="color:#6b7280">"${data.filename}" saved. Open with WordPad or Microsoft Word.</small>`;
+      link.remove();
+      thinking.querySelector(".bubble").innerHTML = `✅ Word document downloaded`;
     } else if(data.type === "pdf") {
       const link = document.createElement('a');
-      link.href = 'data:text/html;base64,' + data.data;
-      link.download = data.filename || 'document.html';
+      link.href = 'data:application/pdf;base64,' + data.data;
+      link.download = data.filename || 'document.pdf';
+      document.body.appendChild(link);
       link.click();
-      thinking.querySelector(".bubble").innerHTML = `✅ <strong>PDF document downloaded!</strong><br><small style="color:#6b7280">"${data.filename}" saved. Open in browser → Press Ctrl+P → Save as PDF ✅</small>`;
+      link.remove();
+      thinking.querySelector(".bubble").innerHTML = `✅ PDF downloaded`;
     } else {
       thinking.querySelector(".bubble").innerHTML = marked.parse(data.reply || "Sorry, no response.");
     }
+    // === REPLACED BLOCK END ===
+
   } catch(err) {
     thinking.querySelector(".bubble").innerHTML = "Error connecting to AI. Please try again.";
   }
