@@ -1,166 +1,760 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OptimaSeek AI</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:Inter,sans-serif;background:#fff;color:#0d0d0d;height:100vh;display:flex;overflow:hidden;}
-.sidebar{width:260px;background:#f9f9f9;border-right:1px solid #e5e7eb;display:flex;flex-direction:column;padding:10px;gap:4px;}
-.logo{display:flex;align-items:center;gap:10px;padding:12px 10px;font-size:18px;font-weight:600;}
-.logo-icon{width:32px;height:32px;background:#0d0d0d;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:16px;font-weight:700;}
-.side-btn{height:40px;border:none;background:transparent;border-radius:8px;cursor:pointer;font-size:14px;font-weight:500;text-align:left;padding:0 12px;color:#0d0d0d;transition:.15s;display:flex;align-items:center;gap:10px;}
-.side-btn:hover{background:#ececec;}
-.sidebar-bottom{margin-top:auto;display:flex;flex-direction:column;gap:4px;border-top:1px solid #e5e7eb;padding-top:10px;}
-.main{flex:1;display:flex;flex-direction:column;height:100vh;position:relative;}
-.topbar{height:56px;display:flex;align-items:center;justify-content:flex-end;padding:0 16px;gap:8px;}
-.login{height:36px;padding:0 16px;border:none;background:#0d0d0d;color:white;border-radius:999px;font-weight:600;font-size:14px;cursor:pointer;}
-.signup{height:36px;padding:0 16px;border:1px solid #d1d5db;background:white;border-radius:999px;font-weight:600;font-size:14px;cursor:pointer;}
-.chat{flex:1;overflow-y:auto;padding:40px 20px 180px;display:flex;flex-direction:column;gap:24px;max-width:760px;width:100%;margin:auto;}
-.welcome{margin-top:120px;text-align:center;}
-.welcome h1{font-size:36px;font-weight:600;margin-bottom:8px;}
-.welcome p{color:#6b7280;font-size:15px;}
-.msg{display:flex;flex-direction:column;gap:4px;}
-.user{align-items:flex-end;}
-.bot{align-items:flex-start;}
-.bubble{padding:14px 18px;border-radius:18px;font-size:15px;line-height:1.75;max-width:85%;}
-.user .bubble{background:#0d0d0d;color:white;}
-.bot .bubble{background:#f3f4f6;color:#0d0d0d;}
-.bottom{position:fixed;bottom:0;left:260px;right:0;padding:16px 24px 24px;background:white;}
-.input-wrap{max-width:760px;margin:auto;background:white;border:1px solid #d1d5db;border-radius:16px;padding:8px 8px 8px 16px;display:flex;align-items:flex-end;gap:8px;box-shadow:0 4px 20px rgba(0,0,0,.06);}
-textarea{flex:1;border:none;outline:none;resize:none;font-size:15px;font-family:Inter,sans-serif;min-height:36px;max-height:160px;padding:6px 0;background:transparent;}
-.send{width:36px;height:36px;border:none;background:#0d0d0d;color:white;border-radius:10px;cursor:pointer;font-size:16px;flex-shrink:0;}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;z-index:100;}
-.modal-box{width:360px;background:white;padding:28px;border-radius:16px;}
-.modal-box h2{margin-bottom:20px;font-size:24px;font-weight:600;}
-.modal-box input{width:100%;height:46px;border:1px solid #d1d5db;border-radius:10px;padding:0 14px;margin-bottom:10px;font-size:15px;outline:none;}
-.modal-box button{width:100%;height:46px;border:none;background:#0d0d0d;color:white;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;margin-bottom:8px;}
-.google-btn{background:#f3f4f6!important;color:#0d0d0d!important;}
-.bot .bubble p{margin-bottom:12px;}
-.bot .bubble ul,.bot .bubble ol{padding-left:20px;margin-bottom:12px;}
-.bot .bubble li{margin-bottom:6px;}
-.bot .bubble strong{font-weight:600;}
-.bot .bubble h1,.bot .bubble h2,.bot .bubble h3{margin:16px 0 8px;font-weight:600;}
-.bot .bubble code{background:#e5e7eb;padding:2px 6px;border-radius:4px;font-size:13px;}
-.bot .bubble pre{background:#0d0d0d;color:white;padding:14px;border-radius:10px;overflow:auto;margin:12px 0;}
-@media(max-width:768px){.sidebar{display:none;}.bottom{left:0;}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Optimaseek – ChatGPT Style Interface</title>
+    <!-- Google Fonts + Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0f0f12;
+            color: #ececf0;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* main app grid: left sidebar + right chat main */
+        .app-container {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+        }
+
+        /* ========= LEFT SIDEBAR (ChatGPT style options) ========= */
+        .sidebar {
+            width: 280px;
+            background: #17171c;
+            border-right: 1px solid #2c2c33;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 1.5rem 1rem 2rem 1rem;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            padding-left: 0.5rem;
+        }
+        .logo-area i {
+            font-size: 1.6rem;
+            color: #10a37f;
+        }
+        .logo-area span {
+            background: linear-gradient(135deg, #ffffff, #a0a0c0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-options {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 14px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #d4d4dc;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .nav-item i {
+            width: 22px;
+            font-size: 1.2rem;
+        }
+        .nav-item.active {
+            background: #2c2c33;
+            color: white;
+        }
+        .nav-item:hover:not(.upgrade-btn-side) {
+            background: #25252c;
+            color: white;
+        }
+        .upgrade-btn-side {
+            margin-top: 1rem;
+            background: #1e2a2a;
+            color: #10a37f;
+            border: 1px solid #10a37f44;
+        }
+        .upgrade-btn-side i {
+            color: #f5b042;
+        }
+
+        .sidebar-footer {
+            border-top: 1px solid #2c2c33;
+            padding-top: 1rem;
+            margin-top: 1rem;
+        }
+        .user-status {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #1f1f26;
+            padding: 10px 12px;
+            border-radius: 14px;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .avatar {
+            width: 32px;
+            height: 32px;
+            background: #3a3a44;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* ========= MAIN CHAT AREA ========= */
+        .main-chat {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #111114;
+            overflow: hidden;
+        }
+
+        /* chat header */
+        .chat-header {
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #2c2c33;
+            background: #111114;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .chat-header h2 {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+        .header-buttons {
+            display: flex;
+            gap: 12px;
+        }
+        .header-btn {
+            background: #202026;
+            border: none;
+            color: #ececf0;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .header-btn.login-free {
+            background: #10a37f;
+            color: white;
+        }
+        .header-btn.pricing {
+            background: transparent;
+            border: 1px solid #3a3a44;
+        }
+
+        /* messages container (chatboard) */
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            scroll-behavior: smooth;
+        }
+
+        /* message bubble styling */
+        .message {
+            display: flex;
+            gap: 16px;
+            max-width: 85%;
+            animation: fadeIn 0.25s ease;
+        }
+        .message.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+        .message.bot {
+            align-self: flex-start;
+        }
+        .message-avatar {
+            width: 34px;
+            height: 34px;
+            background: #2a2a32;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+        .message.user .message-avatar {
+            background: #10a37f;
+        }
+        .message-content {
+            background: #1e1e24;
+            padding: 12px 16px;
+            border-radius: 20px;
+            line-height: 1.5;
+            font-size: 0.95rem;
+            color: #e2e2ea;
+            word-break: break-word;
+            max-width: 100%;
+        }
+        .message.user .message-content {
+            background: #0f7b5e;
+            color: white;
+        }
+        .message-content p {
+            margin: 4px 0;
+        }
+        .message-content code {
+            background: #2d2d35;
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-family: monospace;
+        }
+
+        /* input area */
+        .input-area {
+            padding: 1rem 2rem 1.8rem;
+            background: #111114;
+            border-top: 1px solid #2c2c33;
+        }
+        .input-wrapper {
+            background: #1f1f26;
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            padding: 6px 6px 6px 20px;
+            gap: 8px;
+            border: 1px solid #35353f;
+        }
+        .input-wrapper textarea {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 12px 0;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            color: white;
+            resize: none;
+            outline: none;
+            max-height: 120px;
+        }
+        .input-wrapper button {
+            background: #10a37f;
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .input-wrapper button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Upgrade overlay modal (after limited searches) */
+        .upgrade-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.2s;
+        }
+        .upgrade-modal.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .modal-card {
+            background: #1c1c24;
+            border-radius: 28px;
+            max-width: 420px;
+            width: 90%;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid #3a3a44;
+            box-shadow: 0 20px 35px -10px black;
+        }
+        .modal-card i {
+            font-size: 48px;
+            color: #f5b042;
+            margin-bottom: 1rem;
+        }
+        .modal-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 0.5rem;
+        }
+        .pricing-badge {
+            background: #2a2a32;
+            padding: 12px;
+            border-radius: 24px;
+            margin: 1rem 0;
+        }
+        .modal-card button {
+            background: #10a37f;
+            border: none;
+            padding: 10px 28px;
+            border-radius: 40px;
+            font-weight: bold;
+            color: white;
+            margin-top: 1rem;
+            cursor: pointer;
+        }
+
+        /* small responsive */
+        @media (max-width: 680px) {
+            .sidebar {
+                width: 80px;
+                padding: 1rem 0.5rem;
+            }
+            .sidebar .logo-area span, .sidebar .nav-item span:not(.upgrade-icon-only) {
+                display: none;
+            }
+            .nav-item i {
+                margin: 0 auto;
+            }
+            .user-info span {
+                display: none;
+            }
+            .upgrade-btn-side span {
+                display: none;
+            }
+            .chat-messages {
+                padding: 1rem;
+            }
+            .message {
+                max-width: 95%;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px);}
+            to { opacity: 1; transform: translateY(0px);}
+        }
+
+        /* scrollbar */
+        .chat-messages::-webkit-scrollbar {
+            width: 5px;
+        }
+        .chat-messages::-webkit-scrollbar-track {
+            background: #1f1f26;
+        }
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #4a4a55;
+            border-radius: 10px;
+        }
+    </style>
 </head>
 <body>
-
-<div class="sidebar">
-  <div class="logo">
-    <div class="logo-icon">O</div>
-    OptimaSeek
-  </div>
-  <button class="side-btn" onclick="newChat()">✏️ New chat</button>
-  <button class="side-btn">🔍 Search chats</button>
-  <button class="side-btn">🖼️ Images</button>
-  <div class="sidebar-bottom">
-    <button class="side-btn">💎 Plans & Pricing</button>
-    <button class="side-btn">⚙️ Settings</button>
-    <button class="side-btn">❓ Help</button>
-  </div>
-</div>
-
-<div class="main">
-  <div class="topbar">
-    <button class="login" onclick="openModal()">Log in</button>
-    <button class="signup" onclick="openModal()">Sign up for free</button>
-  </div>
-  <div class="chat" id="chat">
-    <div class="welcome" id="welcome">
-      <h1>What can I help with?</h1>
-      <p>Powered by OptimaSeek AI</p>
+<div class="app-container">
+    <!-- LEFT SIDEBAR with ChatGPT like options -->
+    <div class="sidebar">
+        <div>
+            <div class="logo-area">
+                <i class="fas fa-meteor"></i>
+                <span>Optimaseek</span>
+            </div>
+            <div class="nav-options">
+                <div class="nav-item active">
+                    <i class="fas fa-comment-dots"></i> <span>New chat</span>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-clock"></i> <span>History</span>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-chalkboard-user"></i> <span>Explore GPTs</span>
+                </div>
+                <div class="nav-item upgrade-btn-side" id="upgradeSidebarBtn">
+                    <i class="fas fa-gem"></i> <span>Upgrade plan</span>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-database"></i> <span>Prices & credits</span>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar-footer">
+            <div class="user-status" id="sidebarUserStatus">
+                <div class="user-info">
+                    <div class="avatar" id="userAvatar">👤</div>
+                    <span id="userDisplayName">Guest</span>
+                </div>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="bottom">
-    <div class="input-wrap">
-      <textarea id="input" placeholder="Message OptimaSeek" rows="1"></textarea>
-      <button class="send" onclick="sendMessage()">↑</button>
+
+    <!-- MAIN CHAT AREA (combined chatboard, like ChatGPT) -->
+    <div class="main-chat">
+        <div class="chat-header">
+            <h2><i class="fas fa-microchip"></i> Optimaseek AI · Chatboard</h2>
+            <div class="header-buttons">
+                <button class="header-btn login-free" id="loginFreeBtn"><i class="fas fa-user-plus"></i> Log in / Sign up</button>
+                <button class="header-btn pricing" id="pricingBtn"><i class="fas fa-tag"></i> Prices & Upgrade</button>
+            </div>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <!-- Welcome message -->
+            <div class="message bot">
+                <div class="message-avatar"><i class="fas fa-robot"></i></div>
+                <div class="message-content">
+                    <p>👋 Hi! I'm Optimaseek AI. Ask me anything! <br>✨ <strong>Free tier:</strong> 3 messages. After that, upgrade to continue.</p>
+                </div>
+            </div>
+        </div>
+        <div class="input-area">
+            <div class="input-wrapper">
+                <textarea id="chatInput" rows="1" placeholder="Send a message..." style="overflow-y: auto;"></textarea>
+                <button id="sendBtn"><i class="fas fa-paper-plane"></i></button>
+            </div>
+            <div style="font-size: 0.7rem; margin-top: 10px; color: #7a7a87; text-align: center;">
+                AI can make mistakes. Consider checking info.
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
-<div class="modal" id="modal">
-  <div class="modal-box">
-    <h2>Welcome back</h2>
-    <input type="email" placeholder="Email address">
-    <input type="password" placeholder="Password">
-    <button>Continue</button>
-    <button class="google-btn">Continue with Google</button>
-  </div>
+<!-- UPGRADE MODAL (after free limit) -->
+<div id="upgradeModal" class="upgrade-modal">
+    <div class="modal-card">
+        <i class="fas fa-crown"></i>
+        <h3>Upgrade to Pro</h3>
+        <p>You've reached the free message limit (3 searches). Unlock unlimited conversations, priority responses, and advanced features.</p>
+        <div class="pricing-badge">
+            <strong>✨ Optimaseek Pro ✨</strong><br>
+            $9.99/month or $89/year<br>
+            Unlimited chats, GPT-4 level, file uploads
+        </div>
+        <button id="modalUpgradeConfirm">Upgrade now →</button>
+        <button id="modalClose" style="background: #35353f; margin-left: 12px;">Dismiss</button>
+    </div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
 <script>
-(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="0Wg8GQMDvVTb6a4DmhyuC";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+    // ---------- APP STATE ----------
+    // Authentication status (simple simulation for demo)
+    let isLoggedIn = false;          // if false = guest mode
+    let userPlan = "free";           // "free" or "pro"
+    let messageCount = 0;            // count of user messages (excluding bot welcome)
+    const FREE_LIMIT = 3;
 
-const input = document.getElementById("input");
+    // chat history storage (UI messages)
+    let messages = [
+        { role: "bot", content: "👋 Hi! I'm Optimaseek AI. Ask me anything! \n✨ Free tier: 3 messages. After that, upgrade to continue." }
+    ];
 
-input.addEventListener("keydown", function(e){
-  if(e.key==="Enter" && !e.shiftKey){
-    e.preventDefault();
-    sendMessage();
-  }
-});
+    // DOM elements
+    const chatContainer = document.getElementById("chatMessages");
+    const chatInput = document.getElementById("chatInput");
+    const sendBtn = document.getElementById("sendBtn");
+    const loginFreeBtn = document.getElementById("loginFreeBtn");
+    const pricingBtn = document.getElementById("pricingBtn");
+    const upgradeSidebar = document.getElementById("upgradeSidebarBtn");
+    const upgradeModal = document.getElementById("upgradeModal");
+    const modalUpgrade = document.getElementById("modalUpgradeConfirm");
+    const modalClose = document.getElementById("modalClose");
+    const userDisplaySpan = document.getElementById("userDisplayName");
+    const userAvatarDiv = document.getElementById("userAvatar");
 
-input.addEventListener("input", function(){
-  input.style.height="auto";
-  input.style.height=Math.min(input.scrollHeight,160)+"px";
-});
+    // Helper: render all messages from array
+    function renderMessages() {
+        chatContainer.innerHTML = "";
+        messages.forEach(msg => {
+            const messageDiv = document.createElement("div");
+            messageDiv.className = `message ${msg.role === "user" ? "user" : "bot"}`;
+            const avatarSpan = document.createElement("div");
+            avatarSpan.className = "message-avatar";
+            if (msg.role === "user") {
+                avatarSpan.innerHTML = '<i class="fas fa-user"></i>';
+            } else {
+                avatarSpan.innerHTML = '<i class="fas fa-robot"></i>';
+            }
+            const contentDiv = document.createElement("div");
+            contentDiv.className = "message-content";
+            // support simple formatting (line breaks)
+            contentDiv.innerHTML = msg.content.replace(/\n/g, '<br>');
+            messageDiv.appendChild(avatarSpan);
+            messageDiv.appendChild(contentDiv);
+            chatContainer.appendChild(messageDiv);
+        });
+        // auto-scroll to bottom
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
 
-function openModal(){
-  document.getElementById("modal").style.display="flex";
-}
+    // Add a new message and re-render
+    function addMessage(role, content) {
+        messages.push({ role, content });
+        renderMessages();
+    }
 
-window.onclick=function(e){
-  if(e.target.id==="modal"){
-    document.getElementById("modal").style.display="none";
-  }
-}
+    // Simulate AI response (like ChatGPT style)
+    async function getAIResponse(userText) {
+        // Simple contextual answers (makes it feel alive)
+        const lowerText = userText.toLowerCase();
+        if (lowerText.includes("hello") || lowerText.includes("hi")) {
+            return "Hey there! 😊 How can I help you optimize your day?";
+        } else if (lowerText.includes("price") || lowerText.includes("upgrade") || lowerText.includes("cost")) {
+            return "Optimaseek offers a **Pro plan** for $9.99/month — unlimited searches, advanced AI, and priority support. Click on 'Prices & Upgrade' to see details!";
+        } else if (lowerText.includes("feature")) {
+            return "We support: long context, code generation, creative writing, summarization, and more. Pro unlocks full potential!";
+        } else {
+            return `Thanks for your message: "${userText.substring(0, 80)}". Optimaseek AI is here to assist! ${userPlan === 'free' ? `You have used ${messageCount}/${FREE_LIMIT} free messages. Upgrade for unlimited access.` : "🚀 Pro user: enjoy unlimited powerful answers!"}`;
+        }
+    }
 
-async function sendMessage(){
-  const text = input.value.trim();
-  if(!text) return;
-  document.getElementById("welcome").style.display="none";
-  addMessage(text, "user");
-  input.value="";
-  input.style.height="auto";
-  const thinking = addMessage("Thinking...", "bot");
-  try {
-    const response = await fetch("/api/chat", {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({message: text})
+    // Check if user can send message (rate limit)
+    function canSendMessage() {
+        if (userPlan === "pro") return true;
+        if (!isLoggedIn && userPlan === "free") {
+            // guest free limit based on messageCount
+            if (messageCount >= FREE_LIMIT) return false;
+            return true;
+        }
+        if (isLoggedIn && userPlan === "free") {
+            if (messageCount >= FREE_LIMIT) return false;
+            return true;
+        }
+        return true;
+    }
+
+    // Show upgrade modal (block further messages)
+    function showUpgradeModal() {
+        upgradeModal.classList.add("active");
+    }
+
+    function hideUpgradeModal() {
+        upgradeModal.classList.remove("active");
+    }
+
+    // Perform upgrade to pro
+    function upgradeToPro() {
+        userPlan = "pro";
+        isLoggedIn = true;   // upgrade makes you logged in effectively
+        messageCount = 0;     // reset counter (unlimited)
+        updateUserInterface();
+        // add system message
+        addMessage("bot", "🎉 **Congratulations!** You've upgraded to Optimaseek Pro. Unlimited messages, priority responses, and advanced AI unlocked. Enjoy!");
+        hideUpgradeModal();
+        // also save local flag
+        localStorage.setItem("optimaseek_user_plan", "pro");
+        localStorage.setItem("optimaseek_loggedin", "true");
+    }
+
+    // update UI for user status and sidebar
+    function updateUserInterface() {
+        if (userPlan === "pro") {
+            userDisplaySpan.innerText = "Pro Member ⚡";
+            userAvatarDiv.innerHTML = "⭐";
+            if (loginFreeBtn) loginFreeBtn.innerText = "My Account";
+            // upgrade button text effect
+        } else {
+            if (isLoggedIn) {
+                userDisplaySpan.innerText = "Free User";
+                userAvatarDiv.innerHTML = "👤";
+                loginFreeBtn.innerText = "Log out?";
+            } else {
+                userDisplaySpan.innerText = "Guest";
+                userAvatarDiv.innerHTML = "👤";
+                loginFreeBtn.innerText = "Log in / Sign up";
+            }
+        }
+        // Sidebar upgrade visual
+        if (userPlan === "pro") {
+            const upgradeElem = document.querySelector(".upgrade-btn-side span");
+            if (upgradeElem) upgradeElem.innerText = "✨ Pro Active";
+        } else {
+            const upgradeElem = document.querySelector(".upgrade-btn-side span");
+            if (upgradeElem && upgradeElem.innerText !== "Upgrade plan") upgradeElem.innerText = "Upgrade plan";
+        }
+        // re-render messages (maybe add free limit warning dynamically already)
+    }
+
+    // Handle sending message (core)
+    async function sendMessageHandler() {
+        const rawMessage = chatInput.value.trim();
+        if (!rawMessage) return;
+
+        // Check limit
+        if (!canSendMessage()) {
+            showUpgradeModal();
+            return;
+        }
+
+        // Add user message to UI
+        addMessage("user", rawMessage);
+        chatInput.value = "";
+        // Increase message count (only meaningful for free)
+        if (userPlan !== "pro") {
+            messageCount++;
+        }
+        // loading indicator (simulate typing)
+        const tempBotMsgIndex = messages.length;
+        addMessage("bot", "⏳ Optimaseek is thinking...");
+        const thinkingDiv = messages[messages.length-1];
+        // simulate AI response after short delay
+        const aiAnswer = await getAIResponse(rawMessage);
+        // replace thinking message with real answer
+        messages.pop(); // remove thinking
+        addMessage("bot", aiAnswer);
+        // After sending, if limit reached exactly show warning (if free tier)
+        if (userPlan !== "pro" && messageCount >= FREE_LIMIT && !canSendMessage()) {
+            addMessage("bot", "⚠️ You've reached the **free limit** (3 messages). Please upgrade to continue chatting. Click 'Upgrade plan' or the pricing button.");
+        }
+        // update save local
+        saveStateToLocal();
+        // resize textarea
+        chatInput.style.height = "auto";
+    }
+
+    // Login / free registration simulation
+    function handleLogin() {
+        if (userPlan === "pro") {
+            // if pro, do nothing else or could show modal
+            addMessage("bot", "You're already a Pro user. Enjoy unlimited access!");
+            return;
+        }
+        if (isLoggedIn) {
+            // logout simulation (reset to guest free mode)
+            isLoggedIn = false;
+            userPlan = "free";
+            messageCount = 0;   // reset count because fresh guest
+            messages = [{ role: "bot", content: "👋 You logged out. Free tier again: 3 messages limit. Upgrade anytime to Pro!" }];
+            renderMessages();
+            updateUserInterface();
+            localStorage.removeItem("optimaseek_user_plan");
+            localStorage.removeItem("optimaseek_loggedin");
+            addMessage("bot", "Logged out as Guest. You now have 3 free messages.");
+        } else {
+            // signup/login free account (free tier with ability to upgrade)
+            isLoggedIn = true;
+            userPlan = "free";
+            messageCount = 0;   // reset message count for new free user
+            messages = [{ role: "bot", content: "Welcome back! You're on the **Free plan** (3 messages). Upgrade to Pro for unlimited conversations and extra AI power." }];
+            renderMessages();
+            updateUserInterface();
+            localStorage.setItem("optimaseek_loggedin", "true");
+            localStorage.setItem("optimaseek_user_plan", "free");
+            addMessage("bot", "✅ Free account active. You have 3 free search credits. Ask away!");
+        }
+    }
+
+    // Prices popup/notify
+    function showPricing() {
+        addMessage("bot", "**💎 Optimaseek Pricing**\n\n• Free: 3 messages/day\n• Pro: $9.99/month — unlimited messages, advanced models, file uploads (coming), priority support\n• Yearly: $89/year (save 25%)\n\nClick Upgrade on sidebar to switch instantly.");
+        // Also show modal? but we do upgrade modal also
+    }
+
+    // call upgrade from sidebar
+    function requestUpgrade() {
+        if (userPlan === "pro") {
+            addMessage("bot", "You're already a Pro member! Enjoy unlimited power ✨");
+            return;
+        }
+        showUpgradeModal();
+    }
+
+    // Save state minimal for persistence across reloads
+    function saveStateToLocal() {
+        localStorage.setItem("optimaseek_messages", JSON.stringify(messages));
+        localStorage.setItem("optimaseek_msgCount", messageCount);
+        localStorage.setItem("optimaseek_plan", userPlan);
+        localStorage.setItem("optimaseek_loggedin_bool", isLoggedIn);
+    }
+
+    function loadStateFromLocal() {
+        const savedMessages = localStorage.getItem("optimaseek_messages");
+        const savedCount = localStorage.getItem("optimaseek_msgCount");
+        const savedPlan = localStorage.getItem("optimaseek_plan");
+        const savedLogged = localStorage.getItem("optimaseek_loggedin_bool");
+        if (savedMessages) {
+            try {
+                messages = JSON.parse(savedMessages);
+            } catch(e) { console.warn(e);}
+        }
+        if (savedCount !== null) messageCount = parseInt(savedCount);
+        if (savedPlan === "pro") { userPlan = "pro"; isLoggedIn = true; }
+        else if (savedPlan === "free") { userPlan = "free"; if(savedLogged === "true") isLoggedIn = true; else isLoggedIn = false; }
+        else { userPlan = "free"; isLoggedIn = false; }
+        if (userPlan !== "pro" && messageCount > FREE_LIMIT) messageCount = FREE_LIMIT; // safeguard
+        renderMessages();
+        updateUserInterface();
+    }
+
+    // Event Listeners
+    sendBtn.addEventListener("click", sendMessageHandler);
+    chatInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            sendMessageHandler();
+        }
     });
-    const data = await response.json();
-    thinking.querySelector(".bubble").innerHTML = marked.parse(data.reply || "Sorry, no response.");
-  } catch(err) {
-    thinking.querySelector(".bubble").innerHTML = "Error connecting to AI.";
-  }
-}
-
-function addMessage(text, type){
-  const chat = document.getElementById("chat");
-  const div = document.createElement("div");
-  div.className = `msg ${type}`;
-  div.innerHTML = `<div class="bubble">${text}</div>`;
-  chat.appendChild(div);
-  chat.scrollTop = chat.scrollHeight;
-  return div;
-}
-
-function newChat(){
-  document.getElementById("chat").innerHTML=`
-    <div class="welcome" id="welcome">
-      <h1>What can I help with?</h1>
-      <p>Powered by OptimaSeek AI</p>
-    </div>`;
-}
+    loginFreeBtn.addEventListener("click", handleLogin);
+    pricingBtn.addEventListener("click", showPricing);
+    upgradeSidebar.addEventListener("click", requestUpgrade);
+    modalUpgrade.addEventListener("click", () => {
+        upgradeToPro();
+    });
+    modalClose.addEventListener("click", hideUpgradeModal);
+    document.querySelector(".nav-item.active")?.addEventListener("click", () => {
+        // new chat: reset messages but keep plan status
+        messages = [{ role: "bot", content: "✨ New chat started! Ask me anything. " + (userPlan === "free" ? `Free tier: ${messageCount}/${FREE_LIMIT} messages used.` : "Pro: unlimited") }];
+        renderMessages();
+        if(userPlan !== "pro") {
+            // do not reset messageCount because credits remain? Better keep count but show fresh chat.
+        }
+        saveStateToLocal();
+    });
+    // load old state after init
+    loadStateFromLocal();
+    // extra double-check if message count exceeds limit: disallow further without modal
+    // Adjust initial render
+    chatInput.style.height = "auto";
+    // auto height for textarea
+    chatInput.addEventListener("input", function() {
+        this.style.height = "auto";
+        this.style.height = Math.min(this.scrollHeight, 120) + "px";
+    });
+    // for first time if pro plan no limit
+    if (userPlan === "pro") {
+        // nothing special
+    }
 </script>
 </body>
 </html>
