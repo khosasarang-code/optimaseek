@@ -20,7 +20,7 @@ body{font-family:Inter,sans-serif;background:#fff;color:#0d0d0d;height:100vh;dis
 .signup-btn{height:36px;padding:0 16px;border:1px solid #d1d5db;background:white;border-radius:999px;font-weight:600;font-size:14px;cursor:pointer;}
 .page{flex:1;overflow-y:auto;display:none;flex-direction:column;}
 .page.active{display:flex;}
-.chat-container{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative;}
+.chat-container{flex:1;display:flex;flex-direction:column;overflow:hidden;}
 .chat{flex:1;overflow-y:auto;padding:40px 20px 20px;display:flex;flex-direction:column;gap:24px;max-width:760px;width:100%;margin:auto;}
 .welcome{margin-top:80px;text-align:center;}
 .welcome h1{font-size:36px;font-weight:600;margin-bottom:8px;}
@@ -238,7 +238,7 @@ textarea{flex:1;border:none;outline:none;resize:none;font-size:15px;font-family:
 <div class="modal" id="upgradeModal">
   <div class="modal-box">
     <h2>🚀 Free messages used!</h2>
-    <p>You've used all 7 free messages. Upgrade to continue chatting with OptimaSeek AI!</p>
+    <p>You've used all your free messages. Upgrade to continue chatting!</p>
     <button class="mbtn dark" onclick="showPage('pricing');closeModal()">See Plans</button>
     <button class="mbtn light" onclick="closeModal()">Maybe later</button>
   </div>
@@ -256,6 +256,7 @@ textarea{flex:1;border:none;outline:none;resize:none;font-size:15px;font-family:
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDUnNPdwmVddtlqp2ew7axjCO9ld8sZ0R0",
@@ -268,20 +269,47 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
 
-let msgUsed = 0;
 const FREE_LIMIT = 7;
-const LOGGED_IN_LIMIT = 20;
+const LOGGED_IN_LIMIT = 10;
 let currentUser = null;
+let msgUsed = 0;
 let attachedFile = null;
 let attachedBase64 = null;
 let attachedMediaType = null;
 
-onAuthStateChanged(auth, (user) => {
+async function loadUserData(user) {
+  const today = new Date().toISOString().split('T')[0];
+  const ref = doc(db, 'users', user.uid);
+  const snap = await getDoc(ref);
+  if(!snap.exists()) {
+    await setDoc(ref, { email: user.email, date: today, count: 0 });
+    msgUsed = 0;
+  } else {
+    const data = snap.data();
+    if(data.date !== today) {
+      await updateDoc(ref, { date: today, count: 0 });
+      msgUsed = 0;
+    } else {
+      msgUsed = data.count || 0;
+    }
+  }
+  updateCount();
+}
+
+async function saveUserCount() {
+  if(!currentUser) return;
+  const today = new Date().toISOString().split('T')[0];
+  const ref = doc(db, 'users', currentUser.uid);
+  await updateDoc(ref, { count: msgUsed, date: today });
+}
+
+onAuthStateChanged(auth, async (user) => {
   currentUser = user;
-  msgUsed = 0;
   if(user) {
+    await loadUserData(user);
     document.getElementById('topbarAuth').innerHTML = `
       <span style="font-size:14px;font-weight:500;color:#374151">${user.displayName||user.email}</span>
       <button class="login-btn" style="background:#ef4444" onclick="window.doLogout()">Log out</button>
@@ -295,6 +323,7 @@ onAuthStateChanged(auth, (user) => {
     `;
     showPage('chat');
   } else {
+    msgUsed = 0;
     document.getElementById('topbarAuth').innerHTML = `
       <button class="login-btn" onclick="showPage('login')">Log in</button>
       <button class="signup-btn" onclick="showPage('pricing')">Sign up for free</button>
@@ -302,8 +331,8 @@ onAuthStateChanged(auth, (user) => {
     document.getElementById('sidebarAuth').innerHTML = `
       <button class="side-btn" onclick="showPage('login')">🔑 Log in</button>
     `;
+    updateCount();
   }
-  updateCount();
 });
 
 window.googleLogin = async function() {
@@ -321,7 +350,9 @@ window.emailLogin = async function() {
 
 window.doLogout = async function() {
   await signOut(auth);
+  msgUsed = 0;
   showPage('chat');
+  updateCount();
 }
 
 window.showPage = function(name) {
@@ -334,7 +365,7 @@ window.closeModal = function() {
 }
 
 window.showComingSoon = function(feature) {
-  document.getElementById('comingSoonText').textContent = feature + ' is coming soon! Stay tuned for updates.';
+  document.getElementById('comingSoonText').textContent = feature + ' is coming soon!';
   document.getElementById('comingSoonModal').classList.add('active');
 }
 
@@ -345,12 +376,10 @@ window.newChat = function() {
       <h1>What can I help with?</h1>
       <p>Powered by OptimaSeek AI</p>
     </div>`;
-  msgUsed = 0;
   attachedFile = null;
   attachedBase64 = null;
   attachedMediaType = null;
   document.getElementById('filePreviewWrap').innerHTML = '';
-  updateCount();
 }
 
 window.handleFile = function(input) {
@@ -370,8 +399,7 @@ window.handleFile = function(input) {
       <div class="file-preview">
         <span>📄 ${file.name}</span>
         <button onclick="removeFile()">✕</button>
-      </div>
-      ${preview}`;
+      </div>${preview}`;
   };
   reader.readAsDataURL(file);
 }
@@ -386,24 +414,14 @@ window.removeFile = function() {
 
 function updateCount() {
   const el = document.getElementById('msgCount');
-  if(currentUser) {
-    const remaining = LOGGED_IN_LIMIT - msgUsed;
-    if(remaining > 0) {
-      el.textContent = remaining + ' messages remaining today';
-      el.style.color = '#6b7280';
-    } else {
-      el.textContent = 'Daily limit reached — upgrade for more';
-      el.style.color = '#ef4444';
-    }
+  const limit = currentUser ? LOGGED_IN_LIMIT : FREE_LIMIT;
+  const remaining = limit - msgUsed;
+  if(remaining > 0) {
+    el.textContent = remaining + (currentUser ? ' messages remaining today' : ' free messages remaining');
+    el.style.color = '#6b7280';
   } else {
-    const remaining = FREE_LIMIT - msgUsed;
-    if(remaining > 0) {
-      el.textContent = remaining + ' free messages remaining';
-      el.style.color = '#6b7280';
-    } else {
-      el.textContent = 'No free messages left — upgrade to continue';
-      el.style.color = '#ef4444';
-    }
+    el.textContent = 'No messages left — upgrade to continue';
+    el.style.color = '#ef4444';
   }
 }
 
@@ -421,14 +439,15 @@ window.sendMessage = async function() {
   if(welcome) welcome.style.display = "none";
 
   let userMsg = text;
-  if(attachedFile) userMsg += attachedFile.type.startsWith('image/') ?
-    `<br><img src="data:${attachedMediaType};base64,${attachedBase64}" class="img-preview">` :
-    ` [Attached: ${attachedFile.name}]`;
+  if(attachedFile) {
+    userMsg += attachedFile.type.startsWith('image/') ?
+      `<br><img src="data:${attachedMediaType};base64,${attachedBase64}" class="img-preview">` :
+      ` [Attached: ${attachedFile.name}]`;
+  }
   addMessage(userMsg, "user");
 
   const sentBase64 = attachedBase64;
   const sentMediaType = attachedMediaType;
-  const sentFile = attachedFile;
 
   input.value = "";
   input.style.height = "auto";
@@ -440,6 +459,7 @@ window.sendMessage = async function() {
 
   msgUsed++;
   updateCount();
+  if(currentUser) await saveUserCount();
 
   const sendBtn = document.getElementById('sendBtn');
   sendBtn.disabled = true;
@@ -453,7 +473,6 @@ window.sendMessage = async function() {
         mediaType: sentMediaType
       } : null
     };
-
     const response = await fetch("/api/chat", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
@@ -465,33 +484,27 @@ window.sendMessage = async function() {
     thinking.querySelector(".bubble").innerHTML = "Error connecting to AI. Please try again.";
   }
   sendBtn.disabled = false;
-  const chat = document.getElementById("chat");
-  chat.scrollTop = chat.scrollHeight;
+  document.getElementById("chat").scrollTop = document.getElementById("chat").scrollHeight;
 }
 
 window.startVoice = function() {
   if(!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
-    alert('Voice not supported in this browser. Please use Chrome!');
+    alert('Voice not supported. Please use Chrome!');
     return;
   }
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   const recognition = new SR();
   recognition.lang = 'en-US';
   recognition.start();
-  recognition.onstart = function() {
-    document.getElementById('input').placeholder = '🎤 Listening...';
-  }
-  recognition.onresult = function(e) {
+  recognition.onstart = () => document.getElementById('input').placeholder = '🎤 Listening...';
+  recognition.onresult = (e) => {
     document.getElementById('input').value = e.results[0][0].transcript;
     document.getElementById('input').placeholder = 'Message OptimaSeek AI';
-  }
-  recognition.onerror = function() {
+  };
+  recognition.onerror = () => {
     document.getElementById('input').placeholder = 'Message OptimaSeek AI';
-    alert('Voice error. Please try again.');
-  }
-  recognition.onend = function() {
-    document.getElementById('input').placeholder = 'Message OptimaSeek AI';
-  }
+  };
+  recognition.onend = () => document.getElementById('input').placeholder = 'Message OptimaSeek AI';
 }
 
 function addMessage(text, type) {
