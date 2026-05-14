@@ -91,7 +91,7 @@ textarea{flex:1;border:none;outline:none;resize:none;font-size:15px;font-family:
 .img-modal-box input:focus{border-color:#0d0d0d;}
 .help-page{padding:40px 20px;max-width:760px;margin:auto;width:100%;}
 .help-page h1{font-size:28px;font-weight:700;margin-bottom:8px;}
-.help-page p{color:#6b7280;margin-bottom:32px;}
+.help-page>p{color:#6b7280;margin-bottom:32px;}
 .help-item{border:1px solid #e5e7eb;border-radius:12px;padding:20px;margin-bottom:16px;}
 .help-item h3{font-size:16px;font-weight:600;margin-bottom:8px;}
 .help-item p{color:#374151;font-size:14px;margin:0;line-height:1.6;}
@@ -258,11 +258,15 @@ textarea{flex:1;border:none;outline:none;resize:none;font-size:15px;font-family:
       </div>
       <div class="help-item">
         <h3>🖼️ How do I create an image?</h3>
-        <p>Click the "🖼️ Create image" button below the chat box. Type a description of the image you want — for example "a sunset over mountains" — and click Generate.</p>
+        <p>Click the "🖼️ Create image" button below the chat box. Type a description of the image you want and click Generate.</p>
       </div>
       <div class="help-item">
         <h3>📊 How do I create an Excel file?</h3>
-        <p>Click the "📊 Create Excel" button. Describe what kind of spreadsheet you need — like "employee salary sheet" or "monthly budget" — and it will be created and downloaded automatically.</p>
+        <p>Click the "📊 Create Excel" button OR just type "create excel salary sheet" in chat. It will be created and downloaded automatically!</p>
+      </div>
+      <div class="help-item">
+        <h3>📝 How do I create a Word/PDF document?</h3>
+        <p>Just type "create word document for..." or "create PDF resume" in chat. The document will be created and downloaded automatically!</p>
       </div>
       <div class="help-item">
         <h3>📎 How do I attach a file or image?</h3>
@@ -278,11 +282,11 @@ textarea{flex:1;border:none;outline:none;resize:none;font-size:15px;font-family:
       </div>
       <div class="help-item">
         <h3>💎 How do I upgrade my plan?</h3>
-        <p>Click "💎 Plans & Pricing" in the left sidebar to see all available plans. You can upgrade to Go (CA$8/month), Plus (free first month), or Pro (CA$110/month).</p>
+        <p>Click "💎 Plans & Pricing" in the left sidebar to see all available plans — Go (CA$8/month), Plus (free first month), or Pro (CA$110/month).</p>
       </div>
       <div class="help-item">
         <h3>🔑 How do I log in?</h3>
-        <p>Click "Log in" at the top right or "🔑 Log in" in the sidebar. You can sign in with your Google account or use your email and password.</p>
+        <p>Click "Log in" at the top right. You can sign in with Google and choose which account to use.</p>
       </div>
       <button class="mbtn dark" style="margin-top:20px" onclick="showPage('chat')">← Back to Chat</button>
     </div>
@@ -492,7 +496,7 @@ window.generateExcel = async function() {
       link.href = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,' + data.data;
       link.download = data.filename || 'spreadsheet.xlsx';
       link.click();
-      loading.querySelector(".bubble").innerHTML = `✅ <strong>Excel file created!</strong><br><small style="color:#6b7280">Your file "${data.filename}" has been downloaded automatically.</small>`;
+      loading.querySelector(".bubble").innerHTML = `✅ <strong>Excel file downloaded!</strong><br><small style="color:#6b7280">"${data.filename}" saved to your downloads.</small>`;
     } else {
       loading.querySelector(".bubble").innerHTML = data.reply || "Excel creation failed. Please try again.";
     }
@@ -621,7 +625,21 @@ window.sendMessage = async function() {
       body: JSON.stringify(payload)
     });
     const data = await response.json();
-    thinking.querySelector(".bubble").innerHTML = marked.parse(data.reply || "Sorry, no response.");
+    if(data.type === "excel") {
+      const link = document.createElement('a');
+      link.href = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,' + data.data;
+      link.download = data.filename || 'spreadsheet.xlsx';
+      link.click();
+      thinking.querySelector(".bubble").innerHTML = `✅ <strong>Excel file downloaded!</strong><br><small style="color:#6b7280">"${data.filename}" saved to your downloads.</small>`;
+    } else if(data.type === "document") {
+      const link = document.createElement('a');
+      link.href = 'data:text/html;base64,' + data.data;
+      link.download = data.filename || 'document.html';
+      link.click();
+      thinking.querySelector(".bubble").innerHTML = `✅ <strong>Document downloaded!</strong><br><small style="color:#6b7280">"${data.filename}" saved. Open in browser → File → Print → Save as PDF</small>`;
+    } else {
+      thinking.querySelector(".bubble").innerHTML = marked.parse(data.reply || "Sorry, no response.");
+    }
   } catch(err) {
     thinking.querySelector(".bubble").innerHTML = "Error connecting to AI. Please try again.";
   }
