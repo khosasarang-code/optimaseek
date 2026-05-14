@@ -20,8 +20,6 @@ body{font-family:Inter,sans-serif;background:#fff;color:#0d0d0d;height:100vh;dis
 .signup-btn{height:36px;padding:0 16px;border:1px solid #d1d5db;background:white;border-radius:999px;font-weight:600;font-size:14px;cursor:pointer;}
 .page{flex:1;overflow-y:auto;display:none;flex-direction:column;}
 .page.active{display:flex;}
-
-/* CHAT */
 .chat-container{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative;}
 .chat{flex:1;overflow-y:auto;padding:40px 20px 20px;display:flex;flex-direction:column;gap:24px;max-width:760px;width:100%;margin:auto;}
 .welcome{margin-top:80px;text-align:center;}
@@ -33,8 +31,6 @@ body{font-family:Inter,sans-serif;background:#fff;color:#0d0d0d;height:100vh;dis
 .bubble{padding:14px 18px;border-radius:18px;font-size:15px;line-height:1.75;max-width:85%;}
 .user .bubble{background:#0d0d0d;color:white;}
 .bot .bubble{background:#f3f4f6;color:#0d0d0d;}
-
-/* INPUT BOTTOM */
 .bottom{padding:12px 24px 20px;background:white;border-top:1px solid #f3f4f6;flex-shrink:0;}
 .msg-count{text-align:center;font-size:13px;color:#6b7280;margin-bottom:8px;}
 .input-wrap{max-width:760px;margin:auto;background:white;border:1px solid #d1d5db;border-radius:16px;padding:12px 12px 8px 16px;box-shadow:0 4px 20px rgba(0,0,0,.06);}
@@ -45,8 +41,6 @@ textarea{flex:1;border:none;outline:none;resize:none;font-size:15px;font-family:
 .input-bottom{display:flex;align-items:center;margin-top:8px;gap:6px;}
 .action-btn{height:32px;padding:0 12px;border:none;background:#f3f4f6;border-radius:999px;cursor:pointer;font-size:13px;font-weight:500;color:#374151;display:flex;align-items:center;gap:6px;}
 .action-btn:hover{background:#e5e7eb;}
-
-/* PRICING */
 .pricing-page{padding:40px 20px;max-width:1100px;margin:auto;width:100%;}
 .pricing-page h1{text-align:center;font-size:32px;font-weight:700;margin-bottom:8px;}
 .pricing-page>p{text-align:center;color:#6b7280;margin-bottom:40px;}
@@ -64,8 +58,6 @@ textarea{flex:1;border:none;outline:none;resize:none;font-size:15px;font-family:
 .plan-features{list-style:none;display:flex;flex-direction:column;gap:8px;margin-top:8px;}
 .plan-features li{font-size:13px;color:#374151;display:flex;align-items:flex-start;gap:8px;}
 .plan-features li::before{content:"✓";color:#10b981;font-weight:700;flex-shrink:0;}
-
-/* LOGIN */
 .login-page{display:flex;align-items:center;justify-content:center;flex:1;padding:20px;}
 .login-box{width:100%;max-width:360px;padding:40px;border:1px solid #e5e7eb;border-radius:20px;}
 .login-box h2{font-size:28px;font-weight:700;margin-bottom:6px;}
@@ -83,8 +75,6 @@ textarea{flex:1;border:none;outline:none;resize:none;font-size:15px;font-family:
 .user-avatar{width:32px;height:32px;border-radius:50%;background:#0d0d0d;color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0;}
 .user-name{font-size:13px;font-weight:500;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .logout-btn{font-size:12px;color:#6b7280;cursor:pointer;border:none;background:none;flex-shrink:0;}
-
-/* MODAL */
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:200;}
 .modal.active{display:flex;}
 .modal-box{background:white;border-radius:20px;padding:32px;max-width:420px;width:90%;text-align:center;}
@@ -93,8 +83,6 @@ textarea{flex:1;border:none;outline:none;resize:none;font-size:15px;font-family:
 .mbtn{height:48px;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;width:100%;margin-bottom:10px;font-family:Inter,sans-serif;}
 .mbtn.dark{background:#0d0d0d;color:white;}
 .mbtn.light{background:#f3f4f6;color:#0d0d0d;}
-
-/* MARKDOWN */
 .bot .bubble p{margin-bottom:12px;}
 .bot .bubble ul,.bot .bubble ol{padding-left:20px;margin-bottom:12px;}
 .bot .bubble li{margin-bottom:6px;}
@@ -102,12 +90,10 @@ textarea{flex:1;border:none;outline:none;resize:none;font-size:15px;font-family:
 .bot .bubble h1,.bot .bubble h2,.bot .bubble h3{margin:16px 0 8px;font-weight:600;}
 .bot .bubble code{background:#e5e7eb;padding:2px 6px;border-radius:4px;font-size:13px;}
 .bot .bubble pre{background:#0d0d0d;color:white;padding:14px;border-radius:10px;overflow:auto;margin:12px 0;}
-
-/* FILE PREVIEW */
 .file-preview{background:#f3f4f6;border-radius:10px;padding:10px 14px;font-size:13px;color:#374151;display:flex;align-items:center;gap:8px;max-width:760px;margin:0 auto 8px;}
 .file-preview span{flex:1;}
 .file-preview button{border:none;background:none;cursor:pointer;color:#6b7280;font-size:16px;}
-
+.img-preview{max-width:200px;border-radius:10px;margin-top:8px;}
 @media(max-width:900px){.plans{grid-template-columns:1fr 1fr;}}
 @media(max-width:768px){.sidebar{display:none;}.bottom{padding:12px 16px 16px;}}
 @media(max-width:500px){.plans{grid-template-columns:1fr;}}
@@ -139,7 +125,6 @@ textarea{flex:1;border:none;outline:none;resize:none;font-size:15px;font-family:
     </div>
   </div>
 
-  <!-- CHAT PAGE -->
   <div class="page active" id="page-chat">
     <div class="chat-container">
       <div class="chat" id="chat">
@@ -167,7 +152,6 @@ textarea{flex:1;border:none;outline:none;resize:none;font-size:15px;font-family:
     </div>
   </div>
 
-  <!-- PRICING PAGE -->
   <div class="page" id="page-pricing">
     <div class="pricing-page">
       <h1>Simple, transparent pricing</h1>
@@ -232,7 +216,6 @@ textarea{flex:1;border:none;outline:none;resize:none;font-size:15px;font-family:
     </div>
   </div>
 
-  <!-- LOGIN PAGE -->
   <div class="page" id="page-login">
     <div class="login-page">
       <div class="login-box">
@@ -252,7 +235,6 @@ textarea{flex:1;border:none;outline:none;resize:none;font-size:15px;font-family:
   </div>
 </div>
 
-<!-- UPGRADE MODAL -->
 <div class="modal" id="upgradeModal">
   <div class="modal-box">
     <h2>🚀 Free messages used!</h2>
@@ -262,7 +244,6 @@ textarea{flex:1;border:none;outline:none;resize:none;font-size:15px;font-family:
   </div>
 </div>
 
-<!-- COMING SOON MODAL -->
 <div class="modal" id="comingSoonModal">
   <div class="modal-box">
     <h2>🚧 Coming Soon!</h2>
@@ -294,6 +275,8 @@ const FREE_LIMIT = 7;
 const LOGGED_IN_LIMIT = 20;
 let currentUser = null;
 let attachedFile = null;
+let attachedBase64 = null;
+let attachedMediaType = null;
 
 onAuthStateChanged(auth, (user) => {
   currentUser = user;
@@ -324,22 +307,16 @@ onAuthStateChanged(auth, (user) => {
 });
 
 window.googleLogin = async function() {
-  try {
-    await signInWithPopup(auth, provider);
-  } catch(e) {
-    alert('Google login failed: ' + e.message);
-  }
+  try { await signInWithPopup(auth, provider); }
+  catch(e) { alert('Google login failed: ' + e.message); }
 }
 
 window.emailLogin = async function() {
   const email = document.getElementById('loginEmail').value;
   const password = document.getElementById('loginPassword').value;
   if(!email||!password){alert('Please enter email and password.');return;}
-  try {
-    await signInWithEmailAndPassword(auth, email, password);
-  } catch(e) {
-    alert('Login failed: ' + e.message);
-  }
+  try { await signInWithEmailAndPassword(auth, email, password); }
+  catch(e) { alert('Login failed: ' + e.message); }
 }
 
 window.doLogout = async function() {
@@ -370,6 +347,8 @@ window.newChat = function() {
     </div>`;
   msgUsed = 0;
   attachedFile = null;
+  attachedBase64 = null;
+  attachedMediaType = null;
   document.getElementById('filePreviewWrap').innerHTML = '';
   updateCount();
 }
@@ -378,15 +357,29 @@ window.handleFile = function(input) {
   const file = input.files[0];
   if(!file) return;
   attachedFile = file;
-  document.getElementById('filePreviewWrap').innerHTML = `
-    <div class="file-preview">
-      <span>📄 ${file.name}</span>
-      <button onclick="removeFile()">✕</button>
-    </div>`;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const result = e.target.result;
+    attachedBase64 = result.split(',')[1];
+    attachedMediaType = file.type;
+    let preview = '';
+    if(file.type.startsWith('image/')) {
+      preview = `<img src="${result}" class="img-preview">`;
+    }
+    document.getElementById('filePreviewWrap').innerHTML = `
+      <div class="file-preview">
+        <span>📄 ${file.name}</span>
+        <button onclick="removeFile()">✕</button>
+      </div>
+      ${preview}`;
+  };
+  reader.readAsDataURL(file);
 }
 
 window.removeFile = function() {
   attachedFile = null;
+  attachedBase64 = null;
+  attachedMediaType = null;
   document.getElementById('filePreviewWrap').innerHTML = '';
   document.getElementById('fileInput').value = '';
 }
@@ -428,12 +421,20 @@ window.sendMessage = async function() {
   if(welcome) welcome.style.display = "none";
 
   let userMsg = text;
-  if(attachedFile) userMsg += ` [Attached: ${attachedFile.name}]`;
+  if(attachedFile) userMsg += attachedFile.type.startsWith('image/') ?
+    `<br><img src="data:${attachedMediaType};base64,${attachedBase64}" class="img-preview">` :
+    ` [Attached: ${attachedFile.name}]`;
   addMessage(userMsg, "user");
+
+  const sentBase64 = attachedBase64;
+  const sentMediaType = attachedMediaType;
+  const sentFile = attachedFile;
 
   input.value = "";
   input.style.height = "auto";
   attachedFile = null;
+  attachedBase64 = null;
+  attachedMediaType = null;
   document.getElementById('filePreviewWrap').innerHTML = '';
   document.getElementById('fileInput').value = '';
 
@@ -445,10 +446,18 @@ window.sendMessage = async function() {
   const thinking = addMessage("Thinking...", "bot");
 
   try {
+    const payload = {
+      message: text || "What is in this image? Please describe it in detail.",
+      image: sentBase64 && sentMediaType && sentMediaType.startsWith('image/') ? {
+        data: sentBase64,
+        mediaType: sentMediaType
+      } : null
+    };
+
     const response = await fetch("/api/chat", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({message: text || "Hello"})
+      body: JSON.stringify(payload)
     });
     const data = await response.json();
     thinking.querySelector(".bubble").innerHTML = marked.parse(data.reply || "Sorry, no response.");
@@ -456,8 +465,6 @@ window.sendMessage = async function() {
     thinking.querySelector(".bubble").innerHTML = "Error connecting to AI. Please try again.";
   }
   sendBtn.disabled = false;
-
-  // scroll to bottom
   const chat = document.getElementById("chat");
   chat.scrollTop = chat.scrollHeight;
 }
@@ -471,11 +478,19 @@ window.startVoice = function() {
   const recognition = new SR();
   recognition.lang = 'en-US';
   recognition.start();
+  recognition.onstart = function() {
+    document.getElementById('input').placeholder = '🎤 Listening...';
+  }
   recognition.onresult = function(e) {
     document.getElementById('input').value = e.results[0][0].transcript;
+    document.getElementById('input').placeholder = 'Message OptimaSeek AI';
   }
   recognition.onerror = function() {
+    document.getElementById('input').placeholder = 'Message OptimaSeek AI';
     alert('Voice error. Please try again.');
+  }
+  recognition.onend = function() {
+    document.getElementById('input').placeholder = 'Message OptimaSeek AI';
   }
 }
 
