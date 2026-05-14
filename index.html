@@ -270,13 +270,13 @@ body{font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;background:var
   </div>
 
   <hr class="sb-div"/>
-  <div class="sbnav" style="flex:1;overflow-y:auto">
+  <div class="sbnav" style="flex:1;overflow-y:auto;min-height:60px">
     <div class="sbl">Recent chats</div>
     <div id="hl"></div>
   </div>
 
   <div class="sbbot">
-    <button class="upbtn" onclick="showPricing()">⭐ Upgrade to Pro — $19.99/mo</button>
+    <button class="upbtn" onclick="showPricing()">⭐ Upgrade to Pro — $7.99/mo</button>
     <div class="urow" onclick="userMenuClick()">
       <div class="uav" id="uav">?</div>
       <div style="flex:1;min-width:0">
@@ -373,7 +373,7 @@ body{font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;background:var
       <!-- Search/generate bar -->
       <div class="ip-search">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
-        <input id="ipt" placeholder="Describe a new image…" onkeydown="if(event.key==='Enter')genImg()"/>
+        <textarea id="ipt" placeholder="Describe a new image…" rows="1" style="resize:none;max-height:120px;overflow-y:auto;line-height:1.5;" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();genImg();}" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
         <button class="ib2" onclick="startVoiceImg()" title="Voice">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
         </button>
@@ -431,7 +431,7 @@ body{font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;background:var
       Continue with Apple
     </button>
     <div class="or-div">OR</div>
-    <input type="email" class="einp" id="lem" placeholder="Email address"/>
+    <div id="lm-hint" style="font-size:13px;color:var(--text2);text-align:center;margin-bottom:8px;display:none;"></div><input type="email" class="einp" id="lem" placeholder="Email address"/>
     <button class="cbtn" onclick="loginEmail()">Continue</button>
     <div class="mfooter">
       By continuing, you agree to our <a>Terms</a> and <a>Privacy Policy</a><br>
@@ -464,7 +464,7 @@ body{font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;background:var
       <div class="pcard pop">
         <div class="pbadge">⭐ MOST POPULAR</div>
         <div class="pname">🚀 Pro</div>
-        <div class="pprice">$19.99<span>/mo</span></div>
+        <div class="pprice">$7.99<span>/mo</span></div>
         <div class="psub">Billed monthly · Cancel anytime</div>
         <ul class="pfeats">
           <li>Unlimited AI chat messages</li>
@@ -479,7 +479,7 @@ body{font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;background:var
       <!-- PLUS -->
       <div class="pcard">
         <div class="pname">💎 Plus</div>
-        <div class="pprice">$39.99<span>/mo</span></div>
+        <div class="pprice">$19.99<span>/mo</span></div>
         <div class="psub">Everything in Pro, plus:</div>
         <ul class="pfeats">
           <li>Advanced AI model (GPT-5 level)</li>
@@ -505,7 +505,7 @@ body{font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;background:var
     <h2 id="uw-title">You've used all free chats</h2>
     <p id="uw-msg">You've used all 6 free chats today. Upgrade to Pro for unlimited chats, unlimited images, and much more!</p>
     <div style="display:flex;flex-direction:column;gap:10px">
-      <button onclick="closeUW();showPricing()" style="background:var(--accent);color:#fff;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:600;cursor:pointer">⭐ Upgrade to Pro — $19.99/mo</button>
+      <button onclick="closeUW();showPricing()" style="background:var(--accent);color:#fff;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:600;cursor:pointer">⭐ Upgrade to Pro — $7.99/mo</button>
       <button onclick="closeUW()" style="background:none;border:1.5px solid var(--border);border-radius:12px;padding:13px;font-size:14px;cursor:pointer;color:var(--text2)">Maybe later</button>
     </div>
   </div>
@@ -568,6 +568,7 @@ window.onload=()=>{
   updateUI();
   updSend();
   buildInspire();
+  renderHist();
 };
 
 function resetDaily(){
@@ -637,7 +638,24 @@ function goImages(){
 }
 function newChat(){convs=[];document.getElementById('ca').innerHTML=wlHTML();document.getElementById('ui').value='';ar(document.getElementById('ui'));goChat();}
 function wlHTML(){return`<div id="wl"><h1 id="wlh">${user?'Hello, '+(user.name?.split(' ')[0]||'there')+'! 👋':'Where should we begin?'}</h1><p id="wlp">Ask me anything · Generate images free · No signup needed</p><div class="sugs"><div class="sc" onclick="sendSug('Explain AI in simple terms')"><strong>🧠 Explain AI</strong><span>How does artificial intelligence work?</span></div><div class="sc" onclick="sendSug('Write a Python function to sort a dictionary by value')"><strong>💻 Write code</strong><span>Python: sort a dictionary</span></div><div class="sc" onclick="sendSug('Write a professional bio for a web designer')"><strong>✍️ Write for me</strong><span>Professional bio for a designer</span></div><div class="sc" onclick="sendSug('5 ways to grow a small business online')"><strong>📈 Business</strong><span>5 ways to grow online</span></div></div></div>`;}
-function addHist(t){const l=document.getElementById('hl');const d=document.createElement('div');d.className='chi';d.innerHTML=`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>${esc(t.slice(0,38))}`;l.prepend(d);}
+function addHist(t){
+  // Save to localStorage
+  let hist=JSON.parse(localStorage.getItem('os_hist')||'[]');
+  hist.unshift({t:t.slice(0,38),ts:Date.now()});
+  if(hist.length>20)hist=hist.slice(0,20);
+  localStorage.setItem('os_hist',JSON.stringify(hist));
+  renderHist();
+}
+function renderHist(){
+  const l=document.getElementById('hl');
+  const hist=JSON.parse(localStorage.getItem('os_hist')||'[]');
+  l.innerHTML='';
+  hist.forEach(h=>{
+    const d=document.createElement('div');d.className='chi';
+    d.innerHTML=`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>${esc(h.t)}`;
+    l.appendChild(d);
+  });
+}
 function showSearchBox(){const t=document.getElementById('ui');goChat();t.focus();t.placeholder='Search your chats…';}
 function showHelp(){alert('Help Center coming soon!\n\nFor now, email us at support@optimaseek.com');}
 function userMenuClick(){if(!user)showLogin();}
@@ -780,12 +798,12 @@ function buildInspire(){
     // Try loading a real image
     const url=`https://image.pollinations.ai/prompt/${encodeURIComponent(item.prompt)}?width=400&height=400&model=flux&seed=${INSPIRE.indexOf(item)*777}&nologo=true`;
     const img=new Image();img.crossOrigin='anonymous';
-    img.onload=()=>{card.innerHTML='';card.appendChild(img);img.style.cssText='width:100%;height:100%;object-fit:cover;display:block;';const lbl=document.createElement('div');lbl.className='ip-card-label';lbl.textContent=item.label;card.appendChild(lbl);const ov=document.createElement('div');ov.className='ip-card-over';ov.innerHTML=`<button class="ic-btn" onclick="usePrompt('${esc(item.prompt)}')">✨ Create this</button>`;card.appendChild(ov);};
+    img.onload=()=>{card.innerHTML='';card.appendChild(img);img.style.cssText='width:100%;height:100%;object-fit:cover;display:block;';const lbl=document.createElement('div');lbl.className='ip-card-label';lbl.textContent=item.label;card.appendChild(lbl);const ov=document.createElement('div');ov.className='ip-card-over';ov.innerHTML=`<button class="ic-btn" onclick="usePrompt('${item.prompt.replace(/'/g,\"'\")}')">✨ Use this prompt</button><button class="ic-btn" onclick="usePrompt('${item.prompt.replace(/'/g,\"'\")}');setTimeout(genImg,200)">⚡ Generate now</button>`;card.appendChild(ov);};
     setTimeout(()=>img.src=url,INSPIRE.indexOf(item)*1500);
   });
 }
-function usePrompt(p){document.getElementById('ipt').value=p;genImg();}
-function selOpt(el){document.querySelectorAll('.ip-opt').forEach(o=>o.classList.remove('sel'));el.classList.add('sel');selModel=el.dataset.model;}
+function usePrompt(p){const ipt=document.getElementById('ipt');ipt.value=p;document.getElementById('ip').scrollTop=0;ipt.focus();ipt.select();ipt.style.background='#f0fdf8';setTimeout(()=>ipt.style.background='',1200);}
+function selOpt(el){document.querySelectorAll('.ip-opt').forEach(o=>o.classList.remove('sel'));el.classList.add('sel');selModel=el.dataset.model;el.style.transform='scale(0.95)';setTimeout(()=>el.style.transform='',150);}
 
 async function genImg(){
   const prompt=document.getElementById('ipt').value.trim();
@@ -832,9 +850,17 @@ async function genImg(){
 function showLogin(){document.getElementById('lm').classList.remove('hid');}
 function closeLogin(){document.getElementById('lm').classList.add('hid');}
 function loginWith(p){
-  const names={google:'Sarang Khosa',apple:'Apple User'};
-  const emails={google:'khosasarang@gmail.com',apple:'user@icloud.com'};
-  completeLogin({name:names[p],email:emails[p],provider:p,plan:'free'});
+  const em=document.getElementById('lem');
+  if(p==='google'){
+    em.placeholder='Enter your Google email (e.g. you@gmail.com)';
+    document.getElementById('lm-hint').textContent='Enter your Google email address to continue:';
+    document.getElementById('lm-hint').style.display='block';
+  } else {
+    em.placeholder='Enter your Apple ID email';
+    document.getElementById('lm-hint').textContent='Enter your Apple ID email to continue:';
+    document.getElementById('lm-hint').style.display='block';
+  }
+  em.focus();
 }
 function loginEmail(){
   const em=document.getElementById('lem').value.trim();
