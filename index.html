@@ -21,8 +21,8 @@ body{font-family:Inter,sans-serif;background:#fff;color:#0d0d0d;height:100vh;dis
 .page{flex:1;overflow-y:auto;display:none;flex-direction:column;}
 .page.active{display:flex;}
 .chat-container{flex:1;display:flex;flex-direction:column;overflow:hidden;}
-.chat{flex:1;overflow-y:auto;padding:40px 20px 20px;display:flex;flex-direction:column;gap:24px;max-width:760px;width:100%;margin:auto;}
-.welcome{margin-top:80px;text-align:center;}
+.chat{flex:1;overflow-y:auto;padding:20px 20px 20px;display:flex;flex-direction:column;gap:24px;max-width:760px;width:100%;margin:auto;}
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;text-align:center;min-height:300px;}
 .welcome h1{font-size:36px;font-weight:600;margin-bottom:8px;}
 .welcome p{color:#6b7280;font-size:15px;}
 .msg{display:flex;flex-direction:column;gap:4px;}
@@ -77,9 +77,9 @@ textarea{flex:1;border:none;outline:none;resize:none;font-size:15px;font-family:
 .logout-btn{font-size:12px;color:#6b7280;cursor:pointer;border:none;background:none;flex-shrink:0;}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:200;}
 .modal.active{display:flex;}
-.modal-box{background:white;border-radius:20px;padding:32px;max-width:420px;width:90%;text-align:center;}
-.modal-box h2{font-size:24px;font-weight:700;margin-bottom:12px;}
-.modal-box p{color:#6b7280;margin-bottom:24px;font-size:15px;}
+.modal-box{background:white;border-radius:20px;padding:32px;max-width:480px;width:90%;}
+.modal-box h2{font-size:24px;font-weight:700;margin-bottom:12px;text-align:center;}
+.modal-box p{color:#6b7280;margin-bottom:24px;font-size:15px;text-align:center;}
 .mbtn{height:48px;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;width:100%;margin-bottom:10px;font-family:Inter,sans-serif;}
 .mbtn.dark{background:#0d0d0d;color:white;}
 .mbtn.light{background:#f3f4f6;color:#0d0d0d;}
@@ -89,6 +89,12 @@ textarea{flex:1;border:none;outline:none;resize:none;font-size:15px;font-family:
 .img-modal-box h2{font-size:22px;font-weight:700;margin-bottom:16px;}
 .img-modal-box input{width:100%;height:48px;border:1px solid #d1d5db;border-radius:10px;padding:0 14px;margin-bottom:12px;font-size:15px;outline:none;font-family:Inter,sans-serif;}
 .img-modal-box input:focus{border-color:#0d0d0d;}
+.help-page{padding:40px 20px;max-width:760px;margin:auto;width:100%;}
+.help-page h1{font-size:28px;font-weight:700;margin-bottom:8px;}
+.help-page p{color:#6b7280;margin-bottom:32px;}
+.help-item{border:1px solid #e5e7eb;border-radius:12px;padding:20px;margin-bottom:16px;}
+.help-item h3{font-size:16px;font-weight:600;margin-bottom:8px;}
+.help-item p{color:#374151;font-size:14px;margin:0;line-height:1.6;}
 .bot .bubble p{margin-bottom:12px;}
 .bot .bubble ul,.bot .bubble ol{padding-left:20px;margin-bottom:12px;}
 .bot .bubble li{margin-bottom:6px;}
@@ -120,7 +126,7 @@ textarea{flex:1;border:none;outline:none;resize:none;font-size:15px;font-family:
     <div id="sidebarAuth">
       <button class="side-btn" onclick="showPage('login')">🔑 Log in</button>
     </div>
-    <button class="side-btn">❓ Help</button>
+    <button class="side-btn" onclick="showPage('help')">❓ Help</button>
   </div>
 </div>
 
@@ -241,6 +247,46 @@ textarea{flex:1;border:none;outline:none;resize:none;font-size:15px;font-family:
       </div>
     </div>
   </div>
+
+  <div class="page" id="page-help">
+    <div class="help-page">
+      <h1>❓ Help Center</h1>
+      <p>Everything you need to know about OptimaSeek AI</p>
+      <div class="help-item">
+        <h3>💬 How do I start chatting?</h3>
+        <p>Simply type your question in the message box at the bottom and press Enter or click the ↑ button. OptimaSeek AI will respond instantly!</p>
+      </div>
+      <div class="help-item">
+        <h3>🖼️ How do I create an image?</h3>
+        <p>Click the "🖼️ Create image" button below the chat box. Type a description of the image you want — for example "a sunset over mountains" — and click Generate.</p>
+      </div>
+      <div class="help-item">
+        <h3>📊 How do I create an Excel file?</h3>
+        <p>Click the "📊 Create Excel" button. Describe what kind of spreadsheet you need — like "employee salary sheet" or "monthly budget" — and it will be created and downloaded automatically.</p>
+      </div>
+      <div class="help-item">
+        <h3>📎 How do I attach a file or image?</h3>
+        <p>Click the "📎 Attach" button to upload an image, PDF, or document. Then ask OptimaSeek AI to analyze or explain it.</p>
+      </div>
+      <div class="help-item">
+        <h3>🎤 How does voice input work?</h3>
+        <p>Click the "🎤 Voice" button and speak your question. Voice works best in Chrome browser. Make sure to allow microphone access when asked.</p>
+      </div>
+      <div class="help-item">
+        <h3>🔢 How many free messages do I get?</h3>
+        <p>You get 7 free messages without signing in. After signing in with Google, you get 10 messages per day. Upgrade to Plus or Pro for unlimited access.</p>
+      </div>
+      <div class="help-item">
+        <h3>💎 How do I upgrade my plan?</h3>
+        <p>Click "💎 Plans & Pricing" in the left sidebar to see all available plans. You can upgrade to Go (CA$8/month), Plus (free first month), or Pro (CA$110/month).</p>
+      </div>
+      <div class="help-item">
+        <h3>🔑 How do I log in?</h3>
+        <p>Click "Log in" at the top right or "🔑 Log in" in the sidebar. You can sign in with your Google account or use your email and password.</p>
+      </div>
+      <button class="mbtn dark" style="margin-top:20px" onclick="showPage('chat')">← Back to Chat</button>
+    </div>
+  </div>
 </div>
 
 <!-- UPGRADE MODAL -->
@@ -296,6 +342,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
+provider.setCustomParameters({ prompt: 'select_account' });
 
 const FREE_LIMIT = 7;
 const LOGGED_IN_LIMIT = 10;
