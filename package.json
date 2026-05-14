@@ -1,8 +1,13 @@
 {
-  "name": "optimaseek",
+  "name": "optimaseek-ai",
   "version": "1.0.0",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js"
+  },
   "dependencies": {
-    "xlsx": "^0.18.5",
-    "docx": "^8.5.0"
+    "docx": "^8.5.0",
+    "pdfkit": "^0.15.0",
+    "xlsx": "^0.18.5"
   }
 }
