@@ -9,6 +9,10 @@ module.exports = async function handler(req, res) {
 
     // IMAGE GENERATION MODE
     if (mode === "image") {
+      const formData = new FormData();
+      formData.append("prompt", message);
+      formData.append("output_format", "jpeg");
+
       const response = await fetch(
         "https://api.stability.ai/v2beta/stable-image/generate/core",
         {
@@ -17,22 +21,22 @@ module.exports = async function handler(req, res) {
             "Authorization": `Bearer ${process.env.STABILITY_API_KEY}`,
             "Accept": "application/json"
           },
-          body: (() => {
-            const form = new URLSearchParams();
-            form.append("prompt", message);
-            form.append("output_format", "jpeg");
-            return form;
-          })()
+          body: formData
         }
       );
+
       const data = await response.json();
+      console.log("Stability response:", JSON.stringify(data));
+
       if (data.image) {
-        return res.status(200).json({ 
-          type: "image", 
-          image: `data:image/jpeg;base64,${data.image}` 
+        return res.status(200).json({
+          type: "image",
+          image: `data:image/jpeg;base64,${data.image}`
         });
       } else {
-        return res.status(200).json({ reply: "Image generation failed: " + JSON.stringify(data) });
+        return res.status(200).json({
+          reply: "Image error: " + JSON.stringify(data)
+        });
       }
     }
 
