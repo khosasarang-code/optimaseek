@@ -1,660 +1,166 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>OptimaSeek AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:Inter,sans-serif;background:#fff;color:#0d0d0d;height:100vh;display:flex;overflow:hidden;}
+.sidebar{width:260px;background:#f9f9f9;border-right:1px solid #e5e7eb;display:flex;flex-direction:column;padding:10px;gap:4px;}
+.logo{display:flex;align-items:center;gap:10px;padding:12px 10px;font-size:18px;font-weight:600;}
+.logo-icon{width:32px;height:32px;background:#0d0d0d;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:16px;font-weight:700;}
+.side-btn{height:40px;border:none;background:transparent;border-radius:8px;cursor:pointer;font-size:14px;font-weight:500;text-align:left;padding:0 12px;color:#0d0d0d;transition:.15s;display:flex;align-items:center;gap:10px;}
+.side-btn:hover{background:#ececec;}
+.sidebar-bottom{margin-top:auto;display:flex;flex-direction:column;gap:4px;border-top:1px solid #e5e7eb;padding-top:10px;}
+.main{flex:1;display:flex;flex-direction:column;height:100vh;position:relative;}
+.topbar{height:56px;display:flex;align-items:center;justify-content:flex-end;padding:0 16px;gap:8px;}
+.login{height:36px;padding:0 16px;border:none;background:#0d0d0d;color:white;border-radius:999px;font-weight:600;font-size:14px;cursor:pointer;}
+.signup{height:36px;padding:0 16px;border:1px solid #d1d5db;background:white;border-radius:999px;font-weight:600;font-size:14px;cursor:pointer;}
+.chat{flex:1;overflow-y:auto;padding:40px 20px 180px;display:flex;flex-direction:column;gap:24px;max-width:760px;width:100%;margin:auto;}
+.welcome{margin-top:120px;text-align:center;}
+.welcome h1{font-size:36px;font-weight:600;margin-bottom:8px;}
+.welcome p{color:#6b7280;font-size:15px;}
+.msg{display:flex;flex-direction:column;gap:4px;}
+.user{align-items:flex-end;}
+.bot{align-items:flex-start;}
+.bubble{padding:14px 18px;border-radius:18px;font-size:15px;line-height:1.75;max-width:85%;}
+.user .bubble{background:#0d0d0d;color:white;}
+.bot .bubble{background:#f3f4f6;color:#0d0d0d;}
+.bottom{position:fixed;bottom:0;left:260px;right:0;padding:16px 24px 24px;background:white;}
+.input-wrap{max-width:760px;margin:auto;background:white;border:1px solid #d1d5db;border-radius:16px;padding:8px 8px 8px 16px;display:flex;align-items:flex-end;gap:8px;box-shadow:0 4px 20px rgba(0,0,0,.06);}
+textarea{flex:1;border:none;outline:none;resize:none;font-size:15px;font-family:Inter,sans-serif;min-height:36px;max-height:160px;padding:6px 0;background:transparent;}
+.send{width:36px;height:36px;border:none;background:#0d0d0d;color:white;border-radius:10px;cursor:pointer;font-size:16px;flex-shrink:0;}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;z-index:100;}
+.modal-box{width:360px;background:white;padding:28px;border-radius:16px;}
+.modal-box h2{margin-bottom:20px;font-size:24px;font-weight:600;}
+.modal-box input{width:100%;height:46px;border:1px solid #d1d5db;border-radius:10px;padding:0 14px;margin-bottom:10px;font-size:15px;outline:none;}
+.modal-box button{width:100%;height:46px;border:none;background:#0d0d0d;color:white;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;margin-bottom:8px;}
+.google-btn{background:#f3f4f6!important;color:#0d0d0d!important;}
+.bot .bubble p{margin-bottom:12px;}
+.bot .bubble ul,.bot .bubble ol{padding-left:20px;margin-bottom:12px;}
+.bot .bubble li{margin-bottom:6px;}
+.bot .bubble strong{font-weight:600;}
+.bot .bubble h1,.bot .bubble h2,.bot .bubble h3{margin:16px 0 8px;font-weight:600;}
+.bot .bubble code{background:#e5e7eb;padding:2px 6px;border-radius:4px;font-size:13px;}
+.bot .bubble pre{background:#0d0d0d;color:white;padding:14px;border-radius:10px;overflow:auto;margin:12px 0;}
+@media(max-width:768px){.sidebar{display:none;}.bottom{left:0;}}
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="logo">
+    <div class="logo-icon">O</div>
+    OptimaSeek
+  </div>
+  <button class="side-btn" onclick="newChat()">✏️ New chat</button>
+  <button class="side-btn">🔍 Search chats</button>
+  <button class="side-btn">🖼️ Images</button>
+  <div class="sidebar-bottom">
+    <button class="side-btn">💎 Plans & Pricing</button>
+    <button class="side-btn">⚙️ Settings</button>
+    <button class="side-btn">❓ Help</button>
+  </div>
+</div>
+
+<div class="main">
+  <div class="topbar">
+    <button class="login" onclick="openModal()">Log in</button>
+    <button class="signup" onclick="openModal()">Sign up for free</button>
+  </div>
+  <div class="chat" id="chat">
+    <div class="welcome" id="welcome">
+      <h1>What can I help with?</h1>
+      <p>Powered by OptimaSeek AI</p>
+    </div>
+  </div>
+  <div class="bottom">
+    <div class="input-wrap">
+      <textarea id="input" placeholder="Message OptimaSeek" rows="1"></textarea>
+      <button class="send" onclick="sendMessage()">↑</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <h2>Welcome back</h2>
+    <input type="email" placeholder="Email address">
+    <input type="password" placeholder="Password">
+    <button>Continue</button>
+    <button class="google-btn">Continue with Google</button>
+  </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-body{
-font-family:Inter,sans-serif;
-background:#fff;
-color:#111827;
-height:100vh;
-display:flex;
-overflow:hidden;
-}
-
-/* SIDEBAR */
-
-.sidebar{
-width:260px;
-background:#fafafa;
-border-right:1px solid #e5e7eb;
-display:flex;
-flex-direction:column;
-padding:14px;
-gap:8px;
-}
-
-.logo{
-display:flex;
-align-items:center;
-gap:10px;
-font-size:22px;
-font-weight:800;
-padding:10px;
-}
-
-.logo-spin{
-width:28px;
-height:28px;
-border-radius:50%;
-border:3px solid #111827;
-border-top-color:transparent;
-animation:spin 3s linear infinite;
-}
-
-@keyframes spin{
-to{
-transform:rotate(360deg);
-}
-}
-
-.side-btn{
-height:46px;
-border:none;
-background:#fff;
-border:1px solid #e5e7eb;
-border-radius:12px;
-cursor:pointer;
-font-size:14px;
-font-weight:600;
-text-align:left;
-padding:0 14px;
-transition:.2s;
-}
-
-.side-btn:hover{
-background:#f3f4f6;
-}
-
-.sidebar-bottom{
-margin-top:auto;
-display:flex;
-flex-direction:column;
-gap:10px;
-}
-
-/* MAIN */
-
-.main{
-flex:1;
-display:flex;
-flex-direction:column;
-height:100vh;
-}
-
-/* TOPBAR */
-
-.topbar{
-height:64px;
-display:flex;
-align-items:center;
-justify-content:flex-end;
-padding:0 20px;
-gap:10px;
-border-bottom:1px solid #e5e7eb;
-}
-
-.login{
-height:40px;
-padding:0 18px;
-border:none;
-background:#111827;
-color:white;
-border-radius:999px;
-font-weight:600;
-cursor:pointer;
-}
-
-.signup{
-height:40px;
-padding:0 18px;
-border:1px solid #d1d5db;
-background:white;
-border-radius:999px;
-font-weight:600;
-cursor:pointer;
-}
-
-/* CHAT */
-
-.chat{
-flex:1;
-overflow-y:auto;
-padding:30px 20px 160px;
-display:flex;
-flex-direction:column;
-gap:22px;
-max-width:900px;
-width:100%;
-margin:auto;
-}
-
-.welcome{
-margin-top:140px;
-text-align:center;
-}
-
-.welcome h1{
-font-size:42px;
-margin-bottom:10px;
-font-weight:700;
-}
-
-.welcome p{
-color:#6b7280;
-font-size:16px;
-}
-
-.msg{
-display:flex;
-flex-direction:column;
-gap:8px;
-}
-
-.user{
-align-items:flex-end;
-}
-
-.bot{
-align-items:flex-start;
-}
-
-.bubble{
-padding:16px 18px;
-border-radius:18px;
-font-size:15px;
-line-height:1.8;
-max-width:85%;
-}
-
-.user .bubble{
-background:#111827;
-color:white;
-}
-
-.bot .bubble{
-background:#f3f4f6;
-}
-
-/* INPUT */
-
-.bottom{
-position:fixed;
-bottom:0;
-left:260px;
-right:0;
-padding:24px;
-background:white;
-}
-
-.input-wrap{
-max-width:850px;
-margin:auto;
-background:white;
-border:1px solid #d1d5db;
-border-radius:26px;
-padding:10px;
-display:flex;
-flex-direction:column;
-gap:10px;
-box-shadow:0 10px 40px rgba(0,0,0,.05);
-}
-
-.input-top{
-display:flex;
-gap:10px;
-align-items:center;
-}
-
-textarea{
-flex:1;
-border:none;
-outline:none;
-resize:none;
-font-size:16px;
-font-family:Inter,sans-serif;
-min-height:40px;
-max-height:160px;
-padding:10px;
-}
-
-.actions{
-display:flex;
-align-items:center;
-justify-content:space-between;
-}
-
-.left-actions{
-display:flex;
-gap:8px;
-}
-
-.icon-btn{
-height:40px;
-padding:0 14px;
-border:none;
-background:#f3f4f6;
-border-radius:999px;
-cursor:pointer;
-font-weight:600;
-}
-
-.send{
-width:44px;
-height:44px;
-border:none;
-background:#111827;
-color:white;
-border-radius:50%;
-cursor:pointer;
-font-size:18px;
-}
-
-/* MODAL */
-
-.modal{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.45);
-display:none;
-align-items:center;
-justify-content:center;
-z-index:100;
-}
-
-.modal-box{
-width:380px;
-background:white;
-padding:30px;
-border-radius:24px;
-}
-
-.modal-box h2{
-margin-bottom:20px;
-font-size:28px;
-}
-
-.modal-box input{
-width:100%;
-height:50px;
-border:1px solid #d1d5db;
-border-radius:12px;
-padding:0 14px;
-margin-bottom:12px;
-font-size:15px;
-}
-
-.modal-box button{
-width:100%;
-height:50px;
-border:none;
-background:#111827;
-color:white;
-border-radius:12px;
-font-size:15px;
-font-weight:600;
-cursor:pointer;
-}
-
-.google{
-margin-top:10px;
-background:#f3f4f6 !important;
-color:#111827 !important;
-}
-
-/* AI FORMATTING */
-
-.bot .bubble h1,
-.bot .bubble h2,
-.bot .bubble h3{
-margin:18px 0 10px;
-font-weight:700;
-}
-
-.bot .bubble p{
-margin-bottom:14px;
-}
-
-.bot .bubble ul,
-.bot .bubble ol{
-padding-left:22px;
-margin-bottom:16px;
-}
-
-.bot .bubble li{
-margin-bottom:8px;
-}
-
-.bot .bubble pre{
-background:#111827;
-color:white;
-padding:14px;
-border-radius:12px;
-overflow:auto;
-margin:14px 0;
-}
-
-.bot .bubble code{
-background:#e5e7eb;
-padding:2px 6px;
-border-radius:6px;
-}
-
-@media(max-width:800px){
-
-.sidebar{
-display:none;
-}
-
-.bottom{
-left:0;
-}
-
-.welcome h1{
-font-size:32px;
-}
-
-}
-
-</style>
-</head>
-
-<body>
-
-<!-- SIDEBAR -->
-
-<div class="sidebar">
-
-<div class="logo">
-<div class="logo-spin"></div>
-<div>OptimaSeek</div>
-</div>
-
-<button class="side-btn" onclick="newChat()">
-➕ New Chat
-</button>
-
-<button class="side-btn">
-🔍 Search Chats
-</button>
-
-<button class="side-btn">
-🖼️ Images
-</button>
-
-<div class="sidebar-bottom">
-
-<button class="side-btn">
-💎 Plans & Pricing
-</button>
-
-<button class="side-btn">
-⚙️ Settings
-</button>
-
-<button class="side-btn">
-❓ Help
-</button>
-
-</div>
-
-</div>
-
-<!-- MAIN -->
-
-<div class="main">
-
-<div class="topbar">
-
-<button class="login" onclick="openModal()">
-Log in
-</button>
-
-<button class="signup" onclick="openModal()">
-Sign up for free
-</button>
-
-</div>
-
-<div class="chat" id="chat">
-
-<div class="welcome" id="welcome">
-<h1>What are you working on?</h1>
-<p>Powered by Claude AI</p>
-</div>
-
-</div>
-
-<!-- INPUT -->
-
-<div class="bottom">
-
-<div class="input-wrap">
-
-<div class="input-top">
-
-<textarea
-id="input"
-placeholder="Ask anything"
-></textarea>
-
-</div>
-
-<div class="actions">
-
-<div class="left-actions">
-
-<button class="icon-btn">
-📎 Add files
-</button>
-
-<button class="icon-btn">
-🎤 Voice
-</button>
-
-<button class="icon-btn">
-💻 Code
-</button>
-
-</div>
-
-<button class="send" onclick="sendMessage()">
-↑
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- LOGIN MODAL -->
-
-<div class="modal" id="modal">
-
-<div class="modal-box">
-
-<h2>Welcome back</h2>
-
-<input type="email" placeholder="Email address">
-
-<input type="password" placeholder="Password">
-
-<button>
-Continue
-</button>
-
-<button class="google">
-Continue with Google
-</button>
-
-</div>
-
-</div>
-
 <script>
+(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="0Wg8GQMDvVTb6a4DmhyuC";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
 
-const API_URL = "/api/chat";
+const input = document.getElementById("input");
 
-const input =
-document.getElementById("input");
+input.addEventListener("keydown", function(e){
+  if(e.key==="Enter" && !e.shiftKey){
+    e.preventDefault();
+    sendMessage();
+  }
+});
 
-input.addEventListener(
-"keydown",
-function(e){
-
-if(
-e.key==="Enter" &&
-!e.shiftKey
-){
-e.preventDefault();
-sendMessage();
-}
-
-}
-);
-
-input.addEventListener(
-"input",
-function(){
-
-input.style.height="auto";
-
-input.style.height =
-Math.min(
-input.scrollHeight,
-160
-)+"px";
-
-}
-);
+input.addEventListener("input", function(){
+  input.style.height="auto";
+  input.style.height=Math.min(input.scrollHeight,160)+"px";
+});
 
 function openModal(){
-
-document.getElementById(
-"modal"
-).style.display="flex";
-
+  document.getElementById("modal").style.display="flex";
 }
 
 window.onclick=function(e){
-
-if(e.target.id==="modal"){
-
-document.getElementById(
-"modal"
-).style.display="none";
-
-}
-
+  if(e.target.id==="modal"){
+    document.getElementById("modal").style.display="none";
+  }
 }
 
 async function sendMessage(){
-
-const text=input.value.trim();
-
-if(!text)return;
-
-document.getElementById(
-"welcome"
-).style.display="none";
-
-addMessage(text,"user");
-
-input.value="";
-input.style.height="40px";
-
-const thinking =
-addMessage("Thinking...","bot");
-
-try{
-
-const response =
-await fetch(API_URL,{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-message:text
-})
-});
-
-const data =
-await response.json();
-
-thinking.querySelector(
-".bubble"
-).innerHTML =
-marked.parse(data.reply);
-
-}catch(err){
-
-thinking.querySelector(
-".bubble"
-).innerHTML =
-"Error connecting to AI.";
-
+  const text = input.value.trim();
+  if(!text) return;
+  document.getElementById("welcome").style.display="none";
+  addMessage(text, "user");
+  input.value="";
+  input.style.height="auto";
+  const thinking = addMessage("Thinking...", "bot");
+  try {
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({message: text})
+    });
+    const data = await response.json();
+    thinking.querySelector(".bubble").innerHTML = marked.parse(data.reply || "Sorry, no response.");
+  } catch(err) {
+    thinking.querySelector(".bubble").innerHTML = "Error connecting to AI.";
+  }
 }
 
-}
-
-function addMessage(text,type){
-
-const chat =
-document.getElementById("chat");
-
-const div =
-document.createElement("div");
-
-div.className =
-`msg ${type}`;
-
-div.innerHTML =
-`<div class="bubble">${text}</div>`;
-
-chat.appendChild(div);
-
-chat.scrollTop =
-chat.scrollHeight;
-
-return div;
-
+function addMessage(text, type){
+  const chat = document.getElementById("chat");
+  const div = document.createElement("div");
+  div.className = `msg ${type}`;
+  div.innerHTML = `<div class="bubble">${text}</div>`;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+  return div;
 }
 
 function newChat(){
-
-document.getElementById(
-"chat"
-).innerHTML=`
-<div class="welcome" id="welcome">
-<h1>What are you working on?</h1>
-<p>Powered by Claude AI</p>
-</div>
-`;
-
+  document.getElementById("chat").innerHTML=`
+    <div class="welcome" id="welcome">
+      <h1>What can I help with?</h1>
+      <p>Powered by OptimaSeek AI</p>
+    </div>`;
 }
-
 </script>
-
 </body>
 </html>
-```
