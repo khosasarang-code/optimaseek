@@ -1,654 +1,641 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>OptimaSeek AI</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --sidebar-w: 260px;
-    --bg: #ffffff; --bg2: #f4f4f4; --bg3: #ececec;
-    --text: #0d0d0d; --text2: #6e6e80;
-    --border: #e5e5e5;
-    --accent: #10a37f; --accent-hover: #0d8a6a;
-    --input-bg: #f4f4f4;
-    --sidebar-bg: #202123; --sidebar-text: #ececec;
-    --sidebar-hover: #2a2b32; --sidebar-border: #3a3a3a;
-  }
-  body { font-family: ui-sans-serif,system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--text); display:flex; height:100vh; overflow:hidden; }
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --sw:260px;
+  --bg:#ffffff;--bg2:#f4f4f4;--bg3:#e8e8e8;
+  --text:#0d0d0d;--text2:#6e6e80;
+  --border:#e5e5e5;
+  --accent:#10a37f;--acch:#0d8a6a;
+  --sbg:#202123;--stxt:#ececec;--shov:#2a2b32;--sbor:#3a3a3a;
+}
+body{font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);display:flex;height:100vh;overflow:hidden}
 
-  /* ── SIDEBAR ── */
-  #sidebar { width:var(--sidebar-w); background:var(--sidebar-bg); display:flex; flex-direction:column; flex-shrink:0; height:100vh; transition:width 0.2s; overflow:hidden; }
-  #sidebar.collapsed { width:0; }
-  .sidebar-top { display:flex; align-items:center; justify-content:space-between; padding:12px 12px 8px; border-bottom:1px solid var(--sidebar-border); min-width:var(--sidebar-w); }
-  .sidebar-logo { color:var(--sidebar-text); font-size:15px; font-weight:700; display:flex; align-items:center; gap:8px; text-decoration:none; white-space:nowrap; }
-  .logo-circle { width:26px; height:26px; background:var(--accent); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:13px; font-weight:700; flex-shrink:0; }
-  .icon-btn { background:none; border:none; cursor:pointer; color:var(--sidebar-text); opacity:0.7; padding:6px; border-radius:6px; display:flex; align-items:center; flex-shrink:0; }
-  .icon-btn:hover { background:var(--sidebar-hover); opacity:1; }
-  .new-chat-btn { margin:10px 12px; background:var(--accent); color:#fff; border:none; border-radius:8px; padding:10px 14px; font-size:14px; font-weight:500; cursor:pointer; display:flex; align-items:center; gap:8px; white-space:nowrap; }
-  .new-chat-btn:hover { background:var(--accent-hover); }
-  .sidebar-section { padding:6px 8px 2px; min-width:var(--sidebar-w); }
-  .sidebar-label { font-size:11px; color:var(--sidebar-text); opacity:0.4; padding:4px 8px; text-transform:uppercase; letter-spacing:0.06em; }
-  .chat-item { display:flex; align-items:center; gap:8px; padding:8px 12px; border-radius:8px; cursor:pointer; color:var(--sidebar-text); font-size:13px; transition:background 0.1s; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin:1px 4px; }
-  .chat-item:hover { background:var(--sidebar-hover); }
-  .sidebar-bottom { margin-top:auto; border-top:1px solid var(--sidebar-border); padding:10px 12px; display:flex; flex-direction:column; gap:2px; min-width:var(--sidebar-w); }
-  .sidebar-link { display:flex; align-items:center; gap:10px; color:var(--sidebar-text); font-size:13px; opacity:0.8; padding:8px 10px; border-radius:8px; cursor:pointer; white-space:nowrap; }
-  .sidebar-link:hover { background:var(--sidebar-hover); opacity:1; }
+/* SIDEBAR */
+#sb{width:var(--sw);background:var(--sbg);display:flex;flex-direction:column;flex-shrink:0;height:100vh;transition:width .2s;overflow:hidden}
+#sb.col{width:0}
+.sbtop{display:flex;align-items:center;justify-content:space-between;padding:12px 12px 8px;border-bottom:1px solid var(--sbor);min-width:var(--sw)}
+.sblogo{color:var(--stxt);font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;text-decoration:none;white-space:nowrap}
+.lc{width:26px;height:26px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:700;flex-shrink:0}
+.ib{background:none;border:none;cursor:pointer;color:var(--stxt);opacity:.7;padding:6px;border-radius:6px;display:flex;align-items:center;flex-shrink:0}
+.ib:hover{background:var(--shov);opacity:1}
+.ncb{margin:10px 12px;background:var(--accent);color:#fff;border:none;border-radius:8px;padding:10px 14px;font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:8px;white-space:nowrap;transition:background .15s}
+.ncb:hover{background:var(--acch)}
+.sbs{padding:6px 8px 2px;min-width:var(--sw)}
+.sbl{font-size:11px;color:var(--stxt);opacity:.4;padding:4px 8px;text-transform:uppercase;letter-spacing:.06em}
+.ci{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;cursor:pointer;color:var(--stxt);font-size:13px;transition:background .1s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:1px 4px}
+.ci:hover{background:var(--shov)}
+.sbbot{margin-top:auto;border-top:1px solid var(--sbor);padding:10px 12px;display:flex;flex-direction:column;gap:2px;min-width:var(--sw)}
+.sblink{display:flex;align-items:center;gap:10px;color:var(--stxt);font-size:13px;opacity:.8;padding:8px 10px;border-radius:8px;cursor:pointer;white-space:nowrap}
+.sblink:hover{background:var(--shov);opacity:1}
 
-  /* ── MAIN ── */
-  #main { flex:1; display:flex; flex-direction:column; height:100vh; overflow:hidden; min-width:0; }
+/* MAIN */
+#main{flex:1;display:flex;flex-direction:column;height:100vh;overflow:hidden;min-width:0}
 
-  /* ── TOPBAR ── */
-  #topbar { display:flex; align-items:center; justify-content:space-between; padding:10px 16px; border-bottom:1px solid var(--border); background:var(--bg); z-index:10; flex-shrink:0; gap:12px; }
-  .topbar-left { display:flex; align-items:center; gap:10px; flex-shrink:0; }
-  .topbar-title { font-size:15px; font-weight:600; }
-  .mode-toggle { display:flex; gap:4px; background:var(--bg2); border-radius:8px; padding:3px; }
-  .mode-btn { background:none; border:none; padding:6px 14px; border-radius:6px; font-size:13px; cursor:pointer; color:var(--text2); font-weight:500; transition:all 0.15s; display:flex; align-items:center; gap:6px; white-space:nowrap; }
-  .mode-btn.active { background:var(--bg); color:var(--text); box-shadow:0 1px 3px rgba(0,0,0,0.1); }
-  .topbar-right { display:flex; align-items:center; gap:8px; flex-shrink:0; }
-  .topbar-btn { background:none; border:1px solid var(--border); border-radius:8px; padding:7px 14px; font-size:13px; font-weight:500; cursor:pointer; color:var(--text); white-space:nowrap; }
-  .topbar-btn:hover { background:var(--bg2); }
-  .topbar-btn.primary { background:var(--text); color:#fff; border-color:var(--text); }
-  .topbar-btn.primary:hover { background:#333; }
+/* TOPBAR */
+#tb{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--bg);z-index:10;flex-shrink:0;gap:12px}
+.tbl{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.tbt{font-size:15px;font-weight:600}
+.mt{display:flex;gap:4px;background:var(--bg2);border-radius:8px;padding:3px}
+.mb{background:none;border:none;padding:6px 16px;border-radius:6px;font-size:13px;cursor:pointer;color:var(--text2);font-weight:500;transition:all .15s;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.mb.act{background:var(--bg);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.tbr{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.tbb{background:none;border:1px solid var(--border);border-radius:8px;padding:7px 14px;font-size:13px;font-weight:500;cursor:pointer;color:var(--text);white-space:nowrap;transition:background .15s}
+.tbb:hover{background:var(--bg2)}
+.tbb.p{background:var(--text);color:#fff;border-color:var(--text)}
+.tbb.p:hover{background:#333}
 
-  /* ── CHAT ── */
-  #chat-view { flex:1; display:flex; flex-direction:column; overflow:hidden; }
-  #chat-area { flex:1; overflow-y:auto; scroll-behavior:smooth; }
-  #welcome { display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; padding:40px 20px; text-align:center; }
-  #welcome h1 { font-size:28px; font-weight:600; margin-bottom:8px; }
-  #welcome p { color:var(--text2); font-size:15px; margin-bottom:32px; }
-  .suggestions { display:grid; grid-template-columns:1fr 1fr; gap:10px; max-width:560px; width:100%; }
-  .sug-card { background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:14px 16px; cursor:pointer; text-align:left; transition:all 0.15s; }
-  .sug-card:hover { background:var(--bg3); }
-  .sug-card strong { display:block; margin-bottom:4px; font-size:14px; }
-  .sug-card span { color:var(--text2); font-size:13px; }
-  .msg-wrap { padding:24px 0; border-bottom:1px solid var(--border); }
-  .msg-inner { max-width:680px; margin:0 auto; padding:0 20px; display:flex; gap:14px; }
-  .avatar { width:30px; height:30px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:600; }
-  .avatar.user { background:#5436da; color:#fff; }
-  .avatar.ai { background:var(--accent); color:#fff; font-size:11px; }
-  .msg-body { flex:1; font-size:15px; line-height:1.65; padding-top:4px; min-width:0; }
-  .msg-body p { margin-bottom:10px; }
-  .msg-body p:last-child { margin-bottom:0; }
-  .msg-body pre { background:#1a1a1a; color:#f8f8f2; border-radius:8px; padding:14px; overflow-x:auto; font-size:13px; margin:10px 0; }
-  .msg-body code:not(pre code) { background:var(--bg2); padding:2px 6px; border-radius:4px; font-size:13px; }
-  .msg-body strong { font-weight:600; }
-  .msg-body ul { padding-left:20px; margin:8px 0; }
-  .msg-body li { margin:4px 0; }
-  .msg-actions { display:flex; gap:8px; margin-top:10px; opacity:0; transition:opacity 0.15s; }
-  .msg-wrap:hover .msg-actions { opacity:1; }
-  .act-btn { background:none; border:none; cursor:pointer; color:var(--text2); padding:4px 8px; border-radius:4px; font-size:12px; transition:color 0.1s; }
-  .act-btn:hover { color:var(--text); background:var(--bg2); }
-  .dot { display:inline-block; width:6px; height:6px; background:var(--text2); border-radius:50%; animation:blink 1.2s infinite; }
-  .dot:nth-child(2){animation-delay:.2s} .dot:nth-child(3){animation-delay:.4s}
-  @keyframes blink{0%,80%,100%{opacity:.2}40%{opacity:1}}
+/* CHAT */
+#cv{flex:1;display:flex;flex-direction:column;overflow:hidden}
+#ca{flex:1;overflow-y:auto;scroll-behavior:smooth}
+#wl{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:40px 20px;text-align:center}
+#wl h1{font-size:28px;font-weight:600;margin-bottom:8px}
+#wl p{color:var(--text2);font-size:15px;margin-bottom:32px}
+.sugs{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:560px;width:100%}
+.sc{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;cursor:pointer;text-align:left;transition:all .15s}
+.sc:hover{background:var(--bg3)}
+.sc strong{display:block;margin-bottom:4px;font-size:14px}
+.sc span{color:var(--text2);font-size:13px}
+.mw{padding:24px 0;border-bottom:1px solid var(--border)}
+.mi{max-width:700px;margin:0 auto;padding:0 24px;display:flex;gap:14px}
+.av{width:32px;height:32px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;margin-top:2px}
+.av.u{background:#5436da;color:#fff}
+.av.a{background:var(--accent);color:#fff;font-size:11px}
+.mb2{flex:1;font-size:15px;line-height:1.7;min-width:0}
+.mb2 p{margin-bottom:10px}
+.mb2 p:last-child{margin-bottom:0}
+.mb2 pre{background:#1e1e1e;color:#d4d4d4;border-radius:10px;padding:14px 16px;overflow-x:auto;font-size:13px;margin:10px 0;font-family:monospace}
+.mb2 code:not(pre code){background:var(--bg2);padding:2px 6px;border-radius:4px;font-size:13px;font-family:monospace}
+.mb2 strong{font-weight:600}
+.mb2 ul,.mb2 ol{padding-left:22px;margin:8px 0}
+.mb2 li{margin:4px 0}
+.mb2 h1{font-size:20px;font-weight:600;margin:14px 0 6px}
+.mb2 h2{font-size:17px;font-weight:600;margin:12px 0 6px}
+.mb2 h3{font-size:15px;font-weight:600;margin:10px 0 4px}
+.mac{display:flex;gap:6px;margin-top:10px;opacity:0;transition:opacity .15s}
+.mw:hover .mac{opacity:1}
+.ab{background:none;border:1px solid var(--border);border-radius:6px;cursor:pointer;color:var(--text2);padding:4px 10px;font-size:12px;transition:all .1s}
+.ab:hover{color:var(--text);background:var(--bg2)}
+.dot{display:inline-block;width:7px;height:7px;background:var(--text2);border-radius:50%;animation:bl 1.2s infinite;margin:0 1px}
+.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
+@keyframes bl{0%,80%,100%{opacity:.2}40%{opacity:1}}
 
-  /* ── INPUT ── */
-  #input-area { flex-shrink:0; padding:16px 20px 20px; background:var(--bg); border-top:1px solid var(--border); }
-  #input-box { max-width:680px; margin:0 auto; background:var(--input-bg); border:1px solid var(--border); border-radius:14px; display:flex; align-items:flex-end; gap:8px; padding:10px 12px; transition:border-color 0.15s; }
-  #input-box:focus-within { border-color:#aaa; }
-  #user-input { flex:1; background:none; border:none; outline:none; font-size:15px; color:var(--text); resize:none; line-height:1.5; max-height:200px; min-height:24px; font-family:inherit; }
-  #user-input::placeholder { color:var(--text2); }
-  .inp-btn { background:none; border:none; cursor:pointer; color:var(--text2); padding:4px; border-radius:6px; display:flex; align-items:center; flex-shrink:0; }
-  .inp-btn:hover { color:var(--text); background:var(--bg3); }
-  #send-btn { background:var(--text); border:none; border-radius:8px; width:32px; height:32px; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:background 0.15s; }
-  #send-btn:hover { background:#333; }
-  #send-btn:disabled { background:var(--border); cursor:not-allowed; }
-  .input-footer { max-width:680px; margin:8px auto 0; text-align:center; font-size:12px; color:var(--text2); }
+/* INPUT */
+#ia{flex-shrink:0;padding:14px 20px 18px;background:var(--bg);border-top:1px solid var(--border)}
+#ib2{max-width:700px;margin:0 auto;background:var(--bg2);border:1.5px solid var(--border);border-radius:16px;display:flex;align-items:flex-end;gap:8px;padding:10px 14px;transition:border-color .15s}
+#ib2:focus-within{border-color:#999}
+#ui{flex:1;background:none;border:none;outline:none;font-size:15px;color:var(--text);resize:none;line-height:1.5;max-height:200px;min-height:24px;font-family:inherit}
+#ui::placeholder{color:var(--text2)}
+.ib2{background:none;border:none;cursor:pointer;color:var(--text2);padding:4px;border-radius:6px;display:flex;align-items:center;flex-shrink:0;transition:all .15s}
+.ib2:hover{color:var(--text);background:var(--bg3)}
+#sb2{background:var(--text);border:none;border-radius:10px;width:34px;height:34px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s}
+#sb2:hover{background:#333}
+#sb2:disabled{background:var(--border);cursor:not-allowed}
+.if{max-width:700px;margin:8px auto 0;text-align:center;font-size:12px;color:var(--text2)}
 
-  /* ── IMAGE PANEL ── */
-  #image-panel { flex:1; overflow-y:auto; padding:30px 20px; display:none; }
-  #image-panel.show { display:block; }
-  .img-wrap { max-width:720px; margin:0 auto; }
-  .img-title { font-size:22px; font-weight:600; margin-bottom:6px; }
-  .img-sub { color:var(--text2); font-size:14px; margin-bottom:24px; }
-  .img-box { background:var(--bg2); border:1px solid var(--border); border-radius:14px; padding:16px; margin-bottom:20px; }
-  .img-box textarea { width:100%; background:none; border:none; outline:none; font-size:15px; color:var(--text); resize:none; min-height:90px; font-family:inherit; line-height:1.5; }
-  .img-box textarea::placeholder { color:var(--text2); }
-  .img-controls { display:flex; gap:10px; flex-wrap:wrap; align-items:center; border-top:1px solid var(--border); padding-top:12px; margin-top:8px; }
-  .img-select { background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:7px 12px; font-size:13px; color:var(--text); cursor:pointer; outline:none; }
-  .img-btn { margin-left:auto; background:var(--text); color:#fff; border:none; border-radius:8px; padding:9px 20px; font-size:14px; font-weight:500; cursor:pointer; display:flex; align-items:center; gap:6px; }
-  .img-btn:hover { background:#333; }
-  .img-btn:disabled { background:var(--border); cursor:not-allowed; }
-  .img-result { margin-top:8px; }
-  .img-result img { width:100%; max-width:512px; border-radius:12px; border:1px solid var(--border); display:block; margin-bottom:10px; }
-  .img-gallery { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px; margin-top:16px; }
-  .img-card { border-radius:12px; overflow:hidden; border:1px solid var(--border); aspect-ratio:1; position:relative; background:var(--bg2); cursor:pointer; }
-  .img-card img { width:100%; height:100%; object-fit:cover; display:block; }
-  .img-card-over { position:absolute; inset:0; background:rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center; gap:8px; opacity:0; transition:opacity 0.2s; }
-  .img-card:hover .img-card-over { opacity:1; }
-  .img-card-btn { background:rgba(255,255,255,0.9); border:none; border-radius:8px; padding:7px 14px; font-size:13px; font-weight:500; cursor:pointer; }
-  .spinner { width:28px; height:28px; border:3px solid var(--border); border-top-color:var(--accent); border-radius:50%; animation:spin 0.8s linear infinite; }
-  @keyframes spin{to{transform:rotate(360deg)}}
-  .loading-box { display:flex; align-items:center; gap:12px; padding:24px; color:var(--text2); font-size:14px; }
+/* IMAGE PANEL */
+#ip{flex:1;overflow-y:auto;padding:32px 24px;display:none}
+#ip.show{display:block}
+.iw{max-width:740px;margin:0 auto}
+.it{font-size:22px;font-weight:700;margin-bottom:6px}
+.is{color:var(--text2);font-size:14px;margin-bottom:8px}
+.free-badge{display:inline-flex;align-items:center;gap:6px;background:#e6f7f0;color:#0d6b4f;font-size:12px;font-weight:600;padding:4px 10px;border-radius:20px;margin-bottom:20px}
+.ibox{background:var(--bg2);border:1.5px solid var(--border);border-radius:16px;padding:18px;margin-bottom:20px}
+.ibox textarea{width:100%;background:none;border:none;outline:none;font-size:15px;color:var(--text);resize:none;min-height:90px;font-family:inherit;line-height:1.6}
+.ibox textarea::placeholder{color:var(--text2)}
+.ictrl{display:flex;gap:10px;flex-wrap:wrap;align-items:center;border-top:1px solid var(--border);padding-top:14px;margin-top:10px}
+.isel{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:7px 12px;font-size:13px;color:var(--text);cursor:pointer;outline:none}
+.igb{margin-left:auto;background:var(--accent);color:#fff;border:none;border-radius:10px;padding:10px 22px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:7px;transition:background .15s;letter-spacing:.01em}
+.igb:hover{background:var(--acch)}
+.igb:disabled{background:var(--border);cursor:not-allowed}
+.ires{margin-top:8px}
+.ires img{width:100%;max-width:600px;border-radius:14px;border:1px solid var(--border);display:block;margin-bottom:12px;cursor:pointer}
+.igal{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-top:20px}
+.icard{border-radius:12px;overflow:hidden;border:1px solid var(--border);aspect-ratio:1;position:relative;background:var(--bg2);cursor:pointer}
+.icard img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .2s}
+.icard:hover img{transform:scale(1.03)}
+.icov{position:absolute;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;gap:8px;opacity:0;transition:opacity .2s}
+.icard:hover .icov{opacity:1}
+.icbtn{background:rgba(255,255,255,.92);border:none;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:500;cursor:pointer}
+.spin{width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:sp .8s linear infinite;flex-shrink:0}
+@keyframes sp{to{transform:rotate(360deg)}}
+.lbox{display:flex;align-items:center;gap:14px;padding:28px;color:var(--text2);font-size:14px;background:var(--bg2);border-radius:14px;margin-top:8px}
 
-  /* ── INFO BOX ── */
-  .info-box { background:#fffbe6; border:1px solid #f0d060; border-radius:12px; padding:16px 18px; margin-bottom:20px; font-size:14px; line-height:1.6; color:#5a4a00; }
-  .info-box strong { color:#3a3000; }
+/* MODAL */
+#modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:100}
+#modal.hid{display:none}
+.mbox{background:var(--bg);border-radius:18px;padding:32px;width:480px;max-width:92vw;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.mbox h2{font-size:20px;margin-bottom:8px}
+.mbox p{color:var(--text2);font-size:14px;margin-bottom:18px;line-height:1.6}
+.mlb{font-size:13px;font-weight:500;color:var(--text);margin-bottom:6px;margin-top:14px}
+.minp{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-size:14px;outline:none;font-family:monospace;transition:border-color .15s}
+.minp:focus{border-color:var(--accent)}
+.msave{width:100%;background:var(--accent);color:#fff;border:none;border-radius:10px;padding:13px;font-size:15px;font-weight:600;cursor:pointer;margin-top:20px;transition:background .15s}
+.msave:hover{background:var(--acch)}
+.mnote{font-size:12px;color:var(--text2);text-align:center;margin-top:10px}
+.kst{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:4px 10px;border-radius:20px;margin-top:8px}
+.kst.ok{background:#e6f7f0;color:#0d6b4f}
+.kst.bad{background:#fef3e2;color:#a05800}
 
-  /* ── MODAL ── */
-  #api-modal { position:fixed; inset:0; background:rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center; z-index:100; }
-  #api-modal.hidden { display:none; }
-  .modal-box { background:var(--bg); border-radius:16px; padding:32px; width:500px; max-width:92vw; box-shadow:0 20px 60px rgba(0,0,0,0.15); }
-  .modal-box h2 { font-size:20px; margin-bottom:8px; }
-  .modal-box p { color:var(--text2); font-size:14px; margin-bottom:16px; line-height:1.6; }
-  .modal-label { font-size:13px; font-weight:500; color:var(--text); margin-bottom:6px; margin-top:14px; }
-  .modal-input { width:100%; border:1px solid var(--border); border-radius:10px; padding:11px 14px; font-size:14px; outline:none; font-family:monospace; transition:border-color 0.15s; }
-  .modal-input:focus { border-color:var(--accent); }
-  .modal-save { width:100%; background:var(--accent); color:#fff; border:none; border-radius:10px; padding:12px; font-size:15px; font-weight:500; cursor:pointer; margin-top:18px; }
-  .modal-save:hover { background:var(--accent-hover); }
-  .modal-note { font-size:12px; color:var(--text2); text-align:center; margin-top:10px; }
-  .modal-tabs { display:flex; gap:4px; background:var(--bg2); border-radius:8px; padding:3px; margin-bottom:18px; }
-  .modal-tab { flex:1; padding:7px; border:none; border-radius:6px; font-size:13px; cursor:pointer; background:none; color:var(--text2); font-weight:500; }
-  .modal-tab.active { background:var(--bg); color:var(--text); box-shadow:0 1px 3px rgba(0,0,0,0.1); }
-  .modal-section { display:none; }
-  .modal-section.show { display:block; }
-  .key-status { display:inline-flex; align-items:center; gap:6px; font-size:12px; padding:4px 10px; border-radius:20px; margin-top:8px; }
-  .key-status.ok { background:#e6f7f0; color:#0d6b4f; }
-  .key-status.missing { background:#fef3e2; color:#a05800; }
+/* LIGHTBOX */
+#lbx{position:fixed;inset:0;background:rgba(0,0,0,.88);display:flex;align-items:center;justify-content:center;z-index:200;cursor:pointer}
+#lbx.hid{display:none}
+#lbx img{max-width:92vw;max-height:90vh;border-radius:12px;box-shadow:0 8px 40px rgba(0,0,0,.5)}
+#lbx-close{position:absolute;top:18px;right:22px;color:#fff;font-size:28px;cursor:pointer;background:none;border:none;line-height:1}
 
-  /* scrollbar */
-  #chat-area::-webkit-scrollbar, #image-panel::-webkit-scrollbar { width:6px; }
-  #chat-area::-webkit-scrollbar-thumb, #image-panel::-webkit-scrollbar-thumb { background:var(--border); border-radius:4px; }
+/* SCROLLBAR */
+#ca::-webkit-scrollbar,#ip::-webkit-scrollbar{width:5px}
+#ca::-webkit-scrollbar-thumb,#ip::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
 
-  @media(max-width:640px){
-    #sidebar { position:fixed; z-index:50; transform:translateX(-100%); transition:transform 0.2s; }
-    #sidebar.open { transform:translateX(0); }
-    .suggestions { grid-template-columns:1fr; }
-    .topbar-title { display:none; }
-  }
+@media(max-width:640px){
+  #sb{position:fixed;z-index:50;transform:translateX(-100%);transition:transform .2s}
+  #sb.open{transform:translateX(0)}
+  .sugs{grid-template-columns:1fr}
+  .tbt{display:none}
+  .tbr{display:none}
+}
 </style>
 </head>
 <body>
 
-<!-- ═══ SIDEBAR ═══ -->
-<nav id="sidebar">
-  <div class="sidebar-top">
-    <a class="sidebar-logo" href="#">
-      <div class="logo-circle">O</div>
-      OptimaSeek AI
+<!-- ══ SIDEBAR ══ -->
+<nav id="sb">
+  <div class="sbtop">
+    <a class="sblogo" href="#">
+      <div class="lc">O</div>OptimaSeek AI
     </a>
-    <button class="icon-btn" onclick="toggleSidebar()">
+    <button class="ib" onclick="toggleSB()">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 3v18"/></svg>
     </button>
   </div>
 
-  <button class="new-chat-btn" onclick="newChat()">
+  <button class="ncb" onclick="newChat()">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
     New chat
   </button>
 
-  <div class="sidebar-section">
-    <div class="sidebar-label">Recent</div>
-    <div id="history-list"></div>
+  <div class="sbs">
+    <div class="sbl">Recent chats</div>
+    <div id="hl"></div>
   </div>
 
-  <div class="sidebar-bottom">
-    <div class="sidebar-link" onclick="openModal('chat-tab')">
+  <div class="sbbot">
+    <div class="sblink" onclick="openModal()">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="11" width="20" height="11" rx="2"/><path d="M6 11V7a6 6 0 0 1 12 0v4"/></svg>
-      API Keys
+      API Key (Chat)
     </div>
-    <div class="sidebar-link" onclick="openModal('img-tab')">
+    <div class="sblink" onclick="setMode('image')">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
-      Image API Setup
+      Image Generator
     </div>
-    <div class="sidebar-link">
+    <div class="sblink">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
-      Help
+      Help &amp; Support
     </div>
   </div>
 </nav>
 
-<!-- ═══ MAIN ═══ -->
+<!-- ══ MAIN ══ -->
 <div id="main">
-
   <!-- TOPBAR -->
-  <header id="topbar">
-    <div class="topbar-left">
-      <button class="icon-btn" onclick="toggleSidebar()" style="color:#666;">
+  <header id="tb">
+    <div class="tbl">
+      <button class="ib" onclick="toggleSB()" style="color:#666">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 3v18"/></svg>
       </button>
-      <span class="topbar-title" id="page-title">OptimaSeek AI</span>
+      <span class="tbt" id="ptitle">OptimaSeek AI</span>
     </div>
 
-    <div class="mode-toggle">
-      <button class="mode-btn active" id="btn-chat" onclick="setMode('chat')">
+    <div class="mt">
+      <button class="mb act" id="bchat" onclick="setMode('chat')">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         Chat
       </button>
-      <button class="mode-btn" id="btn-image" onclick="setMode('image')">
+      <button class="mb" id="bimg" onclick="setMode('image')">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
-        Images
+        Images ✨ Free
       </button>
     </div>
 
-    <div class="topbar-right">
-      <button class="topbar-btn" onclick="openModal('chat-tab')">⚙️ Setup Keys</button>
+    <div class="tbr">
+      <button class="tbb" onclick="openModal()">🔑 Set Chat Key</button>
     </div>
   </header>
 
   <!-- CHAT VIEW -->
-  <div id="chat-view">
-    <div id="chat-area">
-      <div id="welcome">
+  <div id="cv">
+    <div id="ca">
+      <div id="wl">
         <h1>Where should we begin?</h1>
-        <p>Ask me anything — or switch to Images to create artwork.</p>
-        <div class="suggestions">
-          <div class="sug-card" onclick="sendSug('Explain machine learning in simple terms')">
+        <p>Chat with AI or switch to <strong>Images ✨ Free</strong> to create art — no sign up needed!</p>
+        <div class="sugs">
+          <div class="sc" onclick="sendSug('Explain how artificial intelligence works in simple terms')">
             <strong>🧠 Explain AI</strong>
-            <span>Explain machine learning simply</span>
+            <span>How does artificial intelligence work?</span>
           </div>
-          <div class="sug-card" onclick="sendSug('Write a Python script to sort a list of names')">
+          <div class="sc" onclick="sendSug('Write a Python function to reverse a string')">
             <strong>💻 Write code</strong>
-            <span>Python script to sort names</span>
+            <span>Python function to reverse a string</span>
           </div>
-          <div class="sug-card" onclick="sendSug('Write a professional email to reschedule a meeting')">
-            <strong>✉️ Write an email</strong>
-            <span>Professional email to reschedule</span>
+          <div class="sc" onclick="sendSug('Write a short professional bio for a web designer')">
+            <strong>✍️ Write for me</strong>
+            <span>Professional bio for a web designer</span>
           </div>
-          <div class="sug-card" onclick="sendSug('Give me 5 tips to be more productive')">
-            <strong>📋 Productivity</strong>
-            <span>5 tips to be more productive</span>
+          <div class="sc" onclick="sendSug('What are 5 ways to grow a small business online?')">
+            <strong>📈 Business tips</strong>
+            <span>5 ways to grow a small business online</span>
           </div>
         </div>
       </div>
     </div>
 
-    <div id="input-area">
-      <div id="input-box">
-        <textarea id="user-input" placeholder="Ask anything…" rows="1"
-          onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
-        <button class="inp-btn" title="Voice (coming soon)" onclick="alert('Voice input coming soon!')">
+    <!-- INPUT BAR -->
+    <div id="ia">
+      <div id="ib2">
+        <textarea id="ui" placeholder="Ask anything…" rows="1"
+          onkeydown="hk(event)" oninput="ar(this)"></textarea>
+        <button class="ib2" title="Voice (coming soon)" onclick="alert('Voice input coming soon!')">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg>
         </button>
-        <button id="send-btn" onclick="sendMsg()" disabled>
+        <button id="sb2" onclick="send()" disabled>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
         </button>
       </div>
-      <div class="input-footer">OptimaSeek AI can make mistakes. Always verify important information.</div>
+      <div class="if">OptimaSeek AI · Powered by Claude · Free image generation via Pollinations AI</div>
     </div>
   </div>
 
-  <!-- IMAGE VIEW -->
-  <div id="image-panel">
-    <div class="img-wrap">
-      <div class="img-title">🎨 Create an Image</div>
-      <div class="img-sub">Describe what you want — AI will generate it for you.</div>
-
-      <div id="img-api-notice" class="info-box" style="display:none">
-        ⚠️ <strong>Image API not configured.</strong>
-        Click <strong>⚙️ Setup Keys</strong> in the top right and add your Google Cloud API key to enable image generation.
-        <br><br>
-        <strong>Don't have one?</strong> Go to <a href="https://console.cloud.google.com" target="_blank" style="color:#10a37f">console.cloud.google.com</a> → Enable "Vertex AI API" → Create an API key.
+  <!-- IMAGE PANEL -->
+  <div id="ip">
+    <div class="iw">
+      <div class="it">🎨 Image Generator</div>
+      <div class="is">Describe what you want to create</div>
+      <div class="free-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+        100% FREE · No API key needed · Unlimited generations
       </div>
 
-      <div class="img-box">
-        <textarea id="img-prompt" placeholder="A futuristic city at sunset, neon lights reflecting on wet streets, cinematic, 8K, highly detailed…" rows="4"></textarea>
-        <div class="img-controls">
-          <select class="img-select" id="img-size">
-            <option value="1024x1024">Square (1024×1024)</option>
-            <option value="1792x1024">Landscape (1792×1024)</option>
-            <option value="1024x1792">Portrait (1024×1792)</option>
+      <div class="ibox">
+        <textarea id="ipt" placeholder="A majestic snow leopard on a mountain peak at golden hour, ultra-realistic, National Geographic style…" rows="4"></textarea>
+        <div class="ictrl">
+          <select class="isel" id="isz">
+            <option value="1024/1024">Square (1024×1024)</option>
+            <option value="1920/1080">Landscape (1920×1080)</option>
+            <option value="1080/1920">Portrait (1080×1920)</option>
+            <option value="1280/720">Wide (1280×720)</option>
           </select>
-          <select class="img-select" id="img-style">
-            <option value="">Auto style</option>
-            <option value="photographic">Photographic</option>
-            <option value="digital-art">Digital Art</option>
-            <option value="anime">Anime</option>
-            <option value="cinematic">Cinematic</option>
-            <option value="oil-painting">Oil Painting</option>
+          <select class="isel" id="imodel">
+            <option value="flux">Flux (Best quality)</option>
+            <option value="flux-realism">Flux Realism</option>
+            <option value="flux-anime">Flux Anime</option>
+            <option value="flux-3d">Flux 3D</option>
+            <option value="turbo">Turbo (Fastest)</option>
           </select>
-          <button class="img-btn" id="img-gen-btn" onclick="generateImage()">
-            ✨ Generate Image
+          <select class="isel" id="icount">
+            <option value="1">1 image</option>
+            <option value="2">2 images</option>
+            <option value="4">4 images</option>
+          </select>
+          <button class="igb" id="igb" onclick="genImg()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+            Generate
           </button>
         </div>
       </div>
 
-      <div id="img-result" class="img-result"></div>
-      <div id="img-gallery" class="img-gallery"></div>
+      <div id="ires2"></div>
+      <div id="igal"></div>
     </div>
-  </div>
-
-</div><!-- /main -->
-
-<!-- ═══ MODAL ═══ -->
-<div id="api-modal" class="hidden">
-  <div class="modal-box">
-    <h2>⚙️ API Key Setup</h2>
-    <p>Enter your API keys to enable chat and image generation. Keys are saved only in <strong>your browser</strong>.</p>
-
-    <div class="modal-tabs">
-      <button class="modal-tab active" id="chat-tab" onclick="switchTab('chat')">💬 Chat (Claude)</button>
-      <button class="modal-tab" id="img-tab" onclick="switchTab('img')">🎨 Images (Google)</button>
-    </div>
-
-    <!-- CHAT TAB -->
-    <div class="modal-section show" id="chat-section">
-      <div class="modal-label">Anthropic API Key (for chat)</div>
-      <input type="password" class="modal-input" id="claude-key-input" placeholder="sk-ant-api03-…" />
-      <div id="claude-status"></div>
-      <p style="font-size:13px;color:var(--text2);margin-top:10px;">
-        Get your key at <a href="https://console.anthropic.com/settings/keys" target="_blank" style="color:var(--accent)">console.anthropic.com →</a>
-      </p>
-    </div>
-
-    <!-- IMAGE TAB -->
-    <div class="modal-section" id="img-section">
-      <div class="modal-label">Google Cloud API Key (for images)</div>
-      <input type="password" class="modal-input" id="google-key-input" placeholder="AIzaSy…" />
-      <div id="google-status"></div>
-      <div class="modal-label" style="margin-top:14px;">Google Cloud Project ID</div>
-      <input type="text" class="modal-input" id="google-project-input" placeholder="my-project-123456" />
-      <p style="font-size:13px;color:var(--text2);margin-top:10px;line-height:1.7;">
-        1. Go to <a href="https://console.cloud.google.com" target="_blank" style="color:var(--accent)">console.cloud.google.com</a><br>
-        2. Enable <strong>Vertex AI API</strong><br>
-        3. Go to <strong>APIs & Services → Credentials → Create API Key</strong><br>
-        4. Copy your Project ID from the top of the console
-      </p>
-    </div>
-
-    <button class="modal-save" onclick="saveKeys()">💾 Save Keys</button>
-    <div class="modal-note">Keys never leave your browser — stored in localStorage only.</div>
   </div>
 </div>
 
+<!-- ══ MODAL ══ -->
+<div id="modal" class="hid">
+  <div class="mbox">
+    <h2>🔑 Anthropic API Key</h2>
+    <p>Enter your Claude API key to enable chat. Image generation is already free — no key needed!<br><br>
+    Don't have a key? <a href="https://console.anthropic.com/settings/keys" target="_blank" style="color:var(--accent)">Get one free at console.anthropic.com →</a></p>
+    <div class="mlb">Your Anthropic API Key</div>
+    <input type="password" class="minp" id="ki" placeholder="sk-ant-api03-…"/>
+    <div id="kst2"></div>
+    <button class="msave" onclick="saveKey()">💾 Save Key &amp; Start Chatting</button>
+    <div class="mnote">Your key is stored only in your browser — never sent to our servers.</div>
+  </div>
+</div>
+
+<!-- ══ LIGHTBOX ══ -->
+<div id="lbx" class="hid" onclick="closeLB()">
+  <button id="lbx-close" onclick="closeLB()">✕</button>
+  <img id="lbimg" src="" alt="Full size image"/>
+</div>
+
 <script>
-/* ═══════════════ STATE ═══════════════ */
-let claudeKey = localStorage.getItem('os_claude_key') || '';
-let googleKey = localStorage.getItem('os_google_key') || '';
-let googleProject = localStorage.getItem('os_google_project') || '';
-let conversations = [];
-let generating = false;
-let currentMode = 'chat';
+/* ─── STATE ─── */
+let apiKey = localStorage.getItem('os_key')||'';
+let convs = [];
+let busy = false;
+let mode = 'chat';
 
-/* ═══════════════ INIT ═══════════════ */
-window.onload = () => {
-  updateSendBtn();
-  updateKeyStatuses();
-  checkImageNotice();
-  if (!claudeKey) openModal('chat-tab');
-};
+/* ─── INIT ─── */
+window.onload = () => { updSend(); updKst(); };
 
-/* ═══════════════ SIDEBAR ═══════════════ */
-function toggleSidebar() {
-  const s = document.getElementById('sidebar');
-  s.classList.toggle('collapsed');
+/* ─── SIDEBAR ─── */
+function toggleSB(){
+  const s=document.getElementById('sb');
+  s.classList.toggle('col');
   s.classList.toggle('open');
 }
-function newChat() {
-  conversations = [];
-  document.getElementById('chat-area').innerHTML = welcomeHTML();
-  document.getElementById('user-input').value = '';
-  autoResize(document.getElementById('user-input'));
+function newChat(){
+  convs=[];
+  document.getElementById('ca').innerHTML=wlHTML();
+  document.getElementById('ui').value='';
+  ar(document.getElementById('ui'));
 }
-function welcomeHTML() {
-  return `<div id="welcome">
-    <h1>Where should we begin?</h1>
-    <p>Ask me anything — or switch to Images to create artwork.</p>
-    <div class="suggestions">
-      <div class="sug-card" onclick="sendSug('Explain machine learning in simple terms')"><strong>🧠 Explain AI</strong><span>Machine learning explained simply</span></div>
-      <div class="sug-card" onclick="sendSug('Write a Python script to scrape a website')"><strong>💻 Write code</strong><span>Python web scraping script</span></div>
-      <div class="sug-card" onclick="sendSug('Write a professional email to reschedule a meeting')"><strong>✉️ Write an email</strong><span>Professional email to reschedule</span></div>
-      <div class="sug-card" onclick="sendSug('Give me 5 tips to be more productive')"><strong>📋 Productivity</strong><span>5 productivity tips</span></div>
-    </div>
-  </div>`;
-}
-function addHistory(title) {
-  const list = document.getElementById('history-list');
-  const d = document.createElement('div');
-  d.className = 'chat-item';
-  d.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>${esc(title)}`;
-  list.prepend(d);
+function wlHTML(){return`<div id="wl">
+  <h1>Where should we begin?</h1>
+  <p>Chat with AI or switch to <strong>Images ✨ Free</strong> to create art!</p>
+  <div class="sugs">
+    <div class="sc" onclick="sendSug('Explain how AI works in simple terms')"><strong>🧠 Explain AI</strong><span>How does artificial intelligence work?</span></div>
+    <div class="sc" onclick="sendSug('Write a Python function to sort a dictionary by value')"><strong>💻 Write code</strong><span>Python: sort a dictionary by value</span></div>
+    <div class="sc" onclick="sendSug('Write a short professional bio for a web designer')"><strong>✍️ Write for me</strong><span>Professional bio for a web designer</span></div>
+    <div class="sc" onclick="sendSug('What are 5 ways to grow a small business online?')"><strong>📈 Business</strong><span>5 ways to grow a small business</span></div>
+  </div>
+</div>`;}
+function addHist(t){
+  const l=document.getElementById('hl');
+  const d=document.createElement('div');
+  d.className='ci';
+  d.innerHTML=`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>${esc(t.slice(0,42))}`;
+  l.prepend(d);
 }
 
-/* ═══════════════ MODE ═══════════════ */
-function setMode(m) {
-  currentMode = m;
-  document.getElementById('btn-chat').classList.toggle('active', m==='chat');
-  document.getElementById('btn-image').classList.toggle('active', m==='image');
-  document.getElementById('chat-view').style.display = m==='chat'?'flex':'none';
-  document.getElementById('image-panel').classList.toggle('show', m==='image');
-  document.getElementById('page-title').textContent = m==='chat'?'OptimaSeek AI':'Image Generator';
+/* ─── MODE ─── */
+function setMode(m){
+  mode=m;
+  document.getElementById('bchat').classList.toggle('act',m==='chat');
+  document.getElementById('bimg').classList.toggle('act',m==='image');
+  document.getElementById('cv').style.display=m==='chat'?'flex':'none';
+  document.getElementById('ip').classList.toggle('show',m==='image');
+  document.getElementById('ptitle').textContent=m==='chat'?'OptimaSeek AI':'Image Generator ✨';
 }
 
-/* ═══════════════ CHAT ═══════════════ */
-function handleKey(e) { if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();} }
-function autoResize(el) { el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,200)+'px'; updateSendBtn(); }
-function updateSendBtn() {
-  const v = document.getElementById('user-input').value.trim();
-  document.getElementById('send-btn').disabled = !v || generating;
-}
-function sendSug(t) { document.getElementById('user-input').value=t; autoResize(document.getElementById('user-input')); sendMsg(); }
+/* ─── CHAT ─── */
+function hk(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}}
+function ar(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,200)+'px';updSend();}
+function updSend(){document.getElementById('sb2').disabled=!document.getElementById('ui').value.trim()||busy;}
+function sendSug(t){document.getElementById('ui').value=t;ar(document.getElementById('ui'));send();}
 
-async function sendMsg() {
-  const inp = document.getElementById('user-input');
-  const txt = inp.value.trim();
-  if(!txt||generating) return;
-  if(!claudeKey){ openModal('chat-tab'); return; }
-
-  generating = true; updateSendBtn();
-  const w = document.getElementById('welcome');
-  if(w) w.remove();
-  conversations.push({role:'user',content:txt});
-  appendMsg('user', txt);
-  inp.value=''; autoResize(inp);
-
-  const aiId = 'ai-'+Date.now();
-  appendMsg('ai', '<span class="dot"></span><span class="dot"></span><span class="dot"></span>', aiId);
-  scrollDown();
-
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+async function send(){
+  const inp=document.getElementById('ui');
+  const txt=inp.value.trim();
+  if(!txt||busy)return;
+  if(!apiKey){openModal();return;}
+  busy=true;updSend();
+  const w=document.getElementById('wl');if(w)w.remove();
+  convs.push({role:'user',content:txt});
+  addMsg('user',txt);
+  inp.value='';ar(inp);
+  const aid='ai'+Date.now();
+  addMsg('ai','<span class="dot"></span><span class="dot"></span><span class="dot"></span>',aid);
+  scrollD();
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{
         'Content-Type':'application/json',
-        'x-api-key': claudeKey,
+        'x-api-key':apiKey,
         'anthropic-version':'2023-06-01',
         'anthropic-dangerous-direct-browser-access':'true'
       },
-      body: JSON.stringify({
+      body:JSON.stringify({
         model:'claude-sonnet-4-20250514',
         max_tokens:1024,
-        system:'You are OptimaSeek AI — a smart, helpful assistant. Be clear and concise. Format with markdown when helpful.',
-        messages: conversations.slice(-20)
+        system:'You are OptimaSeek AI — a helpful, smart, and friendly AI assistant. Format responses clearly using markdown when useful.',
+        messages:convs.slice(-20)
       })
     });
-    if(!res.ok){ const e=await res.json(); throw new Error(e.error?.message||`HTTP ${res.status}`); }
-    const data = await res.json();
-    const reply = data.content[0].text;
-    conversations.push({role:'assistant',content:reply});
-    const el=document.getElementById(aiId);
-    if(el) el.querySelector('.msg-body').innerHTML = mdToHtml(reply);
-    addHistory(txt.slice(0,48));
-  } catch(err) {
-    const el=document.getElementById(aiId);
-    if(el) el.querySelector('.msg-body').innerHTML=`<span style="color:#e24b4a">⚠️ ${esc(err.message)} — <a href="#" onclick="openModal('chat-tab')" style="color:var(--accent)">Check API key</a></span>`;
+    if(!r.ok){const e=await r.json();throw new Error(e.error?.message||`Error ${r.status}`);}
+    const d=await r.json();
+    const rep=d.content[0].text;
+    convs.push({role:'assistant',content:rep});
+    const el=document.getElementById(aid);
+    if(el)el.querySelector('.mb2').innerHTML=md(rep);
+    addHist(txt);
+  }catch(e){
+    const el=document.getElementById(aid);
+    if(el)el.querySelector('.mb2').innerHTML=`<span style="color:#c0392b">⚠️ ${esc(e.message)} — <a href="#" onclick="openModal()" style="color:var(--accent)">Check your API key</a></span>`;
   }
-  generating=false; updateSendBtn(); scrollDown();
+  busy=false;updSend();scrollD();
 }
 
-function appendMsg(role, html, id) {
-  const area = document.getElementById('chat-area');
-  const isUser = role==='user';
-  const d = document.createElement('div');
-  d.className='msg-wrap'; if(id) d.id=id;
-  d.innerHTML=`<div class="msg-inner">
-    <div class="avatar ${role}">${isUser?'U':'AI'}</div>
+function addMsg(role,html,id){
+  const area=document.getElementById('ca');
+  const isU=role==='user';
+  const d=document.createElement('div');
+  d.className='mw';if(id)d.id=id;
+  d.innerHTML=`<div class="mi">
+    <div class="av ${role}">${isU?'U':'AI'}</div>
     <div style="flex:1;min-width:0">
-      <div class="msg-body">${isUser?esc(html):html}</div>
-      ${!isUser?`<div class="msg-actions"><button class="act-btn" onclick="copyMsg(this)">📋 Copy</button></div>`:''}
+      <div class="mb2">${isU?`<p>${esc(html)}</p>`:html}</div>
+      ${!isU?`<div class="mac">
+        <button class="ab" onclick="cpMsg(this)">📋 Copy</button>
+        <button class="ab" onclick="regenMsg()">🔄 Regenerate</button>
+      </div>`:''}
     </div>
   </div>`;
   area.appendChild(d);
 }
-function copyMsg(btn) {
-  const txt = btn.closest('.msg-inner').querySelector('.msg-body').innerText;
-  navigator.clipboard.writeText(txt);
-  btn.textContent='✓ Copied';
+function cpMsg(btn){
+  const t=btn.closest('.mi').querySelector('.mb2').innerText;
+  navigator.clipboard.writeText(t);
+  btn.textContent='✓ Copied!';
   setTimeout(()=>btn.textContent='📋 Copy',2000);
 }
-function scrollDown() { const a=document.getElementById('chat-area'); a.scrollTop=a.scrollHeight; }
-function esc(t){ return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function mdToHtml(t){
+async function regenMsg(){
+  if(convs.length<2)return;
+  convs.pop();
+  const msgs=document.querySelectorAll('.mw');
+  if(msgs.length)msgs[msgs.length-1].remove();
+  busy=false;
+  const last=convs[convs.length-1];
+  if(last&&last.role==='user'){
+    convs.pop();
+    document.getElementById('ui').value=last.content;
+    ar(document.getElementById('ui'));
+    send();
+  }
+}
+function scrollD(){const a=document.getElementById('ca');a.scrollTop=a.scrollHeight;}
+function esc(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function md(t){
   return t
-    .replace(/```(\w+)?\n?([\s\S]*?)```/g,'<pre><code>$2</code></pre>')
+    .replace(/```(\w*)\n?([\s\S]*?)```/g,'<pre><code>$2</code></pre>')
     .replace(/`([^`]+)`/g,'<code>$1</code>')
     .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
     .replace(/\*(.+?)\*/g,'<em>$1</em>')
-    .replace(/^### (.+)$/gm,'<h3 style="font-size:15px;font-weight:600;margin:12px 0 6px">$1</h3>')
-    .replace(/^## (.+)$/gm,'<h2 style="font-size:17px;font-weight:600;margin:14px 0 6px">$1</h2>')
-    .replace(/^# (.+)$/gm,'<h1 style="font-size:20px;font-weight:600;margin:16px 0 8px">$1</h1>')
+    .replace(/^### (.+)$/gm,'<h3>$1</h3>')
+    .replace(/^## (.+)$/gm,'<h2>$1</h2>')
+    .replace(/^# (.+)$/gm,'<h1>$1</h1>')
     .replace(/^[-*] (.+)$/gm,'<li>$1</li>')
-    .replace(/(<li>[\s\S]*?<\/li>)/g,'<ul>$1</ul>')
+    .replace(/(<li>[\s\S]*?<\/li>\n?)+/g,'<ul>$&</ul>')
     .replace(/\n\n+/g,'</p><p>')
-    .replace(/^(?!<[hpuol])(.+)/gm,'<p>$1</p>')
+    .replace(/\n/g,'<br>')
+    .replace(/^(?!<[hpuolb])/gm,'<p>')
+    .replace(/<p>(<[huo])/g,'$1')
     .replace(/<p><\/p>/g,'');
 }
 
-/* ═══════════════ IMAGE GENERATION ═══════════════ */
-function checkImageNotice() {
-  const notice = document.getElementById('img-api-notice');
-  if(notice) notice.style.display = (googleKey&&googleProject) ? 'none' : 'block';
-}
+/* ─── IMAGE GENERATION (Pollinations AI — FREE) ─── */
+async function genImg(){
+  const prompt=document.getElementById('ipt').value.trim();
+  if(!prompt){alert('Please describe the image you want to create!');return;}
 
-async function generateImage() {
-  const prompt = document.getElementById('img-prompt').value.trim();
-  if(!prompt){ alert('Please enter a description for your image.'); return; }
+  const btn=document.getElementById('igb');
+  const res=document.getElementById('ires2');
+  const gal=document.getElementById('igal');
+  const sz=document.getElementById('isz').value.split('/');
+  const w=sz[0],h=sz[1];
+  const model=document.getElementById('imodel').value;
+  const count=parseInt(document.getElementById('icount').value);
 
-  if(!googleKey || !googleProject) {
-    openModal('img-tab');
-    return;
+  btn.disabled=true;
+  btn.innerHTML='<div class="spin" style="width:16px;height:16px;border-width:2px"></div> Generating…';
+
+  res.innerHTML=`<div class="lbox">
+    <div class="spin"></div>
+    <div>
+      <div style="font-weight:500;margin-bottom:4px">Creating your image…</div>
+      <div style="font-size:13px;color:var(--text2)">This takes 10–20 seconds. Please wait ✨</div>
+    </div>
+  </div>`;
+
+  const seed=Math.floor(Math.random()*99999);
+  const encPrompt=encodeURIComponent(prompt);
+  const urls=[];
+
+  for(let i=0;i<count;i++){
+    const s=seed+i;
+    // Pollinations AI — completely free, no auth needed
+    urls.push(`https://image.pollinations.ai/prompt/${encPrompt}?width=${w}&height=${h}&model=${model}&seed=${s}&nologo=true&enhance=true`);
   }
 
-  const btn = document.getElementById('img-gen-btn');
-  const result = document.getElementById('img-result');
-  const style = document.getElementById('img-style').value;
-  const fullPrompt = style ? `${prompt}, ${style} style` : prompt;
+  // Load all images
+  res.innerHTML='';
+  let loaded=0;
+  const imgs=[];
 
-  btn.disabled=true; btn.textContent='⏳ Generating…';
-  result.innerHTML=`<div class="loading-box"><div class="spinner"></div> Creating your image — this takes 10–20 seconds…</div>`;
+  const promptInfo=document.createElement('div');
+  promptInfo.style.cssText='font-size:13px;color:var(--text2);margin-bottom:12px;padding:10px 14px;background:var(--bg2);border-radius:10px;';
+  promptInfo.innerHTML=`✨ <strong>Generating:</strong> "${esc(prompt.slice(0,80))}${prompt.length>80?'…':''}"`;
+  res.appendChild(promptInfo);
 
-  try {
-    // Google Imagen via Vertex AI
-    // Requires: CORS proxy or Vercel API route
-    // We'll try direct first, fall back to helpful error
-    const endpoint = `https://us-central1-aiplatform.googleapis.com/v1/projects/${googleProject}/locations/us-central1/publishers/google/models/imagegeneration@006:predict`;
+  const grid=document.createElement('div');
+  grid.style.cssText=`display:grid;grid-template-columns:repeat(${Math.min(count,2)},1fr);gap:12px;margin-bottom:16px;`;
+  res.appendChild(grid);
 
-    const res = await fetch(endpoint, {
-      method:'POST',
-      headers:{
-        'Authorization': `Bearer ${googleKey}`,
-        'Content-Type':'application/json'
-      },
-      body: JSON.stringify({
-        instances:[{prompt: fullPrompt}],
-        parameters:{
-          sampleCount:1,
-          aspectRatio: getAspectRatio(),
-          safetySetting:'block_some'
-        }
-      })
-    });
+  urls.forEach((url,i)=>{
+    const wrap=document.createElement('div');
+    wrap.style.cssText='position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--border);background:var(--bg2);aspect-ratio:'+w+'/'+h+';display:flex;align-items:center;justify-content:center;';
+    wrap.innerHTML=`<div style="display:flex;flex-direction:column;align-items:center;gap:10px;color:var(--text2);font-size:13px"><div class="spin"></div>Loading image ${count>1?i+1:''}…</div>`;
+    grid.appendChild(wrap);
 
-    if(!res.ok){
-      const e = await res.json();
-      const msg = e.error?.message || `HTTP ${res.status}`;
-      if(res.status===401||res.status===403){
-        throw new Error('API key or project not authorised. Make sure Vertex AI API is enabled in Google Cloud Console.');
+    const img=new Image();
+    img.style.cssText='width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;';
+    img.alt='Generated: '+prompt.slice(0,40);
+    img.title='Click to view full size';
+    img.onclick=()=>openLB(url);
+
+    img.onload=()=>{
+      wrap.innerHTML='';
+      wrap.appendChild(img);
+
+      // Download button overlay
+      const ov=document.createElement('div');
+      ov.style.cssText='position:absolute;bottom:10px;right:10px;display:flex;gap:6px;opacity:0;transition:opacity .2s';
+      ov.innerHTML=`<a href="${url}" download="optimaseek-${seed+i}.jpg" target="_blank"><button class="icbtn">⬇️ Save</button></a>`;
+      wrap.appendChild(ov);
+      wrap.onmouseenter=()=>ov.style.opacity='1';
+      wrap.onmouseleave=()=>ov.style.opacity='0';
+
+      loaded++;
+      if(loaded===count){
+        // Add to gallery
+        urls.forEach((u,j)=>{
+          const card=document.createElement('div');
+          card.className='icard';
+          const ci=document.createElement('img');
+          ci.src=u; ci.alt='Generated image';
+          ci.onload=()=>card.appendChild(ci);
+          const cov=document.createElement('div');
+          cov.className='icov';
+          cov.innerHTML=`<button class="icbtn" onclick="openLB('${u}')">🔍 View</button><a href="${u}" download="image-${j}.jpg" target="_blank"><button class="icbtn">⬇️ Save</button></a>`;
+          card.appendChild(cov);
+          gal.prepend(card);
+        });
       }
-      throw new Error(msg);
-    }
+    };
 
-    const data = await res.json();
-    const b64 = data.predictions?.[0]?.bytesBase64Encoded;
-    if(!b64) throw new Error('No image returned from API.');
-
-    const imgSrc = `data:image/png;base64,${b64}`;
-    result.innerHTML=`
-      <p style="font-size:13px;color:var(--text2);margin-bottom:8px;">✨ Generated: "${esc(prompt.slice(0,60))}${prompt.length>60?'…':''}"</p>
-      <img src="${imgSrc}" alt="Generated image" style="max-width:100%;border-radius:12px;border:1px solid var(--border);">
-      <div style="margin-top:10px;display:flex;gap:8px;">
-        <a href="${imgSrc}" download="optimaseek-image.png" style="background:var(--accent);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:13px;font-weight:500;text-decoration:none;">⬇️ Download</a>
+    img.onerror=()=>{
+      wrap.innerHTML=`<div style="padding:20px;text-align:center;color:var(--text2);font-size:13px">
+        <div style="font-size:24px;margin-bottom:8px">⚠️</div>
+        Failed to load image.<br>
+        <button onclick="genImg()" style="margin-top:10px;background:var(--accent);color:#fff;border:none;border-radius:8px;padding:7px 14px;cursor:pointer;font-size:13px">Try again</button>
       </div>`;
+    };
 
-    // Add to gallery
-    const gal = document.getElementById('img-gallery');
-    const card = document.createElement('div');
-    card.className='img-card';
-    card.innerHTML=`<img src="${imgSrc}" alt="${esc(prompt.slice(0,40))}"><div class="img-card-over"><a href="${imgSrc}" download="image.png"><button class="img-card-btn">⬇️ Save</button></a></div>`;
-    gal.prepend(card);
+    // Set src after delay to avoid rate limiting
+    setTimeout(()=>img.src=url, i*500);
+  });
 
-  } catch(err) {
-    result.innerHTML=`
-      <div style="background:#fff0f0;border:1px solid #ffc0c0;border-radius:12px;padding:20px;">
-        <strong style="color:#c0392b;">⚠️ Image generation error</strong><br><br>
-        <span style="font-size:14px;color:#555;">${esc(err.message)}</span><br><br>
-        <span style="font-size:13px;color:var(--text2);">
-          <strong>To fix:</strong><br>
-          1. Open <a href="https://console.cloud.google.com" target="_blank" style="color:var(--accent)">Google Cloud Console</a><br>
-          2. Enable <strong>Vertex AI API</strong><br>
-          3. Make sure billing is active<br>
-          4. Re-enter your API key in ⚙️ Setup Keys<br><br>
-          <em>Note: Google Cloud Vertex AI requires an OAuth token, not just an API key. 
-          For a simpler setup, consider using the <strong>Vercel backend approach</strong> below.</em>
-        </span>
-        <br>
-        <button onclick="openModal('img-tab')" style="background:var(--accent);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:13px;cursor:pointer;margin-top:8px;">Update API Key →</button>
-      </div>`;
-  }
+  // Action row
+  const actions=document.createElement('div');
+  actions.style.cssText='display:flex;gap:10px;flex-wrap:wrap;';
+  actions.innerHTML=`
+    <button onclick="genImg()" style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:8px 16px;font-size:13px;cursor:pointer;font-weight:500">🔄 Generate new variations</button>
+    <button onclick="setMode('chat');document.getElementById('ui').value='Write a detailed prompt for: ${esc(prompt.slice(0,40))}';ar(document.getElementById('ui'));" style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:8px 16px;font-size:13px;cursor:pointer;font-weight:500">💬 Improve this prompt with AI</button>`;
+  res.appendChild(actions);
 
-  btn.disabled=false; btn.innerHTML='✨ Generate Image';
+  btn.disabled=false;
+  btn.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg> Generate';
 }
 
-function getAspectRatio(){
-  const v = document.getElementById('img-size').value;
-  if(v==='1792x1024') return '16:9';
-  if(v==='1024x1792') return '9:16';
-  return '1:1';
+/* ─── LIGHTBOX ─── */
+function openLB(src){
+  document.getElementById('lbimg').src=src;
+  document.getElementById('lbx').classList.remove('hid');
 }
+function closeLB(){document.getElementById('lbx').classList.add('hid');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLB();});
 
-/* ═══════════════ MODAL ═══════════════ */
-function openModal(tab) {
-  document.getElementById('api-modal').classList.remove('hidden');
-  document.getElementById('claude-key-input').value = claudeKey;
-  document.getElementById('google-key-input').value = googleKey;
-  document.getElementById('google-project-input').value = googleProject;
-  if(tab) switchTab(tab==='img-tab'?'img':'chat');
-  updateKeyStatuses();
+/* ─── MODAL ─── */
+function openModal(){
+  document.getElementById('modal').classList.remove('hid');
+  document.getElementById('ki').value=apiKey;
+  updKst();
+  setTimeout(()=>document.getElementById('ki').focus(),100);
 }
-function switchTab(t) {
-  document.getElementById('chat-tab').classList.toggle('active', t==='chat');
-  document.getElementById('img-tab').classList.toggle('active', t==='img');
-  document.getElementById('chat-section').classList.toggle('show', t==='chat');
-  document.getElementById('img-section').classList.toggle('show', t==='img');
+function saveKey(){
+  const v=document.getElementById('ki').value.trim();
+  if(v&&!v.startsWith('sk-')){alert('That doesn\'t look like an Anthropic key. It should start with sk-ant-');return;}
+  if(v){apiKey=v;localStorage.setItem('os_key',v);}
+  updSend();updKst();
+  document.getElementById('modal').classList.add('hid');
+  if(v)setTimeout(()=>alert('✅ API key saved! You can now chat with Claude.'),100);
 }
-function saveKeys() {
-  const ck = document.getElementById('claude-key-input').value.trim();
-  const gk = document.getElementById('google-key-input').value.trim();
-  const gp = document.getElementById('google-project-input').value.trim();
-  if(ck){ claudeKey=ck; localStorage.setItem('os_claude_key',ck); }
-  if(gk){ googleKey=gk; localStorage.setItem('os_google_key',gk); }
-  if(gp){ googleProject=gp; localStorage.setItem('os_google_project',gp); }
-  updateSendBtn();
-  updateKeyStatuses();
-  checkImageNotice();
-  document.getElementById('api-modal').classList.add('hidden');
-  alert('✅ Keys saved! Chat is ready. For images, make sure Vertex AI API is enabled in Google Cloud.');
+function updKst(){
+  const el=document.getElementById('kst2');
+  if(!el)return;
+  el.innerHTML=apiKey
+    ?'<span class="kst ok">✓ Key saved — chat is ready</span>'
+    :'<span class="kst bad">⚠ No key — chat won\'t work (images are still free!)</span>';
 }
-function updateKeyStatuses() {
-  const cs = document.getElementById('claude-status');
-  const gs = document.getElementById('google-status');
-  if(cs) cs.innerHTML = claudeKey
-    ? '<span class="key-status ok">✓ Claude key saved</span>'
-    : '<span class="key-status missing">⚠ No key — chat won\'t work</span>';
-  if(gs) gs.innerHTML = (googleKey&&googleProject)
-    ? '<span class="key-status ok">✓ Google key + project saved</span>'
-    : '<span class="key-status missing">⚠ Not set — images won\'t work</span>';
-}
-document.getElementById('api-modal').addEventListener('click', function(e){
-  if(e.target===this) this.classList.add('hidden');
-});
+document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)this.classList.add('hid');});
+document.getElementById('ki').addEventListener('keydown',e=>{if(e.key==='Enter')saveKey();});
 </script>
 </body>
 </html>
