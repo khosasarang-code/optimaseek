@@ -5,10 +5,39 @@ module.exports = async function handler(req, res) {
   if (req.method === "OPTIONS") return res.status(200).end();
 
   try {
-    const { message, image } = req.body;
+    const { message, image, mode } = req.body;
 
+    // IMAGE GENERATION MODE
+    if (mode === "image") {
+      const response = await fetch(
+        "https://api.stability.ai/v2beta/stable-image/generate/core",
+        {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${process.env.STABILITY_API_KEY}`,
+            "Accept": "application/json"
+          },
+          body: (() => {
+            const form = new URLSearchParams();
+            form.append("prompt", message);
+            form.append("output_format", "jpeg");
+            return form;
+          })()
+        }
+      );
+      const data = await response.json();
+      if (data.image) {
+        return res.status(200).json({ 
+          type: "image", 
+          image: `data:image/jpeg;base64,${data.image}` 
+        });
+      } else {
+        return res.status(200).json({ reply: "Image generation failed: " + JSON.stringify(data) });
+      }
+    }
+
+    // CHAT MODE
     let content = [];
-
     if (image) {
       content.push({
         type: "image",
@@ -19,7 +48,6 @@ module.exports = async function handler(req, res) {
         }
       });
     }
-
     content.push({
       type: "text",
       text: message || "What is in this image?"
@@ -40,7 +68,6 @@ module.exports = async function handler(req, res) {
     });
 
     const data = await response.json();
-
     if (data.content && data.content[0] && data.content[0].text) {
       res.status(200).json({ reply: data.content[0].text });
     } else {
