@@ -1,121 +1,918 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>OptimaSeek AI</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* ==================== IMPROVED MOBILE + CHATGPT STYLE ==================== */
-html, body {
-  width: 100%;
-  height: 100dvh;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  font-family: Inter, system-ui, sans-serif;
-  background: #fff;
-}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-.main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 100dvh;
-  overflow: hidden;
-}
+  :root {
+    --sidebar-w: 260px;
+    --bg: #ffffff;
+    --bg2: #f4f4f4;
+    --bg3: #ececec;
+    --text: #0d0d0d;
+    --text2: #6e6e80;
+    --border: #e5e5e5;
+    --accent: #10a37f;
+    --accent-hover: #0d8a6a;
+    --user-bubble: #f4f4f4;
+    --ai-bubble: #ffffff;
+    --input-bg: #f4f4f4;
+    --sidebar-bg: #202123;
+    --sidebar-text: #ececec;
+    --sidebar-hover: #2a2b32;
+    --sidebar-border: #3a3a3a;
+  }
 
-.chat-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
+  body {
+    font-family: 'Söhne', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+  }
 
-.chat {
-  flex: 1;
-  overflow-y: auto;
-  padding: 20px 16px 120px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  max-width: 780px;
-  width: 100%;
-  margin: 0 auto;
-}
+  /* ── SIDEBAR ── */
+  #sidebar {
+    width: var(--sidebar-w);
+    background: var(--sidebar-bg);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    height: 100vh;
+    transition: width 0.2s;
+  }
+  #sidebar.collapsed { width: 0; overflow: hidden; }
 
-.bottom {
-  position: sticky;
-  bottom: 0;
-  background: white;
-  border-top: 1px solid #e5e7eb;
-  padding: 12px 16px 20px;
-  z-index: 10;
-}
+  .sidebar-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 12px 8px;
+    border-bottom: 1px solid var(--sidebar-border);
+  }
+  .sidebar-logo {
+    color: var(--sidebar-text);
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+  }
+  .sidebar-logo svg { width:24px; height:24px; fill: var(--accent); }
 
-.input-wrap {
-  max-width: 780px;
-  width: 100%;
-  margin: 0 auto;
-  background: white;
-  border: 1px solid #d1d5db;
-  border-radius: 20px;
-  padding: 8px 12px;
-  box-shadow: 0 4px 25px rgba(0,0,0,0.08);
-}
+  .sidebar-icon-btn {
+    background: none; border: none; cursor: pointer;
+    color: var(--sidebar-text); opacity: 0.7;
+    padding: 6px; border-radius: 6px;
+    display: flex; align-items: center;
+  }
+  .sidebar-icon-btn:hover { background: var(--sidebar-hover); opacity: 1; }
 
-textarea {
-  font-size: 16px !important;
-  line-height: 1.5;
-}
+  .new-chat-btn {
+    margin: 10px 12px;
+    background: var(--accent);
+    color: #fff;
+    border: none; border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 14px; font-weight: 500;
+    cursor: pointer; display: flex; align-items: center; gap: 8px;
+    transition: background 0.15s;
+  }
+  .new-chat-btn:hover { background: var(--accent-hover); }
 
-.bubble {
-  padding: 14px 18px;
-  border-radius: 18px;
-  font-size: 15.5px;
-  line-height: 1.6;
-  max-width: 85%;
-  word-break: break-word;
-}
+  .sidebar-section { padding: 6px 8px 2px; }
+  .sidebar-section-label {
+    font-size: 11px; color: var(--sidebar-text); opacity: 0.4;
+    padding: 4px 8px; text-transform: uppercase; letter-spacing: 0.06em;
+  }
 
-.user .bubble {
-  background: #0d0d0d;
-  color: white;
-  align-self: flex-end;
-  border-bottom-right-radius: 6px;
-}
+  .chat-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 12px; border-radius: 8px; cursor: pointer;
+    color: var(--sidebar-text); font-size: 13.5px;
+    transition: background 0.1s; white-space: nowrap; overflow: hidden;
+    text-overflow: ellipsis; margin: 1px 4px;
+  }
+  .chat-item:hover, .chat-item.active { background: var(--sidebar-hover); }
+  .chat-item svg { flex-shrink: 0; opacity: 0.6; }
 
-.bot .bubble {
-  background: #f1f1f1;
-  color: #111;
-  align-self: flex-start;
-  border-bottom-left-radius: 6px;
-}
+  .sidebar-bottom {
+    margin-top: auto;
+    border-top: 1px solid var(--sidebar-border);
+    padding: 10px 12px;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .sidebar-bottom-link {
+    display: flex; align-items: center; gap: 10px;
+    color: var(--sidebar-text); font-size: 13.5px; opacity: 0.8;
+    padding: 8px 10px; border-radius: 8px; cursor: pointer;
+    transition: background 0.1s;
+  }
+  .sidebar-bottom-link:hover { background: var(--sidebar-hover); opacity: 1; }
 
-/* Mobile */
-@media(max-width: 768px) {
-  .chat { padding: 16px 12px 140px; }
-  .bubble { max-width: 92%; }
-  .sidebar { display: none; }
-}
+  /* ── MAIN ── */
+  #main {
+    flex: 1; display: flex; flex-direction: column;
+    height: 100vh; overflow: hidden; position: relative;
+  }
+
+  /* ── TOPBAR ── */
+  #topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 16px; border-bottom: 1px solid var(--border);
+    background: var(--bg); z-index: 10; flex-shrink: 0;
+  }
+  .topbar-left { display: flex; align-items: center; gap: 10px; }
+  .topbar-title {
+    font-size: 15px; font-weight: 600; color: var(--text);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .mode-toggle {
+    display: flex; gap: 4px;
+    background: var(--bg2); border-radius: 8px; padding: 3px;
+  }
+  .mode-btn {
+    background: none; border: none; padding: 6px 14px;
+    border-radius: 6px; font-size: 13px; cursor: pointer;
+    color: var(--text2); font-weight: 500; transition: all 0.15s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .mode-btn.active {
+    background: var(--bg); color: var(--text);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  .topbar-right { display: flex; align-items: center; gap: 8px; }
+  .topbar-btn {
+    background: none; border: 1px solid var(--border); border-radius: 8px;
+    padding: 7px 14px; font-size: 13px; font-weight: 500; cursor: pointer;
+    color: var(--text); transition: all 0.15s;
+  }
+  .topbar-btn:hover { background: var(--bg2); }
+  .topbar-btn.primary { background: var(--text); color: #fff; border-color: var(--text); }
+  .topbar-btn.primary:hover { background: #333; }
+
+  /* ── CHAT AREA ── */
+  #chat-area {
+    flex: 1; overflow-y: auto; padding: 0;
+    scroll-behavior: smooth;
+  }
+
+  /* ── WELCOME ── */
+  #welcome {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    height: 100%; padding: 40px 20px; text-align: center;
+  }
+  #welcome h1 { font-size: 28px; font-weight: 600; margin-bottom: 8px; }
+  #welcome p { color: var(--text2); font-size: 15px; margin-bottom: 32px; }
+
+  .welcome-suggestions {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 10px; max-width: 560px; width: 100%;
+  }
+  .suggestion-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px 16px;
+    cursor: pointer; text-align: left; transition: all 0.15s;
+    font-size: 13.5px; color: var(--text);
+  }
+  .suggestion-card:hover { background: var(--bg3); border-color: #ccc; }
+  .suggestion-card strong { display: block; margin-bottom: 4px; font-size: 14px; }
+  .suggestion-card span { color: var(--text2); font-size: 13px; }
+
+  /* ── MESSAGES ── */
+  .message-wrap {
+    padding: 24px 0; border-bottom: 1px solid var(--border);
+  }
+  .message-inner {
+    max-width: 680px; margin: 0 auto; padding: 0 20px;
+    display: flex; gap: 14px;
+  }
+  .msg-avatar {
+    width: 30px; height: 30px; border-radius: 50%;
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 600;
+  }
+  .msg-avatar.user { background: #5436da; color: #fff; }
+  .msg-avatar.ai { background: var(--accent); color: #fff; font-size: 11px; }
+  .msg-content { flex: 1; font-size: 15px; line-height: 1.65; padding-top: 4px; }
+  .msg-content p { margin-bottom: 10px; }
+  .msg-content p:last-child { margin-bottom: 0; }
+  .msg-content pre {
+    background: #1a1a1a; color: #f8f8f2;
+    border-radius: 8px; padding: 14px 16px;
+    overflow-x: auto; font-size: 13px; margin: 10px 0;
+    font-family: 'Söhne Mono', 'Courier New', monospace;
+  }
+  .msg-content code:not(pre code) {
+    background: var(--bg2); padding: 2px 6px;
+    border-radius: 4px; font-size: 13px;
+  }
+
+  .msg-actions {
+    display: flex; gap: 8px; margin-top: 10px; opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .message-wrap:hover .msg-actions { opacity: 1; }
+  .msg-action-btn {
+    background: none; border: none; cursor: pointer;
+    color: var(--text2); padding: 4px; border-radius: 4px; font-size: 12px;
+    display: flex; align-items: center; gap: 4px;
+    transition: color 0.1s;
+  }
+  .msg-action-btn:hover { color: var(--text); }
+
+  /* image result */
+  .gen-image {
+    border-radius: 12px; max-width: 512px; width: 100%;
+    border: 1px solid var(--border); margin-top: 8px;
+  }
+  .img-placeholder {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 12px; width: 512px; max-width: 100%;
+    height: 340px; display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 12px; color: var(--text2);
+  }
+
+  /* ── TYPING ── */
+  .typing-dot {
+    display: inline-block; width: 6px; height: 6px;
+    background: var(--text2); border-radius: 50;
+    animation: blink 1.2s infinite;
+  }
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes blink {
+    0%,80%,100% { opacity: 0.2; } 40% { opacity: 1; }
+  }
+
+  /* ── INPUT BAR ── */
+  #input-area {
+    flex-shrink: 0; padding: 16px 20px 20px;
+    background: var(--bg); border-top: 1px solid var(--border);
+  }
+  #input-box {
+    max-width: 680px; margin: 0 auto;
+    background: var(--input-bg); border: 1px solid var(--border);
+    border-radius: 14px; display: flex; align-items: flex-end;
+    gap: 8px; padding: 10px 12px; transition: border-color 0.15s;
+  }
+  #input-box:focus-within { border-color: #aaa; }
+
+  #user-input {
+    flex: 1; background: none; border: none; outline: none;
+    font-size: 15px; color: var(--text); resize: none;
+    line-height: 1.5; max-height: 200px; min-height: 24px;
+    font-family: inherit;
+  }
+  #user-input::placeholder { color: var(--text2); }
+
+  .input-btn {
+    background: none; border: none; cursor: pointer;
+    color: var(--text2); padding: 4px; border-radius: 6px;
+    display: flex; align-items: center; transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .input-btn:hover { color: var(--text); background: var(--bg3); }
+
+  #send-btn {
+    background: var(--text); border: none; border-radius: 8px;
+    width: 32px; height: 32px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: background 0.15s;
+  }
+  #send-btn:hover { background: #333; }
+  #send-btn:disabled { background: var(--border); cursor: not-allowed; }
+  #send-btn svg { width:16px; height:16px; fill:#fff; }
+
+  .input-footer {
+    max-width: 680px; margin: 8px auto 0;
+    text-align: center; font-size: 12px; color: var(--text2);
+  }
+
+  /* ── API KEY MODAL ── */
+  #api-modal {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+    display: flex; align-items: center; justify-content: center; z-index: 100;
+  }
+  #api-modal.hidden { display: none; }
+  .modal-box {
+    background: var(--bg); border-radius: 16px;
+    padding: 32px; width: 460px; max-width: 90vw;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+  }
+  .modal-box h2 { font-size: 20px; margin-bottom: 8px; }
+  .modal-box p { color: var(--text2); font-size: 14px; margin-bottom: 20px; line-height: 1.5; }
+  .modal-input {
+    width: 100%; border: 1px solid var(--border); border-radius: 10px;
+    padding: 11px 14px; font-size: 14px; outline: none;
+    font-family: monospace; margin-bottom: 12px;
+    transition: border-color 0.15s;
+  }
+  .modal-input:focus { border-color: var(--accent); }
+  .modal-save-btn {
+    width: 100%; background: var(--accent); color: #fff;
+    border: none; border-radius: 10px; padding: 12px;
+    font-size: 15px; font-weight: 500; cursor: pointer;
+    transition: background 0.15s;
+  }
+  .modal-save-btn:hover { background: var(--accent-hover); }
+  .modal-note {
+    font-size: 12px; color: var(--text2); text-align: center; margin-top: 10px;
+  }
+
+  /* ── IMAGE MODE ── */
+  #image-panel {
+    flex: 1; overflow-y: auto;
+    display: none; flex-direction: column; padding: 30px 20px;
+    max-width: 760px; margin: 0 auto; width: 100%;
+  }
+  #image-panel.active { display: flex; }
+
+  .img-section-title { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+  .img-section-sub { color: var(--text2); font-size: 14px; margin-bottom: 20px; }
+
+  .img-prompt-box {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 14px; padding: 14px 16px; margin-bottom: 16px;
+  }
+  .img-prompt-box textarea {
+    width: 100%; background: none; border: none; outline: none;
+    font-size: 15px; color: var(--text); resize: none;
+    min-height: 80px; font-family: inherit; line-height: 1.5;
+  }
+  .img-prompt-box textarea::placeholder { color: var(--text2); }
+  .img-controls {
+    display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+    border-top: 1px solid var(--border); padding-top: 12px; margin-top: 8px;
+  }
+  .img-ctrl-select {
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 8px; padding: 7px 12px; font-size: 13px;
+    color: var(--text); cursor: pointer; outline: none;
+  }
+  .img-gen-btn {
+    margin-left: auto;
+    background: var(--text); color: #fff;
+    border: none; border-radius: 8px; padding: 8px 20px;
+    font-size: 14px; font-weight: 500; cursor: pointer;
+    display: flex; align-items: center; gap: 6px; transition: background 0.15s;
+  }
+  .img-gen-btn:hover { background: #333; }
+  .img-gen-btn:disabled { background: var(--border); cursor: not-allowed; }
+
+  .img-gallery {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 14px; margin-top: 8px;
+  }
+  .img-card {
+    border-radius: 12px; overflow: hidden;
+    border: 1px solid var(--border); position: relative; background: var(--bg2);
+    aspect-ratio: 1;
+  }
+  .img-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .img-card-overlay {
+    position: absolute; inset: 0; background: rgba(0,0,0,0.5);
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    opacity: 0; transition: opacity 0.2s;
+  }
+  .img-card:hover .img-card-overlay { opacity: 1; }
+  .img-card-btn {
+    background: rgba(255,255,255,0.9); border: none; border-radius: 8px;
+    padding: 8px 14px; font-size: 13px; font-weight: 500; cursor: pointer;
+  }
+  .img-loading {
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 12px; height: 200px;
+    color: var(--text2); font-size: 14px;
+  }
+  .spinner {
+    width: 32px; height: 32px; border: 3px solid var(--border);
+    border-top-color: var(--accent); border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── SCROLLBAR ── */
+  #chat-area::-webkit-scrollbar, #image-panel::-webkit-scrollbar { width: 6px; }
+  #chat-area::-webkit-scrollbar-thumb, #image-panel::-webkit-scrollbar-thumb {
+    background: var(--border); border-radius: 4px;
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 640px) {
+    #sidebar { position: fixed; z-index: 50; height: 100vh; transform: translateX(-100%); transition: transform 0.2s; }
+    #sidebar.open { transform: translateX(0); }
+    .welcome-suggestions { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
 
-<!-- Your full HTML body remains the same as before -->
-<div class="sidebar">... (keep your sidebar and all pages as is) ...</div>
+<!-- ══ SIDEBAR ══ -->
+<nav id="sidebar">
+  <div class="sidebar-top">
+    <a class="sidebar-logo" href="#">
+      <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14"/><path d="M10 16l4 4 8-8" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      OptimaSeek AI
+    </a>
+    <button class="sidebar-icon-btn" onclick="toggleSidebar()" title="Close sidebar">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 3v18"/>
+      </svg>
+    </button>
+  </div>
 
-<div class="main">
-  <!-- topbar, pages, modals remain the same -->
-  <!-- Paste your full body content here from previous version -->
+  <button class="new-chat-btn" onclick="newChat()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+    New chat
+  </button>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Today</div>
+    <div id="history-list"></div>
+  </div>
+
+  <div class="sidebar-bottom">
+    <div class="sidebar-bottom-link" onclick="showApiModal()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="11" width="20" height="11" rx="2"/><path d="M6 11V7a6 6 0 0 1 12 0v4"/></svg>
+      Set API Key
+    </div>
+    <div class="sidebar-bottom-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M4.93 4.93l1.41 1.41M20 12h2M2 12H0M19.07 19.07l-1.41-1.41M4.93 19.07l1.41-1.41M12 20v2M12 2v2"/></svg>
+      Settings
+    </div>
+    <div class="sidebar-bottom-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+      Help
+    </div>
+  </div>
+</nav>
+
+<!-- ══ MAIN ══ -->
+<div id="main">
+
+  <!-- TOPBAR -->
+  <header id="topbar">
+    <div class="topbar-left">
+      <button class="sidebar-icon-btn" onclick="toggleSidebar()" style="color:#666;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 3v18"/>
+        </svg>
+      </button>
+      <div class="topbar-title">
+        <span id="page-title">OptimaSeek AI</span>
+      </div>
+    </div>
+
+    <div class="mode-toggle">
+      <button class="mode-btn active" id="btn-chat" onclick="setMode('chat')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Chat
+      </button>
+      <button class="mode-btn" id="btn-image" onclick="setMode('image')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+        Images
+      </button>
+    </div>
+
+    <div class="topbar-right">
+      <button class="topbar-btn" onclick="showApiModal()">Log in</button>
+      <button class="topbar-btn primary" onclick="showApiModal()">Set API Key</button>
+    </div>
+  </header>
+
+  <!-- CHAT VIEW -->
+  <div id="chat-view" style="display:flex; flex-direction:column; flex:1; overflow:hidden;">
+    <div id="chat-area">
+      <!-- welcome shown until first message -->
+      <div id="welcome">
+        <h1>Where should we begin?</h1>
+        <p>Ask me anything, or create an image using the Images tab above.</p>
+        <div class="welcome-suggestions">
+          <div class="suggestion-card" onclick="sendSuggestion('Explain how neural networks work in simple terms')">
+            <strong>🧠 Explain AI</strong>
+            <span>Explain how neural networks work in simple terms</span>
+          </div>
+          <div class="suggestion-card" onclick="sendSuggestion('Write a Python script to scrape a website')">
+            <strong>💻 Code help</strong>
+            <span>Write a Python script to scrape a website</span>
+          </div>
+          <div class="suggestion-card" onclick="sendSuggestion('Write a professional email to reschedule a meeting')">
+            <strong>✉️ Write an email</strong>
+            <span>Help me write a professional email</span>
+          </div>
+          <div class="suggestion-card" onclick="sendSuggestion('What are the top 5 tips for productivity?')">
+            <strong>📋 Productivity tips</strong>
+            <span>Top 5 tips for staying productive</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INPUT -->
+    <div id="input-area">
+      <div id="input-box">
+        <button class="input-btn" title="Attach file (coming soon)" onclick="alert('File upload coming soon!')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66L9.41 17.39a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+        </button>
+        <textarea id="user-input" placeholder="Ask anything" rows="1"
+          onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+        <button class="input-btn" title="Voice input (coming soon)" onclick="alert('Voice input coming soon!')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+        </button>
+        <button id="send-btn" onclick="sendMessage()" title="Send">
+          <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
+        </button>
+      </div>
+      <div class="input-footer">OptimaSeek AI can make mistakes. Verify important info.</div>
+    </div>
+  </div>
+
+  <!-- IMAGE VIEW -->
+  <div id="image-panel">
+    <div class="img-section-title">Create an image</div>
+    <div class="img-section-sub">Describe what you'd like to create and we'll generate it.</div>
+
+    <div class="img-prompt-box">
+      <textarea id="img-prompt" placeholder="A futuristic city at sunset, digital art, highly detailed…" rows="3"></textarea>
+      <div class="img-controls">
+        <select class="img-ctrl-select" id="img-size">
+          <option value="1024x1024">1024×1024 (Square)</option>
+          <option value="1792x1024">1792×1024 (Wide)</option>
+          <option value="1024x1792">1024×1792 (Portrait)</option>
+        </select>
+        <select class="img-ctrl-select" id="img-quality">
+          <option value="standard">Standard</option>
+          <option value="hd">HD</option>
+        </select>
+        <select class="img-ctrl-select" id="img-style">
+          <option value="vivid">Vivid</option>
+          <option value="natural">Natural</option>
+        </select>
+        <button class="img-gen-btn" id="img-gen-btn" onclick="generateImage()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+          Generate
+        </button>
+      </div>
+    </div>
+
+    <div id="img-output"></div>
+    <div id="img-gallery" class="img-gallery"></div>
+  </div>
+
+</div><!-- /main -->
+
+<!-- ══ API KEY MODAL ══ -->
+<div id="api-modal" class="hidden">
+  <div class="modal-box">
+    <h2>🔑 Enter your API Key</h2>
+    <p>To use OptimaSeek AI, enter your Anthropic API key. It's stored only in your browser — never sent anywhere except directly to Anthropic's servers.</p>
+    <input type="password" class="modal-input" id="api-key-input"
+      placeholder="sk-ant-api03-..." />
+    <button class="modal-save-btn" onclick="saveApiKey()">Save & Start Chatting</button>
+    <div class="modal-note">
+      Don't have a key? <a href="https://console.anthropic.com" target="_blank" style="color:var(--accent)">Get one at console.anthropic.com →</a>
+    </div>
+  </div>
 </div>
 
-<!-- Keep all your modals and script -->
+<script>
+/* ─────────────────── STATE ─────────────────── */
+let apiKey = localStorage.getItem('os_api_key') || '';
+let conversations = [];   // [{role, content}]
+let chatHistory = [];     // sidebar list
+let currentMode = 'chat';
+let isGenerating = false;
 
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<script type="module">
-  // Keep your full script (Firebase, functions, sendMessage, etc.)
-  // Just make sure the sendMessage function is there
+/* ─────────────────── INIT ─────────────────── */
+window.onload = () => {
+  if (!apiKey) showApiModal();
+  updateSendBtn();
+};
+
+/* ─────────────────── SIDEBAR ─────────────────── */
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('collapsed');
+}
+
+function newChat() {
+  conversations = [];
+  document.getElementById('chat-area').innerHTML = welcomeHTML();
+  document.getElementById('user-input').value = '';
+  autoResize(document.getElementById('user-input'));
+}
+
+function welcomeHTML() {
+  return `
+  <div id="welcome">
+    <h1>Where should we begin?</h1>
+    <p>Ask me anything, or create an image using the Images tab above.</p>
+    <div class="welcome-suggestions">
+      <div class="suggestion-card" onclick="sendSuggestion('Explain how neural networks work in simple terms')">
+        <strong>🧠 Explain AI</strong><span>Explain neural networks simply</span>
+      </div>
+      <div class="suggestion-card" onclick="sendSuggestion('Write a Python function to sort a list of dictionaries')">
+        <strong>💻 Code help</strong><span>Write a Python sorting function</span>
+      </div>
+      <div class="suggestion-card" onclick="sendSuggestion('Write a professional email to reschedule a meeting')">
+        <strong>✉️ Write an email</strong><span>Help me write a professional email</span>
+      </div>
+      <div class="suggestion-card" onclick="sendSuggestion('What are 5 tips for better productivity?')">
+        <strong>📋 Productivity</strong><span>Top 5 productivity tips</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ─────────────────── MODE ─────────────────── */
+function setMode(mode) {
+  currentMode = mode;
+  document.getElementById('btn-chat').classList.toggle('active', mode === 'chat');
+  document.getElementById('btn-image').classList.toggle('active', mode === 'image');
+  document.getElementById('chat-view').style.display = mode === 'chat' ? 'flex' : 'none';
+  const imgPanel = document.getElementById('image-panel');
+  imgPanel.style.display = mode === 'image' ? 'flex' : 'none';
+  document.getElementById('page-title').textContent = mode === 'chat' ? 'OptimaSeek AI' : 'Image Generator';
+}
+
+/* ─────────────────── CHAT ─────────────────── */
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+}
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 200) + 'px';
+  updateSendBtn();
+}
+
+function updateSendBtn() {
+  const v = document.getElementById('user-input').value.trim();
+  document.getElementById('send-btn').disabled = !v || isGenerating;
+}
+
+function sendSuggestion(text) {
+  document.getElementById('user-input').value = text;
+  sendMessage();
+}
+
+async function sendMessage() {
+  const input = document.getElementById('user-input');
+  const text = input.value.trim();
+  if (!text || isGenerating) return;
+  if (!apiKey) { showApiModal(); return; }
+
+  isGenerating = true;
+  updateSendBtn();
+
+  // Remove welcome
+  const welcome = document.getElementById('welcome');
+  if (welcome) welcome.remove();
+
+  // Add user message
+  conversations.push({ role: 'user', content: text });
+  appendMessage('user', text);
+  input.value = '';
+  autoResize(input);
+
+  // AI typing placeholder
+  const aiId = 'msg-' + Date.now();
+  appendMessage('ai', '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>', aiId);
+  scrollBottom();
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1024,
+        system: 'You are OptimaSeek AI, a helpful, smart AI assistant. Be concise and clear. Format responses with paragraphs. Use markdown code blocks for code.',
+        messages: conversations.slice(-20) // last 20 turns for context
+      })
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error?.message || `API error ${res.status}`);
+    }
+
+    const data = await res.json();
+    const reply = data.content[0].text;
+    conversations.push({ role: 'assistant', content: reply });
+
+    // Replace typing with actual response
+    const msgEl = document.getElementById(aiId);
+    if (msgEl) msgEl.querySelector('.msg-content').innerHTML = formatMarkdown(reply);
+
+    // Add to sidebar history
+    addToHistory(text.slice(0, 50));
+
+  } catch (err) {
+    const msgEl = document.getElementById(aiId);
+    if (msgEl) msgEl.querySelector('.msg-content').innerHTML =
+      `<span style="color:#e24b4a;">⚠️ Error: ${err.message}. <a href="#" onclick="showApiModal()" style="color:var(--accent)">Check your API key</a></span>`;
+  }
+
+  isGenerating = false;
+  updateSendBtn();
+  scrollBottom();
+}
+
+function appendMessage(role, html, id) {
+  const area = document.getElementById('chat-area');
+  const isUser = role === 'user';
+  const initials = isUser ? 'U' : 'AI';
+  const wrap = document.createElement('div');
+  wrap.className = 'message-wrap';
+  if (id) wrap.id = id;
+  wrap.innerHTML = `
+    <div class="message-inner">
+      <div class="msg-avatar ${role}">${initials}</div>
+      <div style="flex:1">
+        <div class="msg-content">${isUser ? escapeHtml(html) : html}</div>
+        ${!isUser ? `<div class="msg-actions">
+          <button class="msg-action-btn" onclick="copyText(this)" title="Copy">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy
+          </button>
+        </div>` : ''}
+      </div>
+    </div>`;
+  area.appendChild(wrap);
+}
+
+function escapeHtml(t) {
+  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function formatMarkdown(text) {
+  return text
+    .replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>')
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/^## (.+)$/gm, '<h2 style="font-size:17px;margin:12px 0 6px;font-weight:600">$1</h2>')
+    .replace(/^# (.+)$/gm, '<h1 style="font-size:20px;margin:14px 0 8px;font-weight:600">$1</h1>')
+    .replace(/^- (.+)$/gm, '<li style="margin:3px 0;padding-left:4px">$1</li>')
+    .replace(/(<li.*<\/li>)/gs, '<ul style="padding-left:20px;margin:8px 0">$1</ul>')
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/^(?!<[hpuol])(.+)$/gm, '<p>$1</p>')
+    .replace(/<p><\/p>/g, '');
+}
+
+function copyText(btn) {
+  const content = btn.closest('.message-inner').querySelector('.msg-content').innerText;
+  navigator.clipboard.writeText(content);
+  btn.textContent = '✓ Copied';
+  setTimeout(() => btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy', 2000);
+}
+
+function scrollBottom() {
+  const area = document.getElementById('chat-area');
+  area.scrollTop = area.scrollHeight;
+}
+
+function addToHistory(title) {
+  const list = document.getElementById('history-list');
+  const item = document.createElement('div');
+  item.className = 'chat-item';
+  item.innerHTML = `
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    ${escapeHtml(title)}`;
+  list.prepend(item);
+}
+
+/* ─────────────────── IMAGE GENERATION ─────────────────── */
+async function generateImage() {
+  const prompt = document.getElementById('img-prompt').value.trim();
+  if (!prompt) { alert('Please enter a prompt.'); return; }
+  if (!apiKey) { showApiModal(); return; }
+
+  const btn = document.getElementById('img-gen-btn');
+  const output = document.getElementById('img-output');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner" style="width:16px;height:16px;border-width:2px;"></div> Generating…';
+
+  output.innerHTML = `
+    <div class="img-loading">
+      <div class="spinner"></div>
+      <span>Creating your image… this may take a moment</span>
+    </div>`;
+
+  try {
+    // Use Claude to describe/enhance and then call image API via DALL-E compatible approach
+    // Since Anthropic doesn't have an image generation API yet, we'll use Claude to
+    // create a detailed prompt and display it, with instructions to use their own image API
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 512,
+        system: 'You are an expert at writing image generation prompts. When given a basic idea, expand it into a rich, detailed prompt for an image generator like DALL-E or Stable Diffusion. Return ONLY the enhanced prompt, nothing else.',
+        messages: [{ role: 'user', content: `Enhance this image prompt: ${prompt}` }]
+      })
+    });
+
+    const data = await res.json();
+    const enhancedPrompt = data.content[0].text;
+
+    // Show enhanced prompt and placeholder
+    output.innerHTML = `
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:16px;">
+        <div style="font-size:12px;color:var(--text2);margin-bottom:6px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;">✨ Enhanced Prompt</div>
+        <div style="font-size:14px;line-height:1.6;color:var(--text);">${escapeHtml(enhancedPrompt)}</div>
+      </div>
+      <div style="background:var(--bg2);border:2px dashed var(--border);border-radius:12px;padding:32px;text-align:center;margin-bottom:16px;">
+        <div style="font-size:48px;margin-bottom:12px;">🖼️</div>
+        <div style="font-size:15px;font-weight:500;margin-bottom:8px;">Image ready to generate</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.6;max-width:400px;margin:0 auto;">
+          To add DALL-E or Stable Diffusion image generation, add your image API key below.<br>
+          <strong style="color:var(--text)">Your enhanced prompt is ready above — copy it!</strong>
+        </div>
+        <div style="margin-top:16px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+          <button onclick="copyPrompt('${escapeHtml(enhancedPrompt).replace(/'/g,"\\'")}');" 
+            style="background:var(--accent);color:#fff;border:none;border-radius:8px;padding:9px 18px;font-size:13px;font-weight:500;cursor:pointer;">
+            📋 Copy Enhanced Prompt
+          </button>
+          <a href="https://labs.openai.com" target="_blank"
+            style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:9px 18px;font-size:13px;font-weight:500;cursor:pointer;text-decoration:none;color:var(--text);">
+            Open DALL-E →
+          </a>
+        </div>
+      </div>`;
+
+    // Add to gallery as placeholder
+    const gallery = document.getElementById('img-gallery');
+    const card = document.createElement('div');
+    card.className = 'img-card';
+    card.style.display = 'flex';
+    card.style.alignItems = 'center';
+    card.style.justifyContent = 'center';
+    card.style.flexDirection = 'column';
+    card.style.gap = '8px';
+    card.style.color = 'var(--text2)';
+    card.style.fontSize = '13px';
+    card.style.padding = '16px';
+    card.innerHTML = `<div style="font-size:32px">🖼️</div><div style="text-align:center">${escapeHtml(prompt.slice(0,40))}…</div>`;
+    gallery.prepend(card);
+
+  } catch (err) {
+    output.innerHTML = `<div style="color:#e24b4a;padding:16px;">⚠️ Error: ${err.message}</div>`;
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg> Generate';
+}
+
+function copyPrompt(text) {
+  navigator.clipboard.writeText(text);
+  alert('Prompt copied to clipboard!');
+}
+
+/* ─────────────────── API KEY ─────────────────── */
+function showApiModal() {
+  document.getElementById('api-modal').classList.remove('hidden');
+  document.getElementById('api-key-input').value = apiKey;
+  setTimeout(() => document.getElementById('api-key-input').focus(), 100);
+}
+
+function saveApiKey() {
+  const val = document.getElementById('api-key-input').value.trim();
+  if (!val.startsWith('sk-')) {
+    alert('Please enter a valid Anthropic API key (starts with sk-ant-)');
+    return;
+  }
+  apiKey = val;
+  localStorage.setItem('os_api_key', apiKey);
+  document.getElementById('api-modal').classList.add('hidden');
+  updateSendBtn();
+}
+
+document.getElementById('api-modal').addEventListener('click', function(e) {
+  if (e.target === this) this.classList.add('hidden');
+});
+
+document.getElementById('api-key-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') saveApiKey();
+});
 </script>
 </body>
 </html>
