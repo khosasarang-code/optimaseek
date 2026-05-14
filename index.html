@@ -394,7 +394,6 @@ async function send(){
   const inp=document.getElementById('ui');
   const txt=inp.value.trim();
   if(!txt||busy)return;
-  if(!apiKey){openModal();return;}
   busy=true;updSend();
   const w=document.getElementById('wl');if(w)w.remove();
   convs.push({role:'user',content:txt});
@@ -404,24 +403,44 @@ async function send(){
   addMsg('ai','<span class="dot"></span><span class="dot"></span><span class="dot"></span>',aid);
   scrollD();
   try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{
+    // Try backend API first (uses server-side key — works for all visitors)
+    let rep='';
+    const backendRes=await fetch('/api/chat',{
       method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'x-api-key':apiKey,
-        'anthropic-version':'2023-06-01',
-        'anthropic-dangerous-direct-browser-access':'true'
-      },
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:1024,
-        system:'You are OptimaSeek AI — a helpful, smart, and friendly AI assistant. Format responses clearly using markdown when useful.',
-        messages:convs.slice(-20)
-      })
-    });
-    if(!r.ok){const e=await r.json();throw new Error(e.error?.message||`Error ${r.status}`);}
-    const d=await r.json();
-    const rep=d.content[0].text;
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({messages:convs.slice(-20)})
+    }).catch(()=>null);
+
+    if(backendRes&&backendRes.ok){
+      const d=await backendRes.json();
+      rep=d.content;
+    } else {
+      // Fallback: use user's own key if they entered one
+      if(!apiKey){
+        const el=document.getElementById(aid);
+        if(el)el.querySelector('.mb2').innerHTML=`<span style="color:#c0392b">⚠️ Chat not configured. <a href="#" onclick="openModal()" style="color:var(--accent)">Enter your API key →</a></span>`;
+        busy=false;updSend();return;
+      }
+      const r=await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json',
+          'x-api-key':apiKey,
+          'anthropic-version':'2023-06-01',
+          'anthropic-dangerous-direct-browser-access':'true'
+        },
+        body:JSON.stringify({
+          model:'claude-sonnet-4-5',
+          max_tokens:1024,
+          system:'You are OptimaSeek AI — a helpful, smart, and friendly AI assistant. Format responses clearly using markdown when useful.',
+          messages:convs.slice(-20)
+        })
+      });
+      if(!r.ok){const e=await r.json();throw new Error(e.error?.message||`Error ${r.status}`);}
+      const d=await r.json();
+      rep=d.content[0].text;
+    }
+
     convs.push({role:'assistant',content:rep});
     const el=document.getElementById(aid);
     if(el)el.querySelector('.mb2').innerHTML=md(rep);
