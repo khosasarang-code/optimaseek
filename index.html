@@ -72,12 +72,12 @@
   .chat-body { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px 20px; }
   .chat-greeting { font-size: 28px; font-weight: 600; margin-bottom: 32px; text-align: center; }
   .chat-input-wrap { width: 100%; max-width: 640px; position: relative; }
-  .chat-input-box { background: var(--input-bg); border: 1px solid var(--input-border); border-radius: var(--radius-lg); padding: 14px 130px 14px 46px; font-size: 15px; font-family: var(--font); width: 100%; outline: none; resize: none; min-height: 52px; max-height: 200px; color: var(--text-primary); transition: border-color 0.15s; }
+  .chat-input-box { background: var(--input-bg); border: 1px solid var(--input-border); border-radius: var(--radius-lg); padding: 14px 130px 14px 46px; font-size: 15px; font-family: var(--font); width: 100%; outline: none; resize: none; min-height: 52px; max-height: 200px; color: var(--text-primary); transition: border-color 0.15s; position: relative; z-index: 1; pointer-events: all; }
   .chat-input-box:focus { border-color: #999; }
   .chat-input-box::placeholder { color: var(--text-muted); }
-  .chat-add-btn { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); background: transparent; border: none; cursor: pointer; color: var(--text-secondary); display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: var(--radius-sm); transition: background 0.15s, transform 0.2s; }
+  .chat-add-btn { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); background: transparent; border: none; cursor: pointer; color: var(--text-secondary); display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: var(--radius-sm); transition: background 0.15s, transform 0.2s; z-index: 2; }
   .chat-add-btn:hover { background: var(--hover-bg); transform: translateY(-50%) rotate(90deg); }
-  .chat-right-btns { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 6px; }
+  .chat-right-btns { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 6px; z-index: 2; }
   .chat-voice-btn { background: transparent; border: none; cursor: pointer; color: var(--text-secondary); font-size: 13px; display: flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: var(--radius-sm); transition: background 0.15s; }
   .chat-voice-btn:hover { background: var(--hover-bg); }
   .chat-submit-btn { width: 34px; height: 34px; border-radius: 50%; background: var(--btn-primary-bg); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: white; transition: opacity 0.15s, transform 0.15s; }
@@ -98,44 +98,29 @@
   .suggestion-chip { border: 1px solid var(--border); border-radius: 20px; padding: 7px 14px; font-size: 13px; cursor: pointer; color: var(--text-secondary); background: white; transition: background 0.15s, transform 0.1s, border-color 0.15s; }
   .suggestion-chip:hover { background: var(--hover-bg); color: var(--text-primary); transform: translateY(-2px); border-color: #ccc; }
 
-  /* MESSAGES — ChatGPT style */
   .chat-messages { flex: 1; overflow-y: auto; padding: 20px 20px 0; display: none; flex-direction: column; gap: 0; max-width: 760px; margin: 0 auto; width: 100%; }
   .chat-messages.visible { display: flex; }
   .msg { display: flex; gap: 16px; padding: 20px 0; border-bottom: none; animation: msgIn 0.2s ease; }
   @keyframes msgIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
   .msg.user { flex-direction: row-reverse; }
-
-  /* User message bubble */
   .msg.user .msg-bubble { background: var(--input-bg); border-radius: var(--radius-lg); padding: 12px 18px; font-size: 15px; line-height: 1.6; max-width: 75%; color: var(--text-primary); }
-
-  /* AI message — no bubble, just text like ChatGPT */
   .msg-avatar { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; flex-shrink: 0; margin-top: 2px; }
   .msg-avatar.ai { background: #10a37f; color: white; }
   .msg-avatar.user { background: #0d0d0d; color: white; }
-
-  /* AI response rendered like ChatGPT */
-  .msg.ai .msg-bubble {
-    background: transparent;
-    padding: 0;
-    max-width: 100%;
-    font-size: 15px;
-    line-height: 1.75;
-    color: var(--text-primary);
-    flex: 1;
-  }
+  .msg.ai .msg-bubble { background: transparent; padding: 0; max-width: 100%; font-size: 15px; line-height: 1.75; color: var(--text-primary); flex: 1; }
   .msg.ai .msg-bubble p { margin-bottom: 12px; }
   .msg.ai .msg-bubble p:last-child { margin-bottom: 0; }
-  .msg.ai .msg-bubble strong { font-weight: 600; color: var(--text-primary); }
+  .msg.ai .msg-bubble strong { font-weight: 600; }
   .msg.ai .msg-bubble em { font-style: italic; }
-  .msg.ai .msg-bubble h1, .msg.ai .msg-bubble h2, .msg.ai .msg-bubble h3 { font-weight: 600; margin: 16px 0 8px; color: var(--text-primary); }
+  .msg.ai .msg-bubble h1, .msg.ai .msg-bubble h2, .msg.ai .msg-bubble h3 { font-weight: 600; margin: 16px 0 8px; }
   .msg.ai .msg-bubble h1 { font-size: 20px; }
   .msg.ai .msg-bubble h2 { font-size: 17px; }
   .msg.ai .msg-bubble h3 { font-size: 15px; }
   .msg.ai .msg-bubble ul, .msg.ai .msg-bubble ol { padding-left: 24px; margin: 8px 0 12px; }
   .msg.ai .msg-bubble ul li, .msg.ai .msg-bubble ol li { margin-bottom: 4px; line-height: 1.6; }
-  .msg.ai .msg-bubble code { background: #f0f0f0; border-radius: 4px; padding: 1px 6px; font-family: "SFMono-Regular", Consolas, monospace; font-size: 13px; }
+  .msg.ai .msg-bubble code { background: #f0f0f0; border-radius: 4px; padding: 1px 6px; font-family: monospace; font-size: 13px; }
   .msg.ai .msg-bubble pre { background: #1e1e1e; border-radius: 8px; padding: 16px; margin: 12px 0; overflow-x: auto; }
-  .msg.ai .msg-bubble pre code { background: transparent; color: #d4d4d4; padding: 0; font-size: 13px; }
+  .msg.ai .msg-bubble pre code { background: transparent; color: #d4d4d4; padding: 0; }
   .msg.ai .msg-bubble blockquote { border-left: 3px solid var(--border); padding-left: 12px; color: var(--text-secondary); margin: 8px 0; }
   .msg.ai .msg-bubble a { color: #0d0d0d; text-decoration: underline; }
   .msg.ai .msg-bubble hr { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
@@ -151,22 +136,73 @@
   .chat-bottom-bar { padding: 12px 20px 16px; border-top: 1px solid var(--border); flex-shrink: 0; display: none; background: white; }
   .chat-bottom-bar.visible { display: block; }
 
-  /* UPGRADE BANNER — not "free unlimited" */
   .limit-banner { background: #fff8e1; border: 1px solid #ffd54f; border-radius: var(--radius-md); padding: 10px 16px; margin: 10px 20px 0; font-size: 13px; color: #5d4037; display: none; align-items: center; justify-content: space-between; gap: 12px; flex-shrink: 0; }
   .limit-banner.show { display: flex; }
 
   #photo-input, #file-input { display: none; }
 
+  /* ===== IMAGES PAGE — FIXED ===== */
   .page-content { padding: 32px; max-width: 840px; margin: 0 auto; width: 100%; }
   .page-title { font-size: 24px; font-weight: 600; margin-bottom: 24px; }
-  .images-input-box { border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; font-size: 14px; font-family: var(--font); width: 100%; min-height: 100px; outline: none; resize: none; color: var(--text-primary); margin-bottom: 16px; }
-  .images-input-box:focus { border-color: #999; }
+
+  /* FIX: ensure images page input and button are always clickable */
+  #page-images { position: relative; z-index: 1; }
+  #page-images .page-content { position: relative; z-index: 1; }
+
+  .images-input-wrap { position: relative; z-index: 5; margin-bottom: 16px; }
+  .images-input-box {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    font-size: 14px;
+    font-family: var(--font);
+    width: 100%;
+    min-height: 100px;
+    outline: none;
+    resize: vertical;
+    color: var(--text-primary);
+    background: #fff;
+    /* FIX: ensure pointer events work */
+    pointer-events: all;
+    position: relative;
+    z-index: 5;
+    cursor: text;
+    display: block;
+  }
+  .images-input-box:focus { border-color: #999; box-shadow: 0 0 0 2px rgba(0,0,0,0.06); }
+  .images-input-box::placeholder { color: var(--text-muted); }
+
+  .generate-btn-wrap { position: relative; z-index: 5; margin-bottom: 28px; }
+  .generate-btn-wrap .btn { pointer-events: all; cursor: pointer; }
+
   .section-label { font-size: 14px; font-weight: 600; margin-bottom: 12px; }
   .image-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 32px; }
   .image-card { border-radius: var(--radius-md); overflow: hidden; cursor: pointer; border: 1px solid var(--border); transition: transform 0.15s, box-shadow 0.15s; }
   .image-card:hover { transform: scale(1.04); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
   .image-card .img-thumb { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 28px; }
   .image-card .img-label { padding: 6px 8px; font-size: 12px; font-weight: 500; background: white; border-top: 1px solid var(--border); }
+
+  /* Generated images grid — larger */
+  .generated-image-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 32px; }
+  @media (min-width: 600px) { .generated-image-grid { grid-template-columns: repeat(4, 1fr); } }
+
+  .gen-card { border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border); transition: transform 0.15s, box-shadow 0.15s; background: var(--hover-bg); }
+  .gen-card:hover { transform: scale(1.03); box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
+  .gen-card img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
+  .gen-card .img-label { padding: 6px 10px; font-size: 12px; color: var(--text-secondary); border-top: 1px solid var(--border); background: white; }
+
+  /* Loading skeleton */
+  .gen-card.loading .img-thumb-skeleton {
+    aspect-ratio: 1;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+  }
+  @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+  .gen-spinner { display: flex; align-items: center; gap: 8px; color: var(--text-secondary); font-size: 13px; margin-bottom: 12px; }
+  .gen-spinner svg { animation: spin 1s linear infinite; }
+  @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
 
   .apps-hero { background: linear-gradient(135deg, #0070f3, #7c3aed); border-radius: var(--radius-lg); padding: 28px; margin-bottom: 28px; color: white; display: flex; align-items: center; gap: 20px; }
   .apps-hero-text h2 { font-size: 22px; font-weight: 600; }
@@ -236,6 +272,11 @@
   .user-avatar-initial { width: 34px; height: 34px; border-radius: 50%; background: #10a37f; color: white; font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
   .badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 500; background: var(--hover-bg); color: var(--text-secondary); }
 
+  /* Download button for generated images */
+  .gen-card-actions { display: flex; gap: 6px; padding: 6px 8px; background: white; border-top: 1px solid var(--border); }
+  .gen-card-actions a { font-size: 11px; color: var(--text-secondary); text-decoration: none; padding: 2px 6px; border-radius: 4px; transition: background 0.1s; cursor: pointer; }
+  .gen-card-actions a:hover { background: var(--hover-bg); color: var(--text-primary); }
+
   @media (max-width: 900px) {
     .sidebar { display: none; }
     .pricing-grid { grid-template-columns: repeat(2, 1fr); }
@@ -291,14 +332,11 @@
 
   <!-- CHAT PAGE -->
   <div class="page active" id="page-chat">
-    <!-- Upgrade banner — shown after 3 searches -->
     <div class="limit-banner" id="limit-banner">
       <span>You've used <strong id="searches-used">0</strong>/8 free searches. Upgrade for unlimited access.</span>
       <button class="btn btn-primary" style="padding:6px 14px;font-size:13px;white-space:nowrap;" onclick="showPage('pricing')">See plans →</button>
     </div>
-
     <div class="chat-messages" id="chat-messages"></div>
-
     <div class="chat-body" id="chat-body">
       <div class="chat-greeting">Ready when you are.</div>
       <div class="chat-input-wrap">
@@ -333,7 +371,6 @@
         <div class="suggestion-chip" onclick="fillPrompt(this)">Help me code</div>
       </div>
     </div>
-
     <div class="chat-bottom-bar" id="chat-bottom-bar">
       <div class="chat-input-wrap" style="max-width:720px;margin:0 auto;">
         <button class="chat-add-btn" onclick="toggleDropdown()">
@@ -350,23 +387,47 @@
     </div>
   </div>
 
-  <!-- IMAGES PAGE -->
+  <!-- IMAGES PAGE — FIXED -->
   <div class="page" id="page-images">
     <div class="page-content">
       <div class="page-title">Images</div>
-      <textarea class="images-input-box" id="image-prompt" placeholder="Describe what you want to create…"></textarea>
-      <button class="btn btn-primary" style="margin-bottom:28px;" onclick="generateImage()">Generate image</button>
+
+      <!-- FIX: wrapped in div with z-index, textarea has pointer-events:all -->
+      <div class="images-input-wrap">
+        <textarea
+          class="images-input-box"
+          id="image-prompt"
+          placeholder="Describe what you want to create… (e.g. cute cat, animated sunset, fantasy landscape)"
+        ></textarea>
+      </div>
+
+      <!-- FIX: button wrapped in div, uses onclick directly -->
+      <div class="generate-btn-wrap">
+        <button
+          class="btn btn-primary"
+          id="generate-btn"
+          onclick="generateImage()"
+          type="button"
+        >Generate image</button>
+      </div>
+
+      <!-- Generated images output -->
+      <div id="generated-images" style="display:none; margin-bottom: 32px;">
+        <div class="gen-spinner" id="gen-spinner" style="display:none;">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2a6 6 0 1 0 6 6" stroke-linecap="round"/></svg>
+          Generating images — this may take a few seconds…
+        </div>
+        <div class="section-label" id="gen-label" style="margin-top:4px;">Generated</div>
+        <div id="generated-grid" class="generated-image-grid"></div>
+      </div>
+
       <div class="section-label">Create an image</div>
       <div class="image-grid">
-        <div class="image-card"><div class="img-thumb" style="background:linear-gradient(135deg,#1a1a2e,#16213e);">🖥️</div><div class="img-label">Improve Your Desk Setup</div></div>
-        <div class="image-card"><div class="img-thumb" style="background:linear-gradient(135deg,#2d6a4f,#40916c);">🌍</div><div class="img-label">Wanderlust</div></div>
-        <div class="image-card"><div class="img-thumb" style="background:linear-gradient(135deg,#7b2d8b,#a855f7);">✏️</div><div class="img-label">Scribble</div></div>
-        <div class="image-card"><div class="img-thumb" style="background:linear-gradient(135deg,#ffecd2,#fcb69f);">🐶</div><div class="img-label">Chibi stickers</div></div>
-        <div class="image-card"><div class="img-thumb" style="background:linear-gradient(135deg,#1a1a1a,#555);">💄</div><div class="img-label">Makeup guide</div></div>
-      </div>
-      <div id="generated-images" style="display:none;">
-        <div class="section-label" style="margin-top:20px;">Generated</div>
-        <div id="generated-grid" class="image-grid"></div>
+        <div class="image-card" onclick="prefillPrompt('improve desk setup, productivity workspace, ultrawide monitor, plants, aesthetic')"><div class="img-thumb" style="background:linear-gradient(135deg,#1a1a2e,#16213e);">🖥️</div><div class="img-label">Improve Your Desk Setup</div></div>
+        <div class="image-card" onclick="prefillPrompt('wanderlust travel landscape, mountains, golden hour, cinematic photography')"><div class="img-thumb" style="background:linear-gradient(135deg,#2d6a4f,#40916c);">🌍</div><div class="img-label">Wanderlust</div></div>
+        <div class="image-card" onclick="prefillPrompt('cute scribble doodle art, kawaii style, pastel colors, pencil sketch')"><div class="img-thumb" style="background:linear-gradient(135deg,#7b2d8b,#a855f7);">✏️</div><div class="img-label">Scribble</div></div>
+        <div class="image-card" onclick="prefillPrompt('cute chibi dog sticker, kawaii style, big eyes, white background, cartoon')"><div class="img-thumb" style="background:linear-gradient(135deg,#ffecd2,#fcb69f);">🐶</div><div class="img-label">Chibi stickers</div></div>
+        <div class="image-card" onclick="prefillPrompt('makeup beauty guide, cosmetics flat lay, pastel aesthetic, lipstick eyeshadow')"><div class="img-thumb" style="background:linear-gradient(135deg,#1a1a1a,#555);">💄</div><div class="img-label">Makeup guide</div></div>
       </div>
     </div>
   </div>
@@ -487,50 +548,37 @@
 </div>
 
 <script>
-  // ===== MARKDOWN RENDERER (ChatGPT style) =====
+  // ===== MARKDOWN RENDERER =====
   function renderMarkdown(text) {
     let html = text;
-    // Escape HTML first
     html = html.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    // Code blocks
     html = html.replace(/```(\w*)\n?([\s\S]*?)```/g, '<pre><code>$2</code></pre>');
-    // Inline code
     html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
-    // Headers
     html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
     html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
     html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
-    // Bold
     html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-    // Italic
     html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
-    // HR
     html = html.replace(/^---$/gm, '<hr>');
-    // Unordered lists
     html = html.replace(/^[-•] (.+)$/gm, '<li>$1</li>');
     html = html.replace(/(<li>.*<\/li>)/gs, (m) => '<ul>' + m + '</ul>');
-    // Ordered lists
     html = html.replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
-    // Blockquote
     html = html.replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
-    // Paragraphs — split by double newline
     html = html.split(/\n\n+/).map(block => {
       block = block.trim();
       if (!block) return '';
       if (/^<(h[123]|ul|ol|pre|blockquote|hr)/.test(block)) return block;
-      // Single newlines become line breaks inside paragraphs
       block = block.replace(/\n/g, '<br>');
       return '<p>' + block + '</p>';
     }).join('');
-    // Clean up double ul tags
     html = html.replace(/<\/ul>\s*<ul>/g, '');
     return html;
   }
 
   // ===== SEARCH LIMIT =====
   const FREE_LIMIT = 8;
-  function getSearchCount() { return parseInt(localStorage.getItem('os_searches') || '0'); }
-  function incrementSearch() { const n = getSearchCount() + 1; localStorage.setItem('os_searches', n); return n; }
+  function getSearchCount() { try { return parseInt(localStorage.getItem('os_searches') || '0'); } catch(e) { return 0; } }
+  function incrementSearch() { try { const n = getSearchCount() + 1; localStorage.setItem('os_searches', n); return n; } catch(e) { return 1; } }
   function canSearch() { return currentUser ? true : getSearchCount() < FREE_LIMIT; }
   function updateLimitBanner() {
     if (currentUser) { document.getElementById('limit-banner').classList.remove('show'); return; }
@@ -706,21 +754,129 @@
     e.target.value = '';
   }
 
-  function generateImage() {
-    const prompt = document.getElementById('image-prompt').value.trim();
-    if (!prompt) return;
-    document.getElementById('generated-images').style.display = 'block';
-    const grid = document.getElementById('generated-grid');
-    grid.innerHTML = '';
-    const colors = ['#3b82f6','#8b5cf6','#10b981','#f59e0b'];
-    for (let i = 0; i < 4; i++) {
-      grid.innerHTML += `<div class="image-card"><div class="img-thumb" style="background:${colors[i]};color:white;font-size:13px;text-align:center;padding:10px;">${prompt.substring(0,20)}…</div><div class="img-label">Generated ${i+1}</div></div>`;
-    }
+  // ===== IMAGE GENERATION — FIXED =====
+  // Uses Pollinations.ai (free, no API key needed)
+  // Supports: cute cats, animated styles, fantasy, portraits, anything
+
+  function prefillPrompt(text) {
+    const ta = document.getElementById('image-prompt');
+    ta.value = text;
+    ta.focus();
+    // Scroll to top of images page content
+    document.getElementById('page-images').scrollTop = 0;
   }
+
+  async function generateImage() {
+    const promptEl = document.getElementById('image-prompt');
+    const prompt = promptEl.value.trim();
+
+    if (!prompt) {
+      promptEl.focus();
+      promptEl.style.borderColor = '#ef4444';
+      setTimeout(() => { promptEl.style.borderColor = ''; }, 1500);
+      return;
+    }
+
+    const btn = document.getElementById('generate-btn');
+    const genSection = document.getElementById('generated-images');
+    const genGrid = document.getElementById('generated-grid');
+    const spinner = document.getElementById('gen-spinner');
+
+    // Show loading state
+    btn.disabled = true;
+    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="2" style="animation:spin 1s linear infinite"><path d="M8 2a6 6 0 1 0 6 6" stroke-linecap="round"/></svg> Generating…';
+    genSection.style.display = 'block';
+    spinner.style.display = 'flex';
+    genGrid.innerHTML = '';
+
+    // Show 4 skeleton loading cards
+    for (let i = 0; i < 4; i++) {
+      const card = document.createElement('div');
+      card.className = 'gen-card loading';
+      card.id = 'gen-card-' + i;
+      card.innerHTML = '<div class="img-thumb-skeleton"></div><div class="img-label" style="color:#ccc;">Loading…</div>';
+      genGrid.appendChild(card);
+    }
+
+    // Scroll to generated section
+    genSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    // Generate 4 images with different seeds/styles
+    const variations = [
+      { suffix: '', label: 'Variation 1' },
+      { suffix: ', vibrant colors, detailed', label: 'Variation 2' },
+      { suffix: ', soft lighting, artistic', label: 'Variation 3' },
+      { suffix: ', high quality, cinematic', label: 'Variation 4' },
+    ];
+
+    const loadPromises = variations.map((v, i) => {
+      return new Promise((resolve) => {
+        const seed = Math.floor(Math.random() * 999999);
+        const fullPrompt = encodeURIComponent(prompt + v.suffix);
+        const url = `https://image.pollinations.ai/prompt/${fullPrompt}?width=512&height=512&seed=${seed}&nologo=true&enhance=true`;
+
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+
+        img.onload = function() {
+          const card = document.getElementById('gen-card-' + i);
+          if (card) {
+            card.className = 'gen-card';
+            card.innerHTML = `
+              <img src="${url}" alt="${prompt}" title="${prompt}" loading="lazy" />
+              <div class="img-label">${v.label}</div>
+              <div class="gen-card-actions">
+                <a href="${url}" download="optimaseek-${i+1}.jpg" target="_blank">⬇ Download</a>
+                <a onclick="prefillAndGenerate('${prompt.replace(/'/g,"\\'")}')">🔄 Regenerate</a>
+              </div>`;
+          }
+          resolve();
+        };
+
+        img.onerror = function() {
+          const card = document.getElementById('gen-card-' + i);
+          if (card) {
+            card.className = 'gen-card';
+            card.innerHTML = `
+              <div class="img-thumb-skeleton" style="display:flex;align-items:center;justify-content:center;color:#999;font-size:12px;background:#f5f5f5;">Failed to load</div>
+              <div class="img-label">Try again</div>`;
+          }
+          resolve();
+        };
+
+        img.src = url;
+      });
+    });
+
+    // Wait for all images, then clean up
+    await Promise.all(loadPromises);
+
+    spinner.style.display = 'none';
+    btn.disabled = false;
+    btn.innerHTML = 'Generate image';
+  }
+
+  function prefillAndGenerate(prompt) {
+    document.getElementById('image-prompt').value = prompt;
+    generateImage();
+  }
+
+  // Also allow Enter key in image prompt textarea (Shift+Enter for newline)
+  document.addEventListener('DOMContentLoaded', function() {
+    const imgPrompt = document.getElementById('image-prompt');
+    if (imgPrompt) {
+      imgPrompt.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          generateImage();
+        }
+      });
+    }
+  });
 
   function openApp(url) { window.open(url, '_blank', 'noopener,noreferrer'); }
 
-  // ===== STRIPE — fixed with proper error detail =====
+  // ===== STRIPE =====
   async function subscribe(plan) {
     const btn = document.getElementById('btn-' + plan);
     const orig = btn.innerHTML;
@@ -739,7 +895,7 @@
       if (data.url) { window.location.href = data.url; return; }
       throw new Error(data.error || 'No checkout URL returned');
     } catch(err) {
-      alert('Checkout error:\n\n' + err.message + '\n\nCheck: Is api/stripe/checkout.js in the api folder in GitHub?');
+      alert('Checkout error:\n\n' + err.message);
       btn.innerHTML = orig;
       btn.disabled = false;
     }
