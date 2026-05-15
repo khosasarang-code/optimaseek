@@ -754,16 +754,35 @@
     e.target.value = '';
   }
 
-  // ===== IMAGE GENERATION — FIXED =====
-  // Uses Pollinations.ai (free, no API key needed)
-  // Supports: cute cats, animated styles, fantasy, portraits, anything
+  // ===== IMAGE GENERATION — SEQUENTIAL WITH RETRY =====
+  // Loads one image at a time to avoid Pollinations.ai rate limiting
 
   function prefillPrompt(text) {
     const ta = document.getElementById('image-prompt');
     ta.value = text;
     ta.focus();
-    // Scroll to top of images page content
     document.getElementById('page-images').scrollTop = 0;
+  }
+
+  function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+  // Load a single image with retry logic
+  async function loadImageWithRetry(url, retries = 3, delayMs = 1500) {
+    for (let attempt = 0; attempt < retries; attempt++) {
+      try {
+        await new Promise((resolve, reject) => {
+          const img = new Image();
+          img.onload = resolve;
+          img.onerror = reject;
+          // Add cache-bust only on retry
+          img.src = attempt === 0 ? url : url + '&cb=' + Date.now();
+        });
+        return true; // success
+      } catch(e) {
+        if (attempt < retries - 1) await sleep(delayMs);
+      }
+    }
+    return false; // all retries failed
   }
 
   async function generateImage() {
@@ -782,78 +801,114 @@
     const genGrid = document.getElementById('generated-grid');
     const spinner = document.getElementById('gen-spinner');
 
-    // Show loading state
     btn.disabled = true;
     btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="2" style="animation:spin 1s linear infinite"><path d="M8 2a6 6 0 1 0 6 6" stroke-linecap="round"/></svg> Generating…';
     genSection.style.display = 'block';
     spinner.style.display = 'flex';
     genGrid.innerHTML = '';
 
-    // Show 4 skeleton loading cards
-    for (let i = 0; i < 4; i++) {
+    const variations = [
+      { suffix: '', label: 'Variation 1' },
+      { suffix: ', vibrant colors, highly detailed', label: 'Variation 2' },
+      { suffix: ', soft dreamy lighting, artistic style', label: 'Variation 3' },
+      { suffix: ', cinematic, high quality render', label: 'Variation 4' },
+    ];
+
+    // Create all skeleton cards upfront
+    variations.forEach((v, i) => {
       const card = document.createElement('div');
       card.className = 'gen-card loading';
       card.id = 'gen-card-' + i;
-      card.innerHTML = '<div class="img-thumb-skeleton"></div><div class="img-label" style="color:#ccc;">Loading…</div>';
+      card.innerHTML = `<div class="img-thumb-skeleton"></div><div class="img-label" style="color:#bbb;">Generating ${v.label}…</div>`;
       genGrid.appendChild(card);
-    }
-
-    // Scroll to generated section
-    genSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
-    // Generate 4 images with different seeds/styles
-    const variations = [
-      { suffix: '', label: 'Variation 1' },
-      { suffix: ', vibrant colors, detailed', label: 'Variation 2' },
-      { suffix: ', soft lighting, artistic', label: 'Variation 3' },
-      { suffix: ', high quality, cinematic', label: 'Variation 4' },
-    ];
-
-    const loadPromises = variations.map((v, i) => {
-      return new Promise((resolve) => {
-        const seed = Math.floor(Math.random() * 999999);
-        const fullPrompt = encodeURIComponent(prompt + v.suffix);
-        const url = `https://image.pollinations.ai/prompt/${fullPrompt}?width=512&height=512&seed=${seed}&nologo=true&enhance=true`;
-
-        const img = new Image();
-        img.crossOrigin = 'anonymous';
-
-        img.onload = function() {
-          const card = document.getElementById('gen-card-' + i);
-          if (card) {
-            card.className = 'gen-card';
-            card.innerHTML = `
-              <img src="${url}" alt="${prompt}" title="${prompt}" loading="lazy" />
-              <div class="img-label">${v.label}</div>
-              <div class="gen-card-actions">
-                <a href="${url}" download="optimaseek-${i+1}.jpg" target="_blank">⬇ Download</a>
-                <a onclick="prefillAndGenerate('${prompt.replace(/'/g,"\\'")}')">🔄 Regenerate</a>
-              </div>`;
-          }
-          resolve();
-        };
-
-        img.onerror = function() {
-          const card = document.getElementById('gen-card-' + i);
-          if (card) {
-            card.className = 'gen-card';
-            card.innerHTML = `
-              <div class="img-thumb-skeleton" style="display:flex;align-items:center;justify-content:center;color:#999;font-size:12px;background:#f5f5f5;">Failed to load</div>
-              <div class="img-label">Try again</div>`;
-          }
-          resolve();
-        };
-
-        img.src = url;
-      });
     });
 
-    // Wait for all images, then clean up
-    await Promise.all(loadPromises);
+    genSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    // Load SEQUENTIALLY — one at a time, 800ms apart to avoid rate limits
+    for (let i = 0; i < variations.length; i++) {
+      const v = variations[i];
+      const seed = Math.floor(Math.random() * 99999) + 1;
+      const fullPrompt = encodeURIComponent(prompt + v.suffix);
+      const url = `https://image.pollinations.ai/prompt/${fullPrompt}?width=512&height=512&seed=${seed}&nologo=true&enhance=true&model=flux`;
+
+      const card = document.getElementById('gen-card-' + i);
+
+      // Update skeleton label
+      if (card) card.querySelector('.img-label').textContent = `Loading ${v.label}…`;
+
+      const success = await loadImageWithRetry(url, 3, 2000);
+
+      if (success) {
+        if (card) {
+          const safePrompt = prompt.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+          card.className = 'gen-card';
+          card.innerHTML = `
+            <img src="${url}" alt="${prompt}" loading="lazy" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;" />
+            <div class="img-label">${v.label}</div>
+            <div class="gen-card-actions">
+              <a href="${url}" target="_blank" rel="noopener">⬇ Download</a>
+              <a style="cursor:pointer;" onclick="prefillAndGenerate('${safePrompt}')">🔄 Again</a>
+            </div>`;
+        }
+      } else {
+        // Show retry button on failure
+        if (card) {
+          const safePrompt = prompt.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+          card.className = 'gen-card';
+          card.innerHTML = `
+            <div style="aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:#fafafa;color:#999;font-size:12px;">
+              <span style="font-size:24px;">⚠️</span>Failed to load
+            </div>
+            <div class="gen-card-actions">
+              <a style="cursor:pointer;color:#ef4444;" onclick="retrySingle(${i},'${safePrompt}','${encodeURIComponent(v.suffix)}','${v.label}')">🔄 Retry</a>
+            </div>`;
+        }
+      }
+
+      // Wait 800ms between each request to avoid rate limiting
+      if (i < variations.length - 1) await sleep(800);
+    }
 
     spinner.style.display = 'none';
     btn.disabled = false;
     btn.innerHTML = 'Generate image';
+  }
+
+  // Retry a single failed image
+  async function retrySingle(index, prompt, encodedSuffix, label) {
+    const card = document.getElementById('gen-card-' + index);
+    if (!card) return;
+    card.innerHTML = `<div class="img-thumb-skeleton"></div><div class="img-label" style="color:#bbb;">Retrying…</div>`;
+    card.className = 'gen-card loading';
+
+    const seed = Math.floor(Math.random() * 99999) + 1;
+    const suffix = decodeURIComponent(encodedSuffix);
+    const fullPrompt = encodeURIComponent(prompt + suffix);
+    const url = `https://image.pollinations.ai/prompt/${fullPrompt}?width=512&height=512&seed=${seed}&nologo=true&enhance=true&model=flux`;
+
+    const success = await loadImageWithRetry(url, 3, 2000);
+    const safePrompt = prompt.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+
+    if (success) {
+      card.className = 'gen-card';
+      card.innerHTML = `
+        <img src="${url}" alt="${prompt}" loading="lazy" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;" />
+        <div class="img-label">${label}</div>
+        <div class="gen-card-actions">
+          <a href="${url}" target="_blank" rel="noopener">⬇ Download</a>
+          <a style="cursor:pointer;" onclick="prefillAndGenerate('${safePrompt}')">🔄 Again</a>
+        </div>`;
+    } else {
+      card.className = 'gen-card';
+      card.innerHTML = `
+        <div style="aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:#fafafa;color:#999;font-size:12px;">
+          <span style="font-size:24px;">⚠️</span>Still failing
+        </div>
+        <div class="gen-card-actions">
+          <a style="cursor:pointer;color:#ef4444;" onclick="retrySingle(${index},'${safePrompt}','${encodedSuffix}','${label}')">🔄 Retry again</a>
+        </div>`;
+    }
   }
 
   function prefillAndGenerate(prompt) {
@@ -861,7 +916,7 @@
     generateImage();
   }
 
-  // Also allow Enter key in image prompt textarea (Shift+Enter for newline)
+  // Enter key in image textarea
   document.addEventListener('DOMContentLoaded', function() {
     const imgPrompt = document.getElementById('image-prompt');
     if (imgPrompt) {
