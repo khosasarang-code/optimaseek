@@ -3,367 +3,1393 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>OptimaSeek AI</title>
+<title>OptimaSeek – AI Chat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Söhne:wght@400;500;600&family=Söhne+Mono&display=swap" rel="stylesheet" />
+<!-- Fallback to system font matching ChatGPT -->
 <style>
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #fff;
-  color: #111;
-}
-.app {
-  display: flex;
-  min-height: 100vh;
-}
-.sidebar {
-  width: 260px;
-  background: #f7f7f8;
-  border-right: 1px solid #ddd;
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.brand {
-  font-size: 20px;
-  font-weight: 700;
-  padding: 12px 8px;
-}
-.side-btn {
-  border: 0;
-  background: transparent;
-  padding: 12px;
-  border-radius: 10px;
-  text-align: left;
-  cursor: pointer;
-  font-size: 15px;
-}
-.side-btn:hover,
-.side-btn.active {
-  background: #ececf1;
-}
-.login-panel {
-  margin-top: auto;
-  border-top: 1px solid #ddd;
-  padding-top: 16px;
-  font-size: 14px;
-}
-.login-panel button,
-.top-actions button,
-.cookie-actions button {
-  border: 1px solid #ccc;
-  background: white;
-  padding: 10px 16px;
-  border-radius: 999px;
-  cursor: pointer;
-}
-.main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-.topbar {
-  height: 58px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 22px;
-}
-.topbar h2 {
-  margin: 0;
-  font-size: 18px;
-}
-.chat {
-  flex: 1;
-  overflow-y: auto;
-  padding: 30px 18px 160px;
-}
-.welcome {
-  text-align: center;
-  margin-top: 16vh;
-  font-size: 30px;
-  font-weight: 400;
-}
-.messages {
-  max-width: 780px;
-  margin: 0 auto;
-}
-.message {
-  padding: 14px 16px;
-  margin: 12px 0;
-  line-height: 1.5;
-  white-space: pre-wrap;
-}
-.user {
-  margin-left: auto;
-  max-width: 75%;
-  background: #f4f4f4;
-  border-radius: 18px;
-}
-.assistant {
-  max-width: 100%;
-}
-.composer-wrap {
-  position: fixed;
-  left: 260px;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(transparent, #fff 25%);
-  padding: 32px 18px 18px;
-}
-.composer {
-  max-width: 780px;
-  margin: 0 auto;
-  border: 1px solid #ddd;
-  border-radius: 28px;
-  min-height: 58px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 10px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-  background: white;
-}
-.icon-btn {
-  width: 38px;
-  height: 38px;
-  border: 0;
-  border-radius: 50%;
-  background: #f1f1f1;
-  cursor: pointer;
-  font-size: 18px;
-}
-#prompt {
-  flex: 1;
-  border: 0;
-  outline: 0;
-  font-size: 16px;
-  resize: none;
-  min-height: 30px;
-  max-height: 140px;
-}
-.send {
-  background: #111;
-  color: white;
-}
-.notice {
-  text-align: center;
-  color: #666;
-  font-size: 12px;
-  margin-top: 10px;
-}
-.cookie {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: white;
-  border-top: 1px solid #ddd;
-  padding: 16px;
-  display: none;
-  justify-content: space-between;
-  gap: 20px;
-  align-items: center;
-  z-index: 5;
-}
-.cookie.show { display: flex; }
-.cookie p { margin: 6px 0 0; color: #555; }
-.black {
-  background: #111 !important;
-  color: white;
-}
-.mobile-menu {
-  display: none;
-}
+  /* ===== RESET & BASE ===== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-@media (max-width: 760px) {
+  :root {
+    --sidebar-bg: #ffffff;
+    --sidebar-width: 260px;
+    --main-bg: #ffffff;
+    --border: #e5e5e5;
+    --text-primary: #0d0d0d;
+    --text-secondary: #666666;
+    --text-muted: #999999;
+    --hover-bg: #f5f5f5;
+    --active-bg: #ebebeb;
+    --btn-primary-bg: #0d0d0d;
+    --btn-primary-text: #ffffff;
+    --btn-secondary-border: #d4d4d4;
+    --input-bg: #f4f4f4;
+    --input-border: #d4d4d4;
+    --accent: #10a37f;
+    --font: "Söhne", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+  }
+
+  body {
+    font-family: var(--font);
+    font-size: 14px;
+    color: var(--text-primary);
+    background: var(--main-bg);
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* ===== SIDEBAR ===== */
   .sidebar {
-    position: fixed;
-    inset: 0 auto 0 0;
-    transform: translateX(-100%);
-    transition: 0.25s;
+    width: var(--sidebar-width);
+    min-width: var(--sidebar-width);
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 10px 8px;
+    overflow-y: auto;
+    position: relative;
     z-index: 10;
   }
-  .sidebar.open { transform: translateX(0); }
-  .mobile-menu { display: inline-block; }
-  .composer-wrap { left: 0; }
-  .welcome { font-size: 24px; margin-top: 12vh; }
-  .cookie { flex-direction: column; align-items: flex-start; }
-}
+
+  .sidebar-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 6px 12px;
+  }
+
+  .sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .logo-icon {
+    width: 30px;
+    height: 30px;
+    background: #10a37f;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .sidebar-collapse {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    font-size: 18px;
+  }
+  .sidebar-collapse:hover { background: var(--hover-bg); }
+
+  /* Nav items */
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    color: var(--text-primary);
+    font-size: 14px;
+    text-decoration: none;
+    transition: background 0.1s;
+    user-select: none;
+  }
+  .nav-item:hover { background: var(--hover-bg); }
+  .nav-item.active { background: var(--active-bg); font-weight: 500; }
+
+  .nav-icon {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--text-primary);
+  }
+
+  .nav-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 8px 0;
+  }
+
+  .sidebar-section-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    padding: 6px 10px 4px;
+  }
+
+  .sidebar-bottom {
+    margin-top: auto;
+    border-top: 1px solid var(--border);
+    padding-top: 10px;
+  }
+
+  .user-info-card {
+    background: #f9f9f9;
+    border-radius: var(--radius-md);
+    padding: 12px;
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+  .user-info-card p { color: var(--text-secondary); margin-top: 4px; font-size: 12px; line-height: 1.4; }
+  .user-info-card strong { font-weight: 600; font-size: 13px; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 9px 16px;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.1s, background 0.1s;
+    border: none;
+    font-family: var(--font);
+  }
+  .btn-primary { background: var(--btn-primary-bg); color: var(--btn-primary-text); }
+  .btn-primary:hover { opacity: 0.88; }
+  .btn-secondary { background: transparent; border: 1px solid var(--btn-secondary-border); color: var(--text-primary); }
+  .btn-secondary:hover { background: var(--hover-bg); }
+  .btn-full { width: 100%; }
+  .btn-google {
+    background: white;
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    width: 100%;
+    margin-top: 6px;
+    gap: 10px;
+  }
+  .btn-google:hover { background: var(--hover-bg); }
+
+  /* ===== MAIN CONTENT ===== */
+  .main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Top bar */
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .topbar-title {
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+  }
+  .topbar-actions { display: flex; gap: 8px; }
+
+  /* Pages */
+  .page { display: none; flex: 1; overflow-y: auto; }
+  .page.active { display: flex; flex-direction: column; }
+
+  /* ===== CHAT PAGE ===== */
+  .chat-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px 20px;
+  }
+
+  .chat-greeting {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 32px;
+    color: var(--text-primary);
+    text-align: center;
+  }
+
+  .chat-input-wrap {
+    width: 100%;
+    max-width: 640px;
+    position: relative;
+  }
+
+  .chat-input-box {
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-lg);
+    padding: 14px 50px 14px 46px;
+    font-size: 15px;
+    font-family: var(--font);
+    width: 100%;
+    outline: none;
+    resize: none;
+    min-height: 52px;
+    max-height: 200px;
+    color: var(--text-primary);
+  }
+  .chat-input-box:focus { border-color: #999; }
+  .chat-input-box::placeholder { color: var(--text-muted); }
+
+  .chat-add-btn {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-sm);
+  }
+  .chat-add-btn:hover { background: var(--hover-bg); }
+
+  .chat-submit-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--btn-primary-bg);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+  .chat-submit-btn:hover { opacity: 0.8; }
+
+  .chat-voice-btn {
+    position: absolute;
+    right: 54px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Dropdown menu */
+  .dropdown {
+    position: absolute;
+    left: 0;
+    bottom: calc(100% + 6px);
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    min-width: 200px;
+    overflow: hidden;
+    z-index: 100;
+    display: none;
+  }
+  .dropdown.open { display: block; }
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text-primary);
+  }
+  .dropdown-item:hover { background: var(--hover-bg); }
+  .dropdown-item.disabled { color: var(--text-muted); cursor: default; }
+  .dropdown-item.disabled:hover { background: transparent; }
+  .dropdown-separator { height: 1px; background: var(--border); }
+  .dropdown-label { padding: 6px 14px 3px; font-size: 11px; color: var(--text-muted); font-weight: 500; }
+  .dropdown-icon { font-size: 16px; width: 18px; }
+
+  /* Suggested prompts */
+  .chat-suggestions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 16px;
+    max-width: 640px;
+  }
+  .suggestion-chip {
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 7px 14px;
+    font-size: 13px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    background: white;
+    transition: background 0.1s;
+  }
+  .suggestion-chip:hover { background: var(--hover-bg); color: var(--text-primary); }
+
+  /* ===== IMAGES PAGE ===== */
+  .page-content { padding: 32px; max-width: 840px; margin: 0 auto; width: 100%; }
+  .page-title { font-size: 24px; font-weight: 600; margin-bottom: 24px; }
+
+  .images-input-box {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    font-size: 14px;
+    font-family: var(--font);
+    width: 100%;
+    min-height: 120px;
+    outline: none;
+    resize: none;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+  }
+  .images-input-box:focus { border-color: #999; }
+
+  .section-label { font-size: 14px; font-weight: 600; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+  .section-label a { font-size: 13px; font-weight: 400; color: var(--text-secondary); }
+
+  .image-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .image-card {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    transition: transform 0.15s;
+  }
+  .image-card:hover { transform: scale(1.03); }
+  .image-card .img-thumb {
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+  }
+  .image-card .img-label {
+    padding: 6px 8px;
+    font-size: 12px;
+    font-weight: 500;
+    background: white;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ===== APPS PAGE ===== */
+  .apps-hero {
+    background: linear-gradient(135deg, #0070f3, #7c3aed);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    margin-bottom: 28px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .apps-hero-text h2 { font-size: 22px; font-weight: 600; }
+  .apps-hero-text p { font-size: 14px; opacity: 0.85; margin-top: 4px; }
+  .apps-hero-icon { font-size: 48px; }
+
+  .apps-tabs { display: flex; gap: 4px; margin-bottom: 20px; }
+  .apps-tab {
+    padding: 7px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--text-secondary);
+    font-family: var(--font);
+  }
+  .apps-tab.active { background: var(--active-bg); color: var(--text-primary); font-weight: 500; }
+  .apps-tab:hover { background: var(--hover-bg); }
+
+  .apps-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .app-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: white;
+    cursor: pointer;
+    justify-content: space-between;
+    transition: background 0.1s;
+  }
+  .app-row:hover { background: var(--hover-bg); }
+  .app-row-left { display: flex; align-items: center; gap: 12px; }
+  .app-icon-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .app-row-text { font-size: 14px; font-weight: 500; }
+  .app-row-desc { font-size: 12px; color: var(--text-secondary); }
+  .app-row-chevron { color: var(--text-muted); font-size: 16px; }
+
+  /* ===== PRICING PAGE ===== */
+  .pricing-header { text-align: center; margin-bottom: 40px; }
+  .pricing-header h1 { font-size: 32px; font-weight: 600; }
+  .pricing-header p { font-size: 16px; color: var(--text-secondary); margin-top: 8px; }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+
+  .pricing-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .pricing-card.featured {
+    border: 2px solid #0d0d0d;
+    position: relative;
+  }
+  .pricing-card.featured::before {
+    content: "Most popular";
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #0d0d0d;
+    color: white;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 12px;
+    white-space: nowrap;
+  }
+
+  .plan-name { font-size: 16px; font-weight: 600; }
+  .plan-tagline { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
+  .plan-price { font-size: 28px; font-weight: 700; }
+  .plan-price span { font-size: 13px; font-weight: 400; color: var(--text-secondary); }
+  .plan-features { list-style: none; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .plan-features li { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: var(--text-secondary); }
+  .plan-features li::before { content: "✓"; color: var(--accent); font-weight: 600; flex-shrink: 0; margin-top: 1px; }
+
+  /* ===== SETTINGS PAGE ===== */
+  .settings-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: 200px;
+    min-width: 200px;
+    padding-right: 24px;
+    border-right: 1px solid var(--border);
+  }
+  .settings-nav-item {
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+  .settings-nav-item:hover { background: var(--hover-bg); color: var(--text-primary); }
+  .settings-nav-item.active { background: var(--active-bg); color: var(--text-primary); font-weight: 500; }
+
+  .settings-content { flex: 1; padding-left: 24px; }
+  .settings-section-title { font-size: 16px; font-weight: 600; margin-bottom: 20px; }
+  .settings-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border); }
+  .settings-row:last-child { border-bottom: none; }
+  .settings-row-label { font-size: 14px; }
+  .settings-row-sub { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+
+  .toggle {
+    width: 40px;
+    height: 22px;
+    background: #10a37f;
+    border-radius: 11px;
+    position: relative;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .toggle::after {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background: white;
+    border-radius: 50%;
+    top: 2px;
+    right: 2px;
+    transition: right 0.2s;
+  }
+  .toggle.off { background: var(--border); }
+  .toggle.off::after { right: auto; left: 2px; }
+
+  /* ===== LOGIN MODAL ===== */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    width: 380px;
+    max-width: 90vw;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .modal-logo { text-align: center; margin-bottom: 4px; }
+  .modal-title { font-size: 20px; font-weight: 600; text-align: center; }
+  .modal-sub { font-size: 13px; color: var(--text-secondary); text-align: center; margin-top: -8px; }
+  .modal-divider { display: flex; align-items: center; gap: 10px; color: var(--text-muted); font-size: 12px; }
+  .modal-divider::before, .modal-divider::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+  .modal-input {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: var(--font);
+    outline: none;
+  }
+  .modal-input:focus { border-color: #0d0d0d; }
+  .modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+  }
+  .modal-close:hover { background: var(--hover-bg); }
+  .modal { position: relative; }
+
+  /* ===== CHAT MESSAGES ===== */
+  .chat-messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 20px; max-width: 720px; margin: 0 auto; width: 100%; display: none; }
+  .chat-messages.visible { display: flex; }
+  .msg { display: flex; gap: 12px; }
+  .msg.user { flex-direction: row-reverse; }
+  .msg-avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; flex-shrink: 0; }
+  .msg-avatar.ai { background: #10a37f; color: white; }
+  .msg-avatar.user { background: #0d0d0d; color: white; }
+  .msg-bubble { background: var(--input-bg); border-radius: var(--radius-md); padding: 12px 16px; font-size: 14px; line-height: 1.6; max-width: 80%; }
+  .msg.user .msg-bubble { background: #0d0d0d; color: white; }
+
+  /* ===== UTILITIES ===== */
+  svg { display: block; }
+  .text-muted { color: var(--text-muted); }
+  .badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 500; background: var(--hover-bg); color: var(--text-secondary); }
+
+  @media (max-width: 900px) {
+    .sidebar { display: none; }
+    .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+    .image-grid { grid-template-columns: repeat(3, 1fr); }
+  }
 </style>
 </head>
-
 <body>
-<div class="app">
-  <aside class="sidebar" id="sidebar">
-    <div class="brand">OptimaSeek AI</div>
-    <button class="side-btn active" onclick="newChat()">✎ New chat</button>
-    <button class="side-btn" onclick="searchChats()">⌕ Search chats</button>
-    <button class="side-btn" onclick="imageMode()">▧ Images</button>
-    <button class="side-btn" onclick="alert('Plans page coming soon')">◇ See plans and pricing</button>
-    <button class="side-btn" onclick="alert('Settings coming soon')">⚙ Settings</button>
 
-    <div class="login-panel">
-      <strong>Get responses tailored to you</strong>
-      <p>Log in to save chats, create images, and upload files.</p>
-      <button onclick="alert('Connect this to your login provider')">Log in</button>
-    </div>
-  </aside>
-
-  <main class="main">
-    <header class="topbar">
-      <div>
-        <button class="icon-btn mobile-menu" onclick="toggleSidebar()">☰</button>
-        <h2 style="display:inline-block">OptimaSeek AI</h2>
-      </div>
-      <div class="top-actions">
-        <button onclick="alert('Login setup needed')">Log in</button>
-        <button onclick="alert('Signup setup needed')">Sign up for free</button>
-      </div>
-    </header>
-
-    <section class="chat" id="chat">
-      <div class="messages" id="messages">
-        <div class="welcome" id="welcome">Where should we begin?</div>
-      </div>
-    </section>
-
-    <div class="composer-wrap">
-      <div class="composer">
-        <button class="icon-btn" onclick="document.getElementById('file').click()">+</button>
-        <input id="file" type="file" hidden onchange="filePicked()" />
-        <textarea id="prompt" placeholder="Ask anything" rows="1"></textarea>
-        <button class="icon-btn" onclick="startVoice()">🎙</button>
-        <button class="icon-btn send" onclick="sendMessage()">➜</button>
-      </div>
-      <div class="notice">OptimaSeek AI can make mistakes. Check important information.</div>
-    </div>
-  </main>
-</div>
-
-<div class="cookie" id="cookie">
-  <div>
-    <strong>We use cookies</strong>
-    <p>Cookies help this site function, measure usage, and support marketing.</p>
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-top">
+    <span class="sidebar-logo">
+      <div class="logo-icon">O</div>
+      OptimaSeek
+    </span>
+    <button class="sidebar-collapse" onclick="document.querySelector('.sidebar').style.display='none'">☰</button>
   </div>
-  <div class="cookie-actions">
-    <button onclick="closeCookie()">Reject non-essential</button>
-    <button class="black" onclick="closeCookie()">Accept all</button>
+
+  <!-- Nav item 1: New chat -->
+  <div class="nav-item active" onclick="showPage('chat')">
+    <span class="nav-icon">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M8 3v10M3 8h10" stroke-linecap="round"/>
+      </svg>
+    </span>
+    New chat
+  </div>
+
+  <!-- Nav item 2: Search chats -->
+  <div class="nav-item" onclick="showPage('chat')">
+    <span class="nav-icon">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="6.5" cy="6.5" r="4"/>
+        <path d="M13 13l-2.5-2.5" stroke-linecap="round"/>
+      </svg>
+    </span>
+    Search chats
+  </div>
+
+  <!-- Nav item 3: Images -->
+  <div class="nav-item" onclick="showPage('images')">
+    <span class="nav-icon">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="2" y="2" width="12" height="12" rx="2"/>
+        <circle cx="5.5" cy="5.5" r="1"/>
+        <path d="M2 11l4-4 3 3 2-2 3 3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </span>
+    Images
+  </div>
+
+  <!-- Nav item 4: Apps -->
+  <div class="nav-item" onclick="showPage('apps')">
+    <span class="nav-icon">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="2" y="2" width="5" height="5" rx="1"/>
+        <rect x="9" y="2" width="5" height="5" rx="1"/>
+        <rect x="2" y="9" width="5" height="5" rx="1"/>
+        <rect x="9" y="9" width="5" height="5" rx="1"/>
+      </svg>
+    </span>
+    Apps
+  </div>
+
+  <!-- Nav item 5: Deep research -->
+  <div class="nav-item">
+    <span class="nav-icon">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M2 4h12M2 8h8M2 12h5" stroke-linecap="round"/>
+      </svg>
+    </span>
+    Deep research
+  </div>
+
+  <div class="nav-divider"></div>
+
+  <!-- Nav item 6: See plans and pricing -->
+  <div class="nav-item" onclick="showPage('pricing')">
+    <span class="nav-icon">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="8" cy="8" r="6"/>
+        <path d="M8 5v3l2 2" stroke-linecap="round"/>
+      </svg>
+    </span>
+    See plans and pricing
+  </div>
+
+  <!-- Nav item 7: Settings -->
+  <div class="nav-item" onclick="showPage('settings')">
+    <span class="nav-icon">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="8" cy="8" r="2.5"/>
+        <path d="M8 2v1.5M8 12.5V14M2 8h1.5M12.5 8H14M3.5 3.5l1 1M11.5 11.5l1 1M11.5 3.5l-1 1M4.5 11.5l-1 1" stroke-linecap="round"/>
+      </svg>
+    </span>
+    Settings
+  </div>
+
+  <!-- Nav item 8: Help -->
+  <div class="nav-item">
+    <span class="nav-icon">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="8" cy="8" r="6"/>
+        <path d="M6 6c0-1.1.9-2 2-2a2 2 0 0 1 1 3.73C8.5 8.18 8 8.8 8 9.5" stroke-linecap="round"/>
+        <circle cx="8" cy="12" r="0.5" fill="currentColor"/>
+      </svg>
+    </span>
+    Help
+  </div>
+
+  <!-- Nav items 9-11 + user card at bottom -->
+  <div class="sidebar-bottom">
+    <div class="user-info-card" id="login-card">
+      <strong>Get responses tailored to you</strong>
+      <p>Log in to get answers based on saved chats, plus create images and upload files.</p>
+    </div>
+    <button class="btn btn-primary btn-full" onclick="openModal()">Log in</button>
+    <button class="btn btn-secondary btn-full" style="margin-top: 6px;" onclick="openModal()">Sign up for free</button>
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="topbar-title" onclick="showPage('chat')">
+      OptimaSeek
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M3 5l4 4 4-4" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="topbar-actions" id="topbar-auth">
+      <button class="btn btn-primary" onclick="openModal()">Log in</button>
+      <button class="btn btn-secondary" onclick="openModal()">Sign up for free</button>
+    </div>
+  </div>
+
+  <!-- ===== CHAT PAGE ===== -->
+  <div class="page active" id="page-chat">
+    <div class="chat-messages" id="chat-messages"></div>
+    <div class="chat-body" id="chat-body">
+      <div class="chat-greeting">Ready when you are.</div>
+      <div class="chat-input-wrap">
+        <button class="chat-add-btn" onclick="toggleDropdown()" id="add-btn">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M9 3v12M3 9h12" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <textarea class="chat-input-box" id="chat-input" placeholder="Ask anything" rows="1"
+          oninput="autoResize(this)" onkeydown="handleKey(event)"></textarea>
+        <button class="chat-voice-btn" title="Voice">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="5" y="1" width="6" height="9" rx="3"/>
+            <path d="M2 8a6 6 0 0 0 12 0M8 14v2" stroke-linecap="round"/>
+          </svg>
+          <span style="font-size: 13px; margin-left: 4px; color: var(--text-secondary);">Voice</span>
+        </button>
+        <button class="chat-submit-btn" onclick="sendMessage()">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="2">
+            <path d="M8 13V3M3 8l5-5 5 5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        <!-- Dropdown -->
+        <div class="dropdown" id="chat-dropdown">
+          <div class="dropdown-item" onclick="closeDropdown()">
+            <span class="dropdown-icon">📷</span> Add photos
+          </div>
+          <div class="dropdown-item" onclick="closeDropdown()">
+            <span class="dropdown-icon">🌐</span> Web search
+          </div>
+          <div class="dropdown-separator"></div>
+          <div class="dropdown-label">Log in to use…</div>
+          <div class="dropdown-item disabled">
+            <span class="dropdown-icon">📎</span> Add files
+          </div>
+          <div class="dropdown-item disabled">
+            <span class="dropdown-icon">🔬</span> Deep research
+          </div>
+          <div class="dropdown-item disabled">
+            <span class="dropdown-icon">✦</span> GPT-5
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-suggestions">
+        <div class="suggestion-chip" onclick="fillPrompt(this)">Summarize a document</div>
+        <div class="suggestion-chip" onclick="fillPrompt(this)">Write an email</div>
+        <div class="suggestion-chip" onclick="fillPrompt(this)">Brainstorm ideas</div>
+        <div class="suggestion-chip" onclick="fillPrompt(this)">Explain a concept</div>
+        <div class="suggestion-chip" onclick="fillPrompt(this)">Help me code</div>
+      </div>
+    </div>
+
+    <!-- bottom input (shown when chatting) -->
+    <div id="chat-bottom-input" style="display:none; padding: 12px 20px; border-top: 1px solid var(--border);">
+      <div class="chat-input-wrap" style="max-width: 720px; margin: 0 auto;">
+        <button class="chat-add-btn" onclick="toggleDropdown2()">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M9 3v12M3 9h12" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <textarea class="chat-input-box" id="chat-input2" placeholder="Ask anything" rows="1"
+          oninput="autoResize(this)" onkeydown="handleKey2(event)"></textarea>
+        <button class="chat-submit-btn" onclick="sendMessage2()">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="2">
+            <path d="M8 13V3M3 8l5-5 5 5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== IMAGES PAGE ===== -->
+  <div class="page" id="page-images">
+    <div class="page-content">
+      <div class="page-title">Images</div>
+      <textarea class="images-input-box" id="image-prompt" placeholder="Describe what you want to create…"></textarea>
+      <button class="btn btn-primary" style="margin-bottom: 28px;" onclick="generateImage()">Generate image</button>
+
+      <div class="section-label">
+        Create an image
+        <span style="display: flex; gap: 8px;">
+          <button style="border: 1px solid var(--border); background: transparent; padding: 4px 8px; border-radius: var(--radius-sm); cursor: pointer;">‹</button>
+          <button style="border: 1px solid var(--border); background: transparent; padding: 4px 8px; border-radius: var(--radius-sm); cursor: pointer;">›</button>
+        </span>
+      </div>
+      <div class="image-grid">
+        <div class="image-card">
+          <div class="img-thumb" style="background: linear-gradient(135deg, #1a1a2e, #16213e);">🖥️</div>
+          <div class="img-label">Improve Your Desk Setup</div>
+        </div>
+        <div class="image-card">
+          <div class="img-thumb" style="background: linear-gradient(135deg, #2d6a4f, #40916c);">🌍</div>
+          <div class="img-label">Wanderlust</div>
+        </div>
+        <div class="image-card">
+          <div class="img-thumb" style="background: linear-gradient(135deg, #7b2d8b, #a855f7);">✏️</div>
+          <div class="img-label">Scribble</div>
+        </div>
+        <div class="image-card">
+          <div class="img-thumb" style="background: linear-gradient(135deg, #ffecd2, #fcb69f);">🐶</div>
+          <div class="img-label">Chibi stickers</div>
+        </div>
+        <div class="image-card">
+          <div class="img-thumb" style="background: linear-gradient(135deg, #1a1a1a, #555);">💄</div>
+          <div class="img-label">Makeup guide</div>
+        </div>
+      </div>
+
+      <div id="generated-images" style="display:none;">
+        <div class="section-label" style="margin-top: 20px;">Generated</div>
+        <div id="generated-grid" class="image-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== APPS PAGE ===== -->
+  <div class="page" id="page-apps">
+    <div class="page-content">
+      <div class="page-title">Apps <span class="badge">BETA</span></div>
+      <p style="color: var(--text-secondary); margin-bottom: 20px;">Chat with your favorite apps in OptimaSeek</p>
+
+      <div class="apps-hero">
+        <div class="apps-hero-icon">🎨</div>
+        <div class="apps-hero-text">
+          <h2>Create with Canva</h2>
+          <p>Make designs and flyers directly from the chat</p>
+          <button class="btn" style="background: white; color: #0070f3; margin-top: 10px; padding: 7px 16px;">View</button>
+        </div>
+      </div>
+
+      <div class="apps-tabs">
+        <button class="apps-tab active">Featured</button>
+        <button class="apps-tab">Lifestyle</button>
+        <button class="apps-tab">Productivity</button>
+        <button class="apps-tab">Developer</button>
+      </div>
+
+      <div class="apps-grid">
+        <div class="app-row">
+          <div class="app-row-left">
+            <div class="app-icon-circle" style="background: #0078d4;">🖊️</div>
+            <div>
+              <div class="app-row-text">Adobe Photoshop</div>
+              <div class="app-row-desc">Edit & transform your images</div>
+            </div>
+          </div>
+          <div class="app-row-chevron">›</div>
+        </div>
+        <div class="app-row">
+          <div class="app-row-left">
+            <div class="app-icon-circle" style="background: #fcb400;">📊</div>
+            <div>
+              <div class="app-row-text">Airtable</div>
+              <div class="app-row-desc">Add structured data to OptimaSeek</div>
+            </div>
+          </div>
+          <div class="app-row-chevron">›</div>
+        </div>
+        <div class="app-row">
+          <div class="app-row-left">
+            <div class="app-icon-circle" style="background: #fc3c44;">🎵</div>
+            <div>
+              <div class="app-row-text">Apple Music</div>
+              <div class="app-row-desc">Build playlists and find music</div>
+            </div>
+          </div>
+          <div class="app-row-chevron">›</div>
+        </div>
+        <div class="app-row">
+          <div class="app-row-left">
+            <div class="app-icon-circle" style="background: #003580;">🏨</div>
+            <div>
+              <div class="app-row-text">Booking.com</div>
+              <div class="app-row-desc">Find stays and rental cars</div>
+            </div>
+          </div>
+          <div class="app-row-chevron">›</div>
+        </div>
+        <div class="app-row">
+          <div class="app-row-left">
+            <div class="app-icon-circle" style="background: #7d2ae8;">🎨</div>
+            <div>
+              <div class="app-row-text">Canva</div>
+              <div class="app-row-desc">Search, create, edit designs</div>
+            </div>
+          </div>
+          <div class="app-row-chevron">›</div>
+        </div>
+        <div class="app-row">
+          <div class="app-row-left">
+            <div class="app-icon-circle" style="background: #ff6b6b;">✈️</div>
+            <div>
+              <div class="app-row-text">Expedia</div>
+              <div class="app-row-desc">Plan trips, flights and hotels</div>
+            </div>
+          </div>
+          <div class="app-row-chevron">›</div>
+        </div>
+        <div class="app-row">
+          <div class="app-row-left">
+            <div class="app-icon-circle" style="background: #f24e1e;">🎭</div>
+            <div>
+              <div class="app-row-text">Figma</div>
+              <div class="app-row-desc">Make diagrams and slides</div>
+            </div>
+          </div>
+          <div class="app-row-chevron">›</div>
+        </div>
+        <div class="app-row">
+          <div class="app-row-left">
+            <div class="app-icon-circle" style="background: #ff3e55;">💝</div>
+            <div>
+              <div class="app-row-text">Lovable</div>
+              <div class="app-row-desc">Build apps and websites</div>
+            </div>
+          </div>
+          <div class="app-row-chevron">›</div>
+        </div>
+        <div class="app-row">
+          <div class="app-row-left">
+            <div class="app-icon-circle" style="background: #0d6efd;">💻</div>
+            <div>
+              <div class="app-row-text">Replit</div>
+              <div class="app-row-desc">Turn your ideas into real apps</div>
+            </div>
+          </div>
+          <div class="app-row-chevron">›</div>
+        </div>
+        <div class="app-row">
+          <div class="app-row-left">
+            <div class="app-icon-circle" style="background: #1db954;">🎧</div>
+            <div>
+              <div class="app-row-text">Spotify</div>
+              <div class="app-row-desc">Music and podcasts for you</div>
+            </div>
+          </div>
+          <div class="app-row-chevron">›</div>
+        </div>
+        <div class="app-row">
+          <div class="app-row-left">
+            <div class="app-icon-circle" style="background: #34c759;">🦉</div>
+            <div>
+              <div class="app-row-text">TripAdvisor</div>
+              <div class="app-row-desc">Book top-rated hotels</div>
+            </div>
+          </div>
+          <div class="app-row-chevron">›</div>
+        </div>
+        <div class="app-row">
+          <div class="app-row-left">
+            <div class="app-icon-circle" style="background: #0052cc;">📋</div>
+            <div>
+              <div class="app-row-text">Jira</div>
+              <div class="app-row-desc">Track issues and projects</div>
+            </div>
+          </div>
+          <div class="app-row-chevron">›</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PRICING PAGE ===== -->
+  <div class="page" id="page-pricing">
+    <div class="page-content" style="max-width: 980px;">
+      <div class="pricing-header">
+        <h1>Pricing</h1>
+        <p>See pricing for our individual, business, and enterprise plans.</p>
+      </div>
+      <div class="pricing-grid">
+        <!-- Free -->
+        <div class="pricing-card">
+          <div>
+            <div class="plan-name">Free</div>
+            <div class="plan-tagline">Intelligence for everyday tasks</div>
+          </div>
+          <div class="plan-price">CA$0<span> / month</span></div>
+          <button class="btn btn-secondary btn-full">Get Free →</button>
+          <ul class="plan-features">
+            <li>Limited access to GPT-5.5 Instant</li>
+            <li>Limited messages and uploads</li>
+            <li>Limited and slower image generation</li>
+            <li>Limited deep research</li>
+            <li>Limited memory and context</li>
+            <li>Limited Codex access</li>
+          </ul>
+        </div>
+        <!-- Go -->
+        <div class="pricing-card">
+          <div>
+            <div class="plan-name">Go</div>
+            <div class="plan-tagline">Keep chatting with expanded access</div>
+          </div>
+          <div class="plan-price">CA$11<span> / month</span></div>
+          <button class="btn btn-secondary btn-full">Get Go →</button>
+          <ul class="plan-features">
+            <li>Everything in Free and:</li>
+            <li>More access to GPT-5.5 Instant</li>
+            <li>More messages</li>
+            <li>More uploads</li>
+            <li>More image creation</li>
+            <li>Longer memory</li>
+          </ul>
+        </div>
+        <!-- Plus (featured) -->
+        <div class="pricing-card featured">
+          <div>
+            <div class="plan-name">Plus</div>
+            <div class="plan-tagline">Do more with advanced intelligence</div>
+          </div>
+          <div class="plan-price">CA$25<span> / month</span></div>
+          <button class="btn btn-primary btn-full">Get Plus →</button>
+          <ul class="plan-features">
+            <li>Everything in Go and:</li>
+            <li>Advanced reasoning with GPT-5.5 Thinking</li>
+            <li>Expanded messages and uploads</li>
+            <li>More complex and accurate image creation</li>
+            <li>Expanded deep research and agent mode</li>
+            <li>Projects, tasks, and custom GPTs</li>
+            <li>Expanded Codex usage</li>
+            <li>Early access to new features</li>
+          </ul>
+        </div>
+        <!-- Pro -->
+        <div class="pricing-card">
+          <div>
+            <div class="plan-name">Pro</div>
+            <div class="plan-tagline">Maximize your productivity</div>
+          </div>
+          <div class="plan-price" style="font-size: 22px;">From CA$136<span> / month</span></div>
+          <button class="btn btn-secondary btn-full">Get Pro →</button>
+          <ul class="plan-features">
+            <li>Everything in Plus and:</li>
+            <li>5x or 20x more usage</li>
+            <li>10x or 20x more Codex usage</li>
+            <li>Pro reasoning with GPT-5.5 Pro</li>
+            <li>Maximum Codex tasks</li>
+            <li>Unlimited GPT-5.3 and file uploads</li>
+            <li>Unlimited and faster image creation</li>
+            <li>Maximum deep research and agent mode</li>
+            <li>Maximum memory and context</li>
+            <li>Expanded projects, tasks, and custom GPTs</li>
+            <li>Research preview of new features</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SETTINGS PAGE ===== -->
+  <div class="page" id="page-settings">
+    <div class="page-content" style="display: flex; gap: 0; max-width: 720px;">
+      <div class="settings-nav">
+        <div class="settings-nav-item active">General</div>
+        <div class="settings-nav-item">Personalization</div>
+        <div class="settings-nav-item">Speech</div>
+        <div class="settings-nav-item">Data controls</div>
+        <div class="settings-nav-item">Security</div>
+        <div class="settings-nav-item">Connected apps</div>
+        <div class="settings-nav-item">Billing</div>
+      </div>
+      <div class="settings-content">
+        <div class="settings-section-title">General</div>
+        <div class="settings-row">
+          <div>
+            <div class="settings-row-label">Theme</div>
+          </div>
+          <select style="border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 6px 10px; font-family: var(--font); font-size: 13px;">
+            <option>System</option>
+            <option>Light</option>
+            <option>Dark</option>
+          </select>
+        </div>
+        <div class="settings-row">
+          <div>
+            <div class="settings-row-label">Language</div>
+          </div>
+          <select style="border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 6px 10px; font-family: var(--font); font-size: 13px;">
+            <option>Auto-detect</option>
+            <option>English</option>
+            <option>French</option>
+          </select>
+        </div>
+        <div class="settings-row">
+          <div>
+            <div class="settings-row-label">Improve the model for everyone</div>
+            <div class="settings-row-sub">Allow your content to be used to train our models</div>
+          </div>
+          <div class="toggle" onclick="this.classList.toggle('off')"></div>
+        </div>
+        <div class="settings-row">
+          <div>
+            <div class="settings-row-label">Show code while typing</div>
+          </div>
+          <div class="toggle" onclick="this.classList.toggle('off')"></div>
+        </div>
+        <div class="settings-row">
+          <div>
+            <div class="settings-row-label">Archived chats</div>
+          </div>
+          <button class="btn btn-secondary" style="padding: 6px 14px; font-size: 13px;">Manage</button>
+        </div>
+        <div class="settings-row">
+          <div>
+            <div class="settings-row-label" style="color: #dc2626;">Delete all chats</div>
+          </div>
+          <button class="btn btn-secondary" style="padding: 6px 14px; font-size: 13px; border-color: #fca5a5; color: #dc2626;">Delete all</button>
+        </div>
+        <div class="settings-row">
+          <div>
+            <div class="settings-row-label" style="color: #dc2626;">Log out of all devices</div>
+          </div>
+          <button class="btn btn-secondary" style="padding: 6px 14px; font-size: 13px; border-color: #fca5a5; color: #dc2626;">Log out all</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ===== LOGIN MODAL ===== -->
+<div class="modal-overlay" id="login-modal" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-logo">
+      <div class="logo-icon" style="margin: 0 auto; width: 40px; height: 40px; font-size: 18px;">O</div>
+    </div>
+    <div class="modal-title">Welcome back</div>
+    <div class="modal-sub">Log in to your OptimaSeek account</div>
+
+    <!-- Google Login -->
+    <button class="btn btn-google" onclick="loginGoogle()">
+      <svg width="18" height="18" viewBox="0 0 18 18">
+        <path d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18z" fill="#4285F4"/>
+        <path d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2.04c-.71.48-1.62.75-2.7.75-2.08 0-3.84-1.4-4.47-3.29H1.85v2.07A8 8 0 0 0 8.98 17z" fill="#34A853"/>
+        <path d="M4.51 10.48A4.8 4.8 0 0 1 4.26 9c0-.52.09-1.02.25-1.48V5.45H1.85A8 8 0 0 0 .98 9c0 1.29.31 2.51.87 3.55l2.66-2.07z" fill="#FBBC05"/>
+        <path d="M8.98 4.72c1.17 0 2.22.4 3.05 1.2l2.28-2.28A8 8 0 0 0 8.98 1 8 8 0 0 0 1.85 5.45L4.51 7.52c.63-1.89 2.39-3.3 4.47-3.3z" fill="#EA4335"/>
+      </svg>
+      Continue with Google
+    </button>
+
+    <div class="modal-divider">or</div>
+
+    <input class="modal-input" type="email" placeholder="Email address" />
+    <button class="btn btn-primary" style="width: 100%;">Continue</button>
+
+    <p style="text-align: center; font-size: 12px; color: var(--text-muted);">
+      Don't have an account? <a href="#" style="color: var(--text-primary);" onclick="closeModal()">Sign up</a>
+    </p>
   </div>
 </div>
 
 <script>
-const messagesEl = document.getElementById("messages");
-const promptEl = document.getElementById("prompt");
-const welcomeEl = document.getElementById("welcome");
-const cookieEl = document.getElementById("cookie");
+  // Page routing
+  function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
 
-let history = JSON.parse(localStorage.getItem("optimaseek_history") || "[]");
+    const topbarTitle = document.querySelector('.topbar-title');
+    const titles = { chat: 'OptimaSeek', images: 'Images', apps: 'Apps', pricing: 'Pricing', settings: 'Settings' };
+    topbarTitle.childNodes[0].nodeValue = titles[name] || 'OptimaSeek';
 
-function saveHistory() {
-  localStorage.setItem("optimaseek_history", JSON.stringify(history));
-}
+    // Hide topbar auth on chat page, show on others
+    document.getElementById('topbar-auth').style.display = name === 'chat' ? 'flex' : 'none';
+  }
 
-function addMessage(role, text) {
-  if (welcomeEl) welcomeEl.style.display = "none";
+  // Initially hide topbar auth on chat
+  document.getElementById('topbar-auth').style.display = 'flex';
 
-  const div = document.createElement("div");
-  div.className = "message " + role;
-  div.textContent = text;
-  messagesEl.appendChild(div);
+  // Modal
+  function openModal() {
+    document.getElementById('login-modal').classList.add('open');
+  }
+  function closeModal() {
+    document.getElementById('login-modal').classList.remove('open');
+  }
+  function closeModalOutside(e) {
+    if (e.target === document.getElementById('login-modal')) closeModal();
+  }
+  function loginGoogle() {
+    // In production: window.location.href = '/auth/google'
+    alert('Connect Google OAuth in your backend (e.g. NextAuth.js or Passport.js with Google strategy).\n\nFor GitHub + Vercel: add GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET to your Vercel environment variables.');
+  }
 
-  document.getElementById("chat").scrollTop = document.getElementById("chat").scrollHeight;
-  return div;
-}
+  // Chat
+  function autoResize(el) {
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 200) + 'px';
+  }
 
-async function sendMessage() {
-  const text = promptEl.value.trim();
-  if (!text) return;
+  function handleKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+  }
+  function handleKey2(e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage2(); }
+  }
 
-  promptEl.value = "";
-  addMessage("user", text);
-  history.push({ role: "user", content: text });
-  saveHistory();
+  let chatStarted = false;
 
-  const loading = addMessage("assistant", "Thinking...");
+  function sendMessage() {
+    const input = document.getElementById('chat-input');
+    const text = input.value.trim();
+    if (!text) return;
+    startChat(text);
+    input.value = '';
+    input.style.height = 'auto';
+  }
 
-  try {
-    const res = await fetch("/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ messages: history })
+  function sendMessage2() {
+    const input = document.getElementById('chat-input2');
+    const text = input.value.trim();
+    if (!text) return;
+    addMessage('user', text);
+    input.value = '';
+    input.style.height = 'auto';
+    setTimeout(() => addMessage('ai', 'This is a demo response. Connect your AI backend (Anthropic API, OpenAI, etc.) to power real responses.'), 800);
+  }
+
+  function startChat(text) {
+    document.getElementById('chat-body').style.display = 'none';
+    const msgs = document.getElementById('chat-messages');
+    msgs.classList.add('visible');
+    document.getElementById('chat-bottom-input').style.display = 'block';
+    chatStarted = true;
+    addMessage('user', text);
+    setTimeout(() => addMessage('ai', 'Hello! I\'m OptimaSeek AI. This is a demo — connect your AI backend to enable real responses. You can use the Anthropic API, OpenAI API, or any other provider.'), 800);
+  }
+
+  function addMessage(role, text) {
+    const msgs = document.getElementById('chat-messages');
+    const div = document.createElement('div');
+    div.className = 'msg ' + role;
+    div.innerHTML = `
+      <div class="msg-avatar ${role}">${role === 'ai' ? 'O' : 'U'}</div>
+      <div class="msg-bubble">${text}</div>
+    `;
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function fillPrompt(el) {
+    document.getElementById('chat-input').value = el.textContent;
+    document.getElementById('chat-input').focus();
+  }
+
+  // Dropdown
+  function toggleDropdown() {
+    document.getElementById('chat-dropdown').classList.toggle('open');
+  }
+  function closeDropdown() {
+    document.getElementById('chat-dropdown').classList.remove('open');
+  }
+  function toggleDropdown2() {
+    // For bottom input dropdown — reuse same one or add another
+  }
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('#add-btn') && !e.target.closest('#chat-dropdown')) {
+      closeDropdown();
+    }
+  });
+
+  // Image generation (demo)
+  function generateImage() {
+    const prompt = document.getElementById('image-prompt').value.trim();
+    if (!prompt) return;
+    document.getElementById('generated-images').style.display = 'block';
+    const grid = document.getElementById('generated-grid');
+    grid.innerHTML = '';
+    const colors = ['#3b82f6','#8b5cf6','#10b981','#f59e0b','#ef4444'];
+    for (let i = 0; i < 4; i++) {
+      grid.innerHTML += `
+        <div class="image-card">
+          <div class="img-thumb" style="background: ${colors[i % colors.length]}; color: white; font-size: 13px; text-align: center; padding: 10px;">
+            ${prompt.substring(0, 20)}…
+          </div>
+          <div class="img-label">Generated ${i+1}</div>
+        </div>`;
+    }
+    alert('Connect DALL-E, Stable Diffusion, or another image API to generate real images.');
+  }
+
+  // Apps tab switching
+  document.querySelectorAll('.apps-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.apps-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
     });
+  });
 
-    const data = await res.json();
-    const reply = data.reply || "Sorry, I could not get a response.";
-
-    loading.textContent = reply;
-    history.push({ role: "assistant", content: reply });
-    saveHistory();
-  } catch (err) {
-    loading.textContent = "Connection error. Check your Vercel API function and API key.";
-  }
-}
-
-function newChat() {
-  history = [];
-  saveHistory();
-  messagesEl.innerHTML = '<div class="welcome" id="welcome">Where should we begin?</div>';
-}
-
-function searchChats() {
-  const q = prompt("Search saved chat text:");
-  if (!q) return;
-  const found = history.filter(m => m.content.toLowerCase().includes(q.toLowerCase()));
-  alert(found.length ? found.map(m => m.role + ": " + m.content).join("\n\n") : "No results found.");
-}
-
-function imageMode() {
-  promptEl.value = "Create an image prompt for: ";
-  promptEl.focus();
-}
-
-function filePicked() {
-  const file = document.getElementById("file").files[0];
-  if (file) addMessage("user", "Uploaded file: " + file.name);
-}
-
-function startVoice() {
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SpeechRecognition) {
-    alert("Voice input is not supported in this browser.");
-    return;
-  }
-
-  const rec = new SpeechRecognition();
-  rec.lang = "en-US";
-  rec.onresult = e => {
-    promptEl.value = e.results[0][0].transcript;
-  };
-  rec.start();
-}
-
-function toggleSidebar() {
-  document.getElementById("sidebar").classList.toggle("open");
-}
-
-function closeCookie() {
-  localStorage.setItem("optimaseek_cookie", "closed");
-  cookieEl.classList.remove("show");
-}
-
-promptEl.addEventListener("keydown", e => {
-  if (e.key === "Enter" && !e.shiftKey) {
-    e.preventDefault();
-    sendMessage();
-  }
-});
-
-if (!localStorage.getItem("optimaseek_cookie")) {
-  cookieEl.classList.add("show");
-}
+  // Settings nav switching
+  document.querySelectorAll('.settings-nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.settings-nav-item').forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+    });
+  });
 </script>
 </body>
 </html>
