@@ -4,244 +4,64 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>OptimaSeek AI</title>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --sw:260px;--bg:#fff;--bg2:#f4f4f4;--bg3:#e8e8e8;
-  --text:#0d0d0d;--text2:#6e6e80;--border:#e5e5e5;
-  --accent:#10a37f;--acch:#0d8a6a;
-  --sbg:#202123;--stxt:#ececec;--shov:#2a2b32;--sbor:#3a3a3a;
-}
-body{font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);display:flex;height:100vh;overflow:hidden}
-
-/* SIDEBAR */
-#sb{width:var(--sw);background:var(--sbg);display:flex;flex-direction:column;flex-shrink:0;height:100vh;transition:width .2s;overflow:hidden}
-#sb.col{width:0}
-.sbtop{display:flex;align-items:center;justify-content:space-between;padding:12px 12px 8px;border-bottom:1px solid var(--sbor);min-width:var(--sw)}
-.sblogo{color:var(--stxt);font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;text-decoration:none;white-space:nowrap}
-.lc{width:26px;height:26px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:700;flex-shrink:0}
-.ib{background:none;border:none;cursor:pointer;color:var(--stxt);opacity:.7;padding:6px;border-radius:6px;display:flex;align-items:center;flex-shrink:0;transition:all .15s}
-.ib:hover{background:var(--shov);opacity:1}
-.ncb{margin:10px 12px;background:var(--accent);color:#fff;border:none;border-radius:8px;padding:10px 14px;font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:8px;white-space:nowrap;transition:background .15s}
-.ncb:hover{background:var(--acch)}
-.sbnav{padding:4px 8px;min-width:var(--sw)}
-.sni{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;color:var(--stxt);font-size:13.5px;transition:all .15s;white-space:nowrap;margin:1px 0;position:relative;overflow:hidden}
-.sni::after{content:'';position:absolute;inset:0;background:white;opacity:0;transition:opacity .15s;pointer-events:none;border-radius:8px}
-.sni:hover{background:var(--shov)}
-.sni:hover::after{opacity:.04}
-.sni:active{transform:scale(.98)}
-.sni svg{opacity:.7;flex-shrink:0;transition:opacity .15s}
-.sni:hover svg{opacity:1}
-.sni.active{background:var(--shov)}
-.sb-div{border:none;border-top:1px solid var(--sbor);margin:6px 12px}
-.sbl{font-size:11px;color:var(--stxt);opacity:.4;padding:4px 8px 2px;text-transform:uppercase;letter-spacing:.06em}
-.chi{display:flex;align-items:center;gap:8px;padding:7px 12px;border-radius:8px;cursor:pointer;color:var(--stxt);font-size:12.5px;transition:all .1s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:1px 4px;opacity:.75}
-.chi:hover{background:var(--shov);opacity:1}
-.sbbot{margin-top:auto;border-top:1px solid var(--sbor);padding:10px 12px;display:flex;flex-direction:column;gap:2px;min-width:var(--sw)}
-.upbtn{margin:4px 0 6px;background:linear-gradient(135deg,#b5860d,#d4a017);color:#fff;border:none;border-radius:8px;padding:10px 14px;font-size:13.5px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;white-space:nowrap;width:100%;transition:all .15s}
-.upbtn:hover{opacity:.9;transform:translateY(-1px)}
-.urow{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;cursor:pointer;color:var(--stxt);transition:background .15s}
-.urow:hover{background:var(--shov)}
-.uav{width:30px;height:30px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:600;flex-shrink:0}
-.unm{font-size:13px;font-weight:500;color:var(--stxt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.upl{font-size:11px;color:#888}
-
-/* MAIN */
-#main{flex:1;display:flex;flex-direction:column;height:100vh;overflow:hidden;min-width:0}
-
-/* TOPBAR */
-#tb{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--bg);z-index:10;flex-shrink:0;gap:12px}
-.tbl{display:flex;align-items:center;gap:10px}
-.tbt{font-size:15px;font-weight:600}
-.tbr{display:flex;align-items:center;gap:8px}
-.tbb{background:none;border:1px solid var(--border);border-radius:20px;padding:7px 18px;font-size:13px;font-weight:500;cursor:pointer;color:var(--text);white-space:nowrap;transition:all .15s}
-.tbb:hover{background:var(--bg2)}
-.tbb.p{background:var(--text);color:#fff;border-color:var(--text)}
-.tbb.p:hover{background:#333}
-
-/* CHAT */
-#cv{flex:1;display:flex;flex-direction:column;overflow:hidden}
-#ca{flex:1;overflow-y:auto;scroll-behavior:smooth}
-#wl{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:40px 20px;text-align:center}
-#wl h1{font-size:28px;font-weight:600;margin-bottom:8px}
-#wl p{color:var(--text2);font-size:15px;margin-bottom:32px}
-.sugs{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:580px;width:100%}
-.sc{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;cursor:pointer;text-align:left;transition:all .15s}
-.sc:hover{background:var(--bg3);transform:translateY(-1px)}
-.sc strong{display:block;margin-bottom:4px;font-size:14px}
-.sc span{color:var(--text2);font-size:13px}
-.mw{padding:22px 0;border-bottom:1px solid var(--border)}
-.mi{max-width:700px;margin:0 auto;padding:0 24px;display:flex;gap:14px}
-.av{width:32px;height:32px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;margin-top:2px}
-.av.u{background:#5436da;color:#fff}
-.av.a{background:var(--accent);color:#fff;font-size:11px}
-.mb2{flex:1;font-size:15px;line-height:1.7;min-width:0}
-.mb2 p{margin-bottom:10px}.mb2 p:last-child{margin-bottom:0}
-.mb2 pre{background:#1e1e1e;color:#d4d4d4;border-radius:10px;padding:14px;overflow-x:auto;font-size:13px;margin:10px 0;font-family:monospace}
-.mb2 code:not(pre code){background:var(--bg2);padding:2px 6px;border-radius:4px;font-size:13px;font-family:monospace}
-.mb2 strong{font-weight:600}
-.mb2 ul,.mb2 ol{padding-left:22px;margin:8px 0}
-.mb2 li{margin:4px 0}
-.mb2 h1,.mb2 h2,.mb2 h3{font-weight:600;margin:12px 0 6px}
-.mb2 h1{font-size:20px}.mb2 h2{font-size:17px}.mb2 h3{font-size:15px}
-.mac{display:flex;gap:6px;margin-top:10px;opacity:0;transition:opacity .15s}
-.mw:hover .mac{opacity:1}
-.ab{background:none;border:1px solid var(--border);border-radius:6px;cursor:pointer;color:var(--text2);padding:4px 10px;font-size:12px;transition:all .1s}
-.ab:hover{color:var(--text);background:var(--bg2)}
-.dot{display:inline-block;width:7px;height:7px;background:var(--text2);border-radius:50%;animation:bl 1.2s infinite;margin:0 1px}
-.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
-@keyframes bl{0%,80%,100%{opacity:.2}40%{opacity:1}}
-.img-preview-msg{max-width:280px;border-radius:12px;border:1px solid var(--border);margin-bottom:8px;display:block}
-
-/* INPUT */
-#ia{flex-shrink:0;padding:12px 20px 16px;background:var(--bg);border-top:1px solid var(--border)}
-#ib2{max-width:700px;margin:0 auto;background:var(--bg2);border:1.5px solid var(--border);border-radius:16px;transition:border-color .15s}
-#ib2:focus-within{border-color:#999}
-.input-top{display:flex;align-items:flex-end;gap:8px;padding:10px 14px}
-#ui{flex:1;background:none;border:none;outline:none;font-size:15px;color:var(--text);resize:none;line-height:1.5;max-height:200px;min-height:24px;font-family:inherit}
-#ui::placeholder{color:var(--text2)}
-.ib2{background:none;border:none;cursor:pointer;color:var(--text2);padding:4px;border-radius:6px;display:flex;align-items:center;flex-shrink:0;transition:all .15s}
-.ib2:hover{color:var(--text);background:var(--bg3)}
-#snd{background:var(--text);border:none;border-radius:10px;width:34px;height:34px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
-#snd:hover{background:#333;transform:scale(1.05)}
-#snd:disabled{background:var(--border);cursor:not-allowed;transform:none}
-.input-tools{display:flex;align-items:center;gap:2px;padding:6px 10px 8px}
-.tbtn{display:flex;align-items:center;gap:5px;padding:5px 10px;border:none;background:none;border-radius:8px;font-size:12.5px;color:var(--text2);cursor:pointer;transition:all .15s;font-family:inherit;white-space:nowrap}
-.tbtn:hover{background:var(--bg3);color:var(--text)}
-.img-attach-preview{margin:8px 14px 0;display:none}
-.img-attach-preview img{width:60px;height:60px;object-fit:cover;border-radius:8px;border:1px solid var(--border)}
-.img-attach-preview .rm{position:absolute;top:-6px;right:-6px;background:#e74c3c;color:#fff;border:none;border-radius:50%;width:18px;height:18px;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.if{max-width:700px;margin:8px auto 0;text-align:center;font-size:12px;color:var(--text2)}
-
-/* IMAGE PAGE */
-#ip{flex:1;overflow-y:auto;display:none}
-#ip.show{display:block}
-.ip-inner{max-width:900px;margin:0 auto;padding:32px 24px}
-.ip-title{font-size:26px;font-weight:700;margin-bottom:20px}
-.ip-search{display:flex;align-items:center;gap:10px;background:var(--bg2);border:1.5px solid var(--border);border-radius:40px;padding:10px 16px;margin-bottom:28px;transition:border-color .15s}
-.ip-search:focus-within{border-color:#999}
-.ip-search input{flex:1;border:none;background:none;outline:none;font-size:15px;color:var(--text);font-family:inherit}
-.ip-search input::placeholder{color:var(--text2)}
-.ip-gen-btn{background:var(--text);color:#fff;border:none;border-radius:50%;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
-.ip-gen-btn:hover{background:#333;transform:scale(1.05)}
-.ip-gen-btn:disabled{background:var(--border);cursor:not-allowed;transform:none}
-.ip-section{font-size:16px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
-.ip-opts{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
-.ip-opt{display:flex;align-items:center;gap:6px;padding:6px 14px;border:1.5px solid var(--border);border-radius:20px;font-size:13px;cursor:pointer;background:var(--bg);color:var(--text2);transition:all .15s}
-.ip-opt:hover,.ip-opt.sel{border-color:var(--accent);color:var(--accent);background:#f0fdf8}
-.ip-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:28px}
-.ip-card{border-radius:14px;overflow:hidden;aspect-ratio:1;position:relative;cursor:pointer;background:var(--bg2);border:1px solid var(--border)}
-.ip-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .2s}
-.ip-card:hover img{transform:scale(1.04)}
-.ip-card-label{position:absolute;bottom:0;left:0;right:0;padding:8px 12px;background:linear-gradient(transparent,rgba(0,0,0,.6));color:#fff;font-size:13px;font-weight:500}
-.ip-card-over{position:absolute;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;gap:8px;opacity:0;transition:opacity .2s}
-.ip-card:hover .ip-card-over{opacity:1}
-.ic-btn{background:rgba(255,255,255,.9);border:none;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:500;cursor:pointer}
-.spin{width:26px;height:26px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:sp .8s linear infinite}
-@keyframes sp{to{transform:rotate(360deg)}}
-
-/* MODALS */
-.ov{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px}
-.ov.hid{display:none}
-.mbox{background:var(--bg);border-radius:18px;padding:32px;width:460px;max-width:100%;box-shadow:0 20px 60px rgba(0,0,0,.2)}
-/* ... (other styles omitted for brevity but fully included in real file) ... */
-</style>
-</head>
-<body>
-
-<!-- SIDEBAR + MAIN CONTENT (same as before) -->
-<nav id="sb"> ... </nav>
-<div id="main"> ... </div>
-
-<!-- MODALS (login, pricing, etc.) same as before -->
-
-<script>
-/* STATE */
-let convs=[], busy=false, mode='chat';
-let attachedImg=null;
-let selModel='flux';
-let user=JSON.parse(localStorage.getItem('os_user')||'null');
-let chatCount=parseInt(localStorage.getItem('os_cc')||'0');
-let imgCount=parseInt(localStorage.getItem('os_ic')||'0');
-const FREE_CHAT=6, FREE_IMG=6;
-
-const INSPIRE = [
-  {prompt:'Improve Your Desk Setup, minimalist home office, natural light, plants', label:'Improve Your Desk Setup', bg:'#e8f4f0'},
-  {prompt:'Wanderlust, cinematic travel photography, golden hour, mountains', label:'Wanderlust', bg:'#f4e8e8'},
-  {prompt:'Scribble art, two characters dancing, illustrated, fun cartoon style', label:'Scribble', bg:'#e8e8f4'},
-  {prompt:'Chibi stickers, cute puppy and baby, hearts, kawaii style', label:'Chibi stickers', bg:'#f4f0e8'},
-  {prompt:'Makeup guide, beauty editorial, elegant lighting, professional photography', label:'Makeup guide', bg:'#f0e8f4'},
-  {prompt:'Futuristic city skyline at night, neon lights, cyberpunk, 8K', label:'Cyberpunk City', bg:'#e8f0f4'},
-];
-
-/* INIT */
-window.onload = () => {
-  resetDaily();
-  updateUI();
-  updSend();
-  buildInspire();
-  renderHist();
-};
-
-/* ... all other functions (resetDaily, updateUI, goChat, etc.) ... */
-
-function buildInspire(){
-  const grid = document.getElementById('inspire-grid');
-  if (!grid) return;
-  grid.innerHTML = '';
-
-  INSPIRE.forEach((item, index) => {
-    const card = document.createElement('div');
-    card.className = 'ip-card';
-    card.style.background = item.bg;
-    card.innerHTML = `<div class="ip-card-label">${item.label}</div>`;
-
-    const spin = document.createElement('div');
-    spin.style.cssText = 'font-size:48px;';
-    spin.textContent = ['🏠','✈️','🎨','🐾','💄','🌆'][index];
-    card.prepend(spin);
-    grid.appendChild(card);
-
-    // Load real image
-    const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(item.prompt)}?width=400&height=400&model=flux&seed=${index*777}&nologo=true`;
-    const img = new Image();
-    img.onload = () => {
-      card.innerHTML = '';
-      card.appendChild(img);
-      img.style.cssText = 'width:100%;height:100%;object-fit:cover;';
-
-      const lbl = document.createElement('div');
-      lbl.className = 'ip-card-label';
-      lbl.textContent = item.label;
-      card.appendChild(lbl);
-
-      const ov = document.createElement('div');
-      ov.className = 'ip-card-over';
-      
-      const safePrompt = item.prompt.replace(/'/g, "\\'");
-      ov.innerHTML = `
-        <button class="ic-btn" onclick="usePrompt('${safePrompt}')">✨ Use this prompt</button>
-        <button class="ic-btn" onclick="usePrompt('${safePrompt}');setTimeout(genImg,200)">⚡ Generate now</button>
-      `;
-      card.appendChild(ov);
-    };
-    img.onerror = () => console.log('Image preload failed for', item.label);
-    setTimeout(() => img.src = url, index * 300);
-  });
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#f5f7fb;
+  color:#222;
 }
 
-/* Rest of your script (send, genImg, login, etc.) remains the same as before */
-
-function usePrompt(p){
-  const ipt = document.getElementById('ipt');
-  if(ipt){
-    ipt.value = p;
-    document.getElementById('ip').scrollTop = 0;
-    ipt.focus();
-  }
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:20px;
 }
 
-/* ... (include all other functions from your original file) ... */
-</script>
-</body>
+h1{
+  text-align:center;
+  margin-bottom:30px;
+}
+
+#ipt{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid #ccc;
+  font-size:16px;
+  box-sizing:border-box;
+}
+
+#inspire-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+  margin-top:30px;
+}
+
+.ip-card{
+  position:relative;
+  overflow:hidden;
+  border-radius:18px;
+  min-height:240px;
+  background:#eee;
+  cursor:pointer;
+  transition:0.3s;
+  box-shadow:0 4px 15px rgba(0,0,0,0.08);
+}
+
+.ip-card:hover{
+  transform:translateY(-5px);
+}
+
+.ip-card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.ip-card-label{
+  position:absolute;
+  left:10px;
 </html>
