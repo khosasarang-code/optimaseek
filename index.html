@@ -574,25 +574,25 @@
         <div class="pricing-card">
           <div><div class="plan-name">Free</div><div class="plan-tagline">Intelligence for everyday tasks</div></div>
           <div class="plan-price">CA$0<span> / month</span></div>
-          <button class="btn btn-secondary btn-full">Get Free →</button>
+          <button class="btn btn-secondary btn-full" onclick="openModal()">Get Free →</button>
           <ul class="plan-features"><li>Limited access to GPT-5.5 Instant</li><li>Limited messages and uploads</li><li>Limited and slower image generation</li><li>Limited deep research</li><li>Limited memory and context</li><li>Limited Codex access</li></ul>
         </div>
         <div class="pricing-card">
           <div><div class="plan-name">Go</div><div class="plan-tagline">Keep chatting with expanded access</div></div>
           <div class="plan-price">CA$11<span> / month</span></div>
-          <button class="btn btn-secondary btn-full">Get Go →</button>
+          <button id="btn-go" class="btn btn-secondary btn-full" onclick="subscribe('go')">Get Go →</button>
           <ul class="plan-features"><li>Everything in Free and:</li><li>More access to GPT-5.5 Instant</li><li>More messages</li><li>More uploads</li><li>More image creation</li><li>Longer memory</li></ul>
         </div>
         <div class="pricing-card featured">
           <div><div class="plan-name">Plus</div><div class="plan-tagline">Do more with advanced intelligence</div></div>
           <div class="plan-price">CA$25<span> / month</span></div>
-          <button class="btn btn-primary btn-full">Get Plus →</button>
+          <button id="btn-plus" class="btn btn-primary btn-full" onclick="subscribe('plus')">Get Plus →</button>
           <ul class="plan-features"><li>Everything in Go and:</li><li>Advanced reasoning with GPT-5.5 Thinking</li><li>Expanded messages and uploads</li><li>More complex and accurate image creation</li><li>Expanded deep research and agent mode</li><li>Projects, tasks, and custom GPTs</li><li>Expanded Codex usage</li><li>Early access to new features</li></ul>
         </div>
         <div class="pricing-card">
           <div><div class="plan-name">Pro</div><div class="plan-tagline">Maximize your productivity</div></div>
-          <div class="plan-price" style="font-size:22px;">From CA$136<span> / month</span></div>
-          <button class="btn btn-secondary btn-full">Get Pro →</button>
+          <div class="plan-price">CA$55<span> / month</span></div>
+          <button id="btn-pro" class="btn btn-secondary btn-full" onclick="subscribe('pro')">Get Pro →</button>
           <ul class="plan-features"><li>Everything in Plus and:</li><li>5x or 20x more usage</li><li>10x or 20x more Codex usage</li><li>Pro reasoning with GPT-5.5 Pro</li><li>Maximum Codex tasks</li><li>Unlimited GPT-5.3 and file uploads</li><li>Unlimited and faster image creation</li><li>Maximum deep research and agent mode</li><li>Maximum memory and context</li><li>Expanded projects, tasks, and custom GPTs</li><li>Research preview of new features</li></ul>
         </div>
       </div>
@@ -822,6 +822,33 @@
   // ===== OPEN APP =====
   function openApp(url) { window.open(url, '_blank', 'noopener,noreferrer'); }
 
+  // ===== STRIPE CHECKOUT =====
+  async function subscribe(plan) {
+    const btn = document.getElementById('btn-' + plan);
+    const orig = btn.textContent;
+    btn.textContent = 'Loading...';
+    btn.disabled = true;
+    try {
+      const res = await fetch('/api/stripe/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan })
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert('Error: ' + (data.error || 'Could not start checkout'));
+        btn.textContent = orig;
+        btn.disabled = false;
+      }
+    } catch (err) {
+      alert('Connection error. Please try again.');
+      btn.textContent = orig;
+      btn.disabled = false;
+    }
+  }
+
   // ===== APPS TABS =====
   document.querySelectorAll('.apps-tab').forEach(tab => {
     tab.addEventListener('click', () => {
@@ -846,9 +873,17 @@
     history.replaceState({}, '', '/');
     closeModal();
   }
-  if (window.location.search.includes('login=error')) {
+  if (window.location.search.includes('payment=success')) {
     history.replaceState({}, '', '/');
-    alert('Google login failed. Please try again.');
+    showPage('chat');
+    setTimeout(() => {
+      addMessage('ai', '🎉 Payment successful! Welcome to OptimaSeek. Your subscription is now active. How can I help you today?');
+      switchToChatMode();
+    }, 500);
+  }
+  if (window.location.search.includes('payment=cancelled')) {
+    history.replaceState({}, '', '/');
+    showPage('pricing');
   }
 </script>
 </body>
