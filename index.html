@@ -1,609 +1,692 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>OptimaSeek · AI Assistant</title>
-    <!-- Google Fonts & simple reset for clean look -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background: linear-gradient(145deg, #e9eef3 0%, #f0f4f9 100%);
-            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-        }
-
-        /* main app container - glassmorphic card style */
-        .app-container {
-            width: 100%;
-            max-width: 1400px;
-            height: 90vh;
-            background: rgba(255,255,255,0.85);
-            backdrop-filter: blur(2px);
-            border-radius: 2rem;
-            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.2), 0 2px 6px rgba(0,0,0,0.02);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.5);
-            transition: all 0.2s ease;
-        }
-
-        /* header brand area */
-        .chat-header {
-            padding: 1.2rem 2rem;
-            background: rgba(255,255,255,0.7);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            display: flex;
-            align-items: baseline;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-        }
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .logo {
-            font-size: 1.9rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #0b2b4b, #1c6e8f);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            letter-spacing: -0.3px;
-        }
-        .badge {
-            background: #1c6e8f10;
-            padding: 0.2rem 0.8rem;
-            border-radius: 40px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            color: #1c6e8f;
-            border: 0.5px solid #1c6e8f30;
-        }
-        .status {
-            font-size: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: #eef2f5;
-            padding: 0.3rem 1rem;
-            border-radius: 60px;
-        }
-        .online-dot {
-            width: 9px;
-            height: 9px;
-            background: #2b9348;
-            border-radius: 50%;
-            display: inline-block;
-            box-shadow: 0 0 0 1px white, 0 0 0 2px #2b9348;
-        }
-
-        /* messages panel */
-        .messages-area {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1.5rem 2rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1.2rem;
-            scroll-behavior: smooth;
-        }
-        /* custom scroll */
-        .messages-area::-webkit-scrollbar {
-            width: 6px;
-        }
-        .messages-area::-webkit-scrollbar-track {
-            background: #e2e8f0;
-            border-radius: 10px;
-        }
-        .messages-area::-webkit-scrollbar-thumb {
-            background: #b9c4d1;
-            border-radius: 10px;
-        }
-
-        /* message bubbles */
-        .message {
-            display: flex;
-            gap: 14px;
-            max-width: 85%;
-            animation: fadeSlideUp 0.2s ease-out;
-        }
-        @keyframes fadeSlideUp {
-            from { opacity: 0; transform: translateY(8px);}
-            to { opacity: 1; transform: translateY(0);}
-        }
-        .user-message {
-            align-self: flex-end;
-            flex-direction: row-reverse;
-        }
-        .bot-message {
-            align-self: flex-start;
-        }
-        .avatar {
-            width: 36px;
-            height: 36px;
-            background: #ffffff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-            flex-shrink: 0;
-        }
-        .user-message .avatar {
-            background: #0b2b4b;
-            color: white;
-        }
-        .bot-message .avatar {
-            background: #f1f5f9;
-            color: #1c6e8f;
-            border: 1px solid #dce5ef;
-        }
-        .bubble {
-            background: white;
-            padding: 0.9rem 1.2rem;
-            border-radius: 1.5rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.05);
-            font-size: 0.95rem;
-            line-height: 1.45;
-            color: #1e2a3e;
-            word-break: break-word;
-            white-space: pre-wrap;
-            border: 0.5px solid rgba(0,0,0,0.03);
-        }
-        .user-message .bubble {
-            background: #0b2b4b;
-            color: white;
-            border-bottom-right-radius: 0.3rem;
-        }
-        .bot-message .bubble {
-            background: #ffffff;
-            border-bottom-left-radius: 0.3rem;
-        }
-        .bubble p {
-            margin: 0;
-        }
-        /* typing indicator */
-        .typing-indicator {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            padding: 0.5rem 1rem;
-        }
-        .typing-indicator span {
-            width: 6px;
-            height: 6px;
-            background: #8a9bb0;
-            border-radius: 50%;
-            display: inline-block;
-            animation: bounce 1.4s infinite ease-in-out;
-        }
-        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
-        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
-        @keyframes bounce {
-            0%, 80%, 100% { transform: scale(0.6); opacity: 0.5; }
-            40% { transform: scale(1); opacity: 1; }
-        }
-
-        /* input area */
-        .input-area {
-            background: rgba(255,255,255,0.8);
-            backdrop-filter: blur(12px);
-            border-top: 1px solid rgba(0,0,0,0.05);
-            padding: 1rem 2rem 1.5rem 2rem;
-        }
-        .input-container {
-            display: flex;
-            gap: 12px;
-            align-items: flex-end;
-            background: white;
-            border-radius: 2rem;
-            padding: 0.5rem 0.5rem 0.5rem 1.2rem;
-            box-shadow: 0 5px 12px rgba(0,0,0,0.03), 0 1px 2px rgba(0,0,0,0.05);
-            border: 1px solid #e2edf2;
-            transition: all 0.2s;
-        }
-        .input-container:focus-within {
-            border-color: #1c6e8f;
-            box-shadow: 0 0 0 3px #1c6e8f20;
-        }
-        textarea {
-            flex: 1;
-            border: none;
-            resize: none;
-            font-family: inherit;
-            font-size: 0.95rem;
-            padding: 0.7rem 0;
-            max-height: 140px;
-            background: transparent;
-            outline: none;
-            color: #0f172a;
-        }
-        textarea::placeholder {
-            color: #96a9bb;
-            font-weight: 400;
-        }
-        button {
-            background: #0b2b4b;
-            border: none;
-            color: white;
-            font-weight: 600;
-            padding: 0.6rem 1.2rem;
-            border-radius: 2rem;
-            font-size: 0.85rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: 0.2s;
-            font-family: inherit;
-        }
-        button:hover {
-            background: #1c6e8f;
-            transform: scale(0.97);
-        }
-        button:active {
-            transform: scale(0.96);
-        }
-        .clear-btn {
-            background: transparent;
-            color: #6c7e94;
-            box-shadow: none;
-            border: 1px solid #d4dfe9;
-        }
-        .clear-btn:hover {
-            background: #f1f5f9;
-            color: #2c3e50;
-            transform: none;
-        }
-        .action-group {
-            display: flex;
-            gap: 10px;
-        }
-        footer {
-            font-size: 0.7rem;
-            text-align: center;
-            margin-top: 8px;
-            color: #7e8c9e;
-        }
-
-        @media (max-width: 700px) {
-            .messages-area { padding: 1rem; }
-            .message { max-width: 95%; }
-            .input-area { padding: 0.8rem 1rem 1.2rem; }
-            .chat-header { padding: 0.8rem 1rem; }
-        }
-
-        /* code markdown like simple style */
-        .bubble code {
-            background: #f0f2f5;
-            padding: 0.2rem 0.3rem;
-            border-radius: 6px;
-            font-family: monospace;
-            font-size: 0.85rem;
-        }
-        .bubble pre {
-            background: #f8fafc;
-            padding: 0.6rem;
-            border-radius: 12px;
-            overflow-x: auto;
-            margin: 0.5rem 0;
-        }
-    </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>OptimaSeek</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--sidebar:260px;--border:#e5e5e5;--text:#0d0d0d;--sub:#666;--muted:#999;--hover:#f5f5f5;--active:#ebebeb;--green:#10a37f;--font:"Inter",sans-serif;--rsm:6px;--rmd:10px;--rlg:16px}
+body{font-family:var(--font);font-size:14px;color:var(--text);background:#fff;display:flex;height:100vh;overflow:hidden}
+.sidebar{width:var(--sidebar);min-width:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:10px 8px;overflow-y:auto;z-index:10;background:#fff}
+.sidebar-top{display:flex;align-items:center;justify-content:space-between;padding:4px 6px 12px}
+.logo{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;cursor:pointer;padding:4px 8px;border-radius:var(--rsm);transition:background .15s}
+.logo:hover{background:var(--hover)}
+.logo-dot{width:28px;height:28px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px;flex-shrink:0}
+.menu-btn{width:30px;height:30px;border:none;background:transparent;cursor:pointer;border-radius:var(--rsm);font-size:18px;color:var(--sub);display:flex;align-items:center;justify-content:center}
+.menu-btn:hover{background:var(--hover)}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--rsm);cursor:pointer;font-size:14px;transition:background .15s;user-select:none}
+.nav-item:hover{background:var(--hover)}
+.nav-item.active{background:var(--active);font-weight:500}
+.nav-icon{width:18px;height:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--sub)}
+.nav-div{height:1px;background:var(--border);margin:8px 0}
+.sidebar-bottom{margin-top:auto;border-top:1px solid var(--border);padding-top:10px;display:flex;flex-direction:column;gap:6px}
+.info-card{background:#f9f9f9;border-radius:var(--rmd);padding:12px;font-size:12px;color:var(--sub);line-height:1.5}
+.info-card strong{color:var(--text);font-size:13px;display:block;margin-bottom:4px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:9px 16px;border-radius:var(--rmd);font-size:14px;font-weight:500;cursor:pointer;border:none;font-family:var(--font);transition:opacity .15s,background .15s}
+.btn-primary{background:#0d0d0d;color:#fff}
+.btn-primary:hover{opacity:.85}
+.btn-outline{background:transparent;border:1px solid #d4d4d4;color:var(--text)}
+.btn-outline:hover{background:var(--hover)}
+.btn-full{width:100%}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--border);flex-shrink:0}
+.topbar-title{font-size:15px;font-weight:600;display:flex;align-items:center;gap:5px;cursor:pointer;padding:6px 10px;border-radius:var(--rsm)}
+.topbar-title:hover{background:var(--hover)}
+.topbar-actions{display:flex;gap:8px}
+.page{display:none;flex:1;flex-direction:column;overflow-y:auto}
+.page.active{display:flex}
+.chat-center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px}
+.chat-greeting{font-size:28px;font-weight:600;margin-bottom:28px;text-align:center}
+.input-wrap{width:100%;max-width:640px;position:relative}
+.chat-input{background:#f4f4f4;border:1px solid #d4d4d4;border-radius:var(--rlg);padding:14px 110px 14px 44px;font-size:15px;font-family:var(--font);width:100%;outline:none;resize:none;min-height:52px;max-height:200px;color:var(--text);transition:border-color .15s;position:relative;z-index:1;pointer-events:all;cursor:text}
+.chat-input:focus{border-color:#888}
+.chat-input::placeholder{color:var(--muted)}
+.add-btn{position:absolute;left:11px;top:50%;transform:translateY(-50%);background:transparent;border:none;cursor:pointer;color:var(--sub);display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:var(--rsm);z-index:2}
+.add-btn:hover{background:var(--hover)}
+.send-wrap{position:absolute;right:10px;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:6px;z-index:2}
+.voice-btn{background:transparent;border:none;cursor:pointer;color:var(--sub);font-size:13px;display:flex;align-items:center;gap:4px;padding:4px 8px;border-radius:var(--rsm)}
+.voice-btn:hover{background:var(--hover)}
+.send-btn{width:32px;height:32px;border-radius:50%;background:#0d0d0d;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;transition:opacity .15s}
+.send-btn:hover{opacity:.8}
+.send-btn:disabled{opacity:.35;cursor:not-allowed}
+.chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:14px;max-width:640px}
+.chip{border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:13px;cursor:pointer;color:var(--sub);background:#fff;transition:background .15s}
+.chip:hover{background:var(--hover);color:var(--text)}
+.msgs{flex:1;overflow-y:auto;padding:20px;display:none;flex-direction:column;gap:0;max-width:760px;width:100%;margin:0 auto}
+.msgs.show{display:flex}
+.msg{display:flex;gap:14px;padding:18px 0;animation:fadeIn .2s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.msg.user{flex-direction:row-reverse}
+.msg.user .bubble{background:#f4f4f4;border-radius:var(--rlg);padding:11px 16px;max-width:75%;font-size:15px;line-height:1.6}
+.avatar{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;margin-top:2px}
+.avatar.ai{background:var(--green);color:#fff}
+.avatar.user{background:#0d0d0d;color:#fff}
+.msg.ai .bubble{background:transparent;padding:0;flex:1;font-size:15px;line-height:1.75}
+.msg.ai .bubble p{margin-bottom:10px}
+.msg.ai .bubble p:last-child{margin-bottom:0}
+.msg.ai .bubble strong{font-weight:600}
+.msg.ai .bubble h1,.msg.ai .bubble h2,.msg.ai .bubble h3{font-weight:600;margin:14px 0 6px}
+.msg.ai .bubble ul,.msg.ai .bubble ol{padding-left:22px;margin:6px 0 10px}
+.msg.ai .bubble li{margin-bottom:3px;line-height:1.6}
+.msg.ai .bubble code{background:#f0f0f0;border-radius:4px;padding:1px 5px;font-family:monospace;font-size:13px}
+.msg.ai .bubble pre{background:#1e1e1e;border-radius:8px;padding:14px;margin:10px 0;overflow-x:auto}
+.msg.ai .bubble pre code{background:transparent;color:#d4d4d4}
+.dot{display:inline-block;width:6px;height:6px;background:#999;border-radius:50%;margin:0 2px;animation:bounce 1s infinite}
+.dot:nth-child(2){animation-delay:.2s}
+.dot:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
+.bottom-bar{padding:10px 20px 14px;border-top:1px solid var(--border);flex-shrink:0;display:none;background:#fff}
+.bottom-bar.show{display:block}
+.bottom-note{text-align:center;font-size:11px;color:var(--muted);margin-top:6px}
+.limit-bar{background:#fff8e1;border:1px solid #ffd54f;border-radius:var(--rmd);padding:10px 16px;margin:10px 20px 0;font-size:13px;color:#5d4037;display:none;align-items:center;justify-content:space-between;gap:12px;flex-shrink:0}
+.limit-bar.show{display:flex}
+.file-card{display:inline-flex;align-items:center;gap:12px;background:#f0fdf7;border:1.5px solid var(--green);border-radius:var(--rmd);padding:12px 18px;cursor:pointer;margin-top:8px;transition:background .15s}
+.file-card:hover{background:#dcfce7}
+.file-icon{font-size:28px;flex-shrink:0}
+.file-info .file-name{font-weight:600;font-size:14px}
+.file-info .file-dl{font-size:12px;color:var(--green);margin-top:2px}
+.page-content{padding:32px;max-width:840px;margin:0 auto;width:100%}
+.page-title{font-size:24px;font-weight:600;margin-bottom:20px}
+.img-textarea{border:1px solid var(--border);border-radius:var(--rmd);padding:14px;font-size:14px;font-family:var(--font);width:100%;min-height:90px;outline:none;resize:vertical;color:var(--text);background:#fff;cursor:text;display:block;margin-bottom:14px;pointer-events:all;position:relative;z-index:2}
+.img-textarea:focus{border-color:#888}
+.img-textarea::placeholder{color:var(--muted)}
+.section-label{font-size:14px;font-weight:600;margin-bottom:12px}
+.preset-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:28px}
+.preset-card{border-radius:var(--rmd);overflow:hidden;cursor:pointer;border:1px solid var(--border);transition:transform .15s,box-shadow .15s}
+.preset-card:hover{transform:scale(1.04);box-shadow:0 4px 14px rgba(0,0,0,.1)}
+.preset-thumb{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:26px}
+.preset-label{padding:6px 8px;font-size:12px;font-weight:500;background:#fff;border-top:1px solid var(--border)}
+.gen-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
+.gen-card{border-radius:var(--rmd);overflow:hidden;border:1px solid var(--border);background:#f9f9f9}
+.gen-card img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
+.gen-label{padding:6px 10px;font-size:12px;color:var(--sub);border-top:1px solid var(--border);background:#fff}
+.gen-actions{display:flex;gap:6px;padding:5px 8px;background:#fff;border-top:1px solid var(--border)}
+.gen-actions a{font-size:11px;color:var(--sub);text-decoration:none;padding:2px 6px;border-radius:4px;cursor:pointer}
+.gen-actions a:hover{background:var(--hover)}
+.skeleton{aspect-ratio:1;background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 1.4s infinite}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.spinner-row{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--sub);margin-bottom:10px}
+.spin{animation:spinanim 1s linear infinite}
+@keyframes spinanim{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.apps-hero{background:linear-gradient(135deg,#0070f3,#7c3aed);border-radius:var(--rlg);padding:26px;margin-bottom:24px;color:#fff;display:flex;align-items:center;gap:18px}
+.apps-hero-icon{font-size:44px}
+.apps-hero h2{font-size:20px;font-weight:600}
+.apps-hero p{font-size:13px;opacity:.85;margin-top:3px}
+.apps-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;background:var(--border);border:1px solid var(--border);border-radius:var(--rmd);overflow:hidden}
+.app-row{display:flex;align-items:center;gap:12px;padding:12px 14px;background:#fff;cursor:pointer;justify-content:space-between;transition:background .15s}
+.app-row:hover{background:var(--hover)}
+.app-left{display:flex;align-items:center;gap:10px}
+.app-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.app-name{font-size:14px;font-weight:500}
+.app-desc{font-size:12px;color:var(--sub)}
+.app-chev{color:var(--muted);font-size:16px;transition:transform .15s}
+.app-row:hover .app-chev{transform:translateX(3px)}
+.pricing-hdr{text-align:center;margin-bottom:36px}
+.pricing-hdr h1{font-size:30px;font-weight:700}
+.pricing-hdr p{color:var(--sub);margin-top:6px}
+.plan-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.plan{border:1px solid var(--border);border-radius:var(--rlg);padding:22px;display:flex;flex-direction:column;gap:14px;transition:transform .15s,box-shadow .15s}
+.plan:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.07)}
+.plan.featured{border:2px solid #0d0d0d;position:relative}
+.plan.featured::before{content:"Most popular";position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:#0d0d0d;color:#fff;font-size:11px;font-weight:500;padding:3px 10px;border-radius:12px;white-space:nowrap}
+.plan-name{font-size:15px;font-weight:600}
+.plan-tag{font-size:12px;color:var(--sub);margin-top:2px}
+.plan-price{font-size:26px;font-weight:700}
+.plan-price span{font-size:13px;font-weight:400;color:var(--sub)}
+.plan-feats{list-style:none;display:flex;flex-direction:column;gap:7px;flex:1}
+.plan-feats li{display:flex;align-items:flex-start;gap:7px;font-size:13px;color:var(--sub)}
+.plan-feats li::before{content:"\2713";color:var(--green);font-weight:600;flex-shrink:0}
+.settings-wrap{display:flex;gap:0}
+.settings-nav{display:flex;flex-direction:column;gap:2px;width:190px;min-width:190px;padding-right:20px;border-right:1px solid var(--border)}
+.settings-nav-item{padding:7px 10px;border-radius:var(--rsm);cursor:pointer;font-size:14px;color:var(--sub)}
+.settings-nav-item:hover{background:var(--hover);color:var(--text)}
+.settings-nav-item.active{background:var(--active);color:var(--text);font-weight:500}
+.settings-body{flex:1;padding-left:22px}
+.settings-section{font-size:15px;font-weight:600;margin-bottom:18px}
+.settings-row{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid var(--border)}
+.settings-row:last-child{border-bottom:none}
+.row-label{font-size:14px}
+.row-sub{font-size:12px;color:var(--sub);margin-top:2px}
+.toggle{width:38px;height:20px;background:var(--green);border-radius:10px;position:relative;cursor:pointer;flex-shrink:0;transition:background .2s}
+.toggle::after{content:"";position:absolute;width:16px;height:16px;background:#fff;border-radius:50%;top:2px;right:2px;transition:.2s}
+.toggle.off{background:var(--border)}
+.toggle.off::after{right:auto;left:2px}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;display:none;align-items:center;justify-content:center}
+.overlay.open{display:flex}
+.modal{background:#fff;border-radius:var(--rlg);padding:30px;width:370px;max-width:90vw;display:flex;flex-direction:column;gap:14px;position:relative;animation:modalIn .2s ease}
+@keyframes modalIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+.modal-close{position:absolute;top:14px;right:14px;width:26px;height:26px;border:none;background:transparent;cursor:pointer;font-size:17px;color:var(--sub);border-radius:var(--rsm);display:flex;align-items:center;justify-content:center}
+.modal-close:hover{background:var(--hover)}
+.modal-logo{text-align:center}
+.modal-title{font-size:19px;font-weight:600;text-align:center}
+.modal-sub{font-size:13px;color:var(--sub);text-align:center;margin-top:-6px}
+.modal-div{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:12px}
+.modal-div::before,.modal-div::after{content:"";flex:1;height:1px;background:var(--border)}
+.modal-input{width:100%;border:1px solid var(--border);border-radius:var(--rsm);padding:10px 12px;font-size:14px;font-family:var(--font);outline:none}
+.modal-input:focus{border-color:#0d0d0d}
+.btn-google{background:#fff;border:1px solid var(--border);color:var(--text);width:100%;cursor:pointer;font-family:var(--font);display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border-radius:var(--rmd);font-size:14px;font-weight:500}
+.btn-google:hover{background:var(--hover)}
+.dropdown{position:absolute;left:0;bottom:calc(100% + 6px);background:#fff;border:1px solid var(--border);border-radius:var(--rmd);box-shadow:0 4px 20px rgba(0,0,0,.1);min-width:200px;overflow:hidden;z-index:100;display:none;animation:fadeUp .15s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.dropdown.open{display:block}
+.dd-item{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;font-size:14px}
+.dd-item:hover{background:var(--hover)}
+.dd-sep{height:1px;background:var(--border)}
+.dd-label{padding:6px 14px 3px;font-size:11px;color:var(--muted);font-weight:500}
+#photo-input,#file-input{display:none}
+@media(max-width:900px){.sidebar{display:none}.plan-grid{grid-template-columns:repeat(2,1fr)}.preset-grid{grid-template-columns:repeat(3,1fr)}.gen-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
 </head>
 <body>
-<div class="app-container">
-    <div class="chat-header">
-        <div class="brand">
-            <span class="logo">⚡ OptimaSeek</span>
-            <span class="badge">AI • full optional</span>
-        </div>
-        <div class="status">
-            <span class="online-dot"></span>
-            <span>active · ChatGPT-like core</span>
-            <button id="clearChatBtn" class="clear-btn" style="font-size:0.7rem; padding:0.2rem 0.7rem;">↻ Clear</button>
-        </div>
-    </div>
+<input type="file" id="photo-input" accept="image/*"/>
+<input type="file" id="file-input" accept=".pdf,.doc,.docx,.txt,.csv"/>
 
-    <div class="messages-area" id="chatMessages">
-        <!-- welcome message -->
-        <div class="message bot-message">
-            <div class="avatar">🤖</div>
-            <div class="bubble">
-                ✨ Hi! I'm <strong>OptimaSeek</strong>, your intelligent assistant.<br>
-                Ask me anything — coding, ideas, writing, explanations. I'm fully functional like ChatGPT.<br>
-                Powered by advanced reasoning (simulated API + custom logic). <br> Let's talk!
-            </div>
-        </div>
+<aside class="sidebar">
+  <div class="sidebar-top">
+    <div class="logo" onclick="goHome()"><div class="logo-dot">O</div>OptimaSeek</div>
+    <button class="menu-btn" onclick="document.querySelector('.sidebar').style.display='none'">&#9776;</button>
+  </div>
+  <div class="nav-item active" id="nav-chat" onclick="goHome()"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3v10M3 8h10" stroke-linecap="round"/></svg></span>New chat</div>
+  <div class="nav-item" onclick="goHome()"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6.5" cy="6.5" r="4"/><path d="M13 13l-2.5-2.5" stroke-linecap="round"/></svg></span>Search chats</div>
+  <div class="nav-item" id="nav-images" onclick="showPage('images')"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="2"/><circle cx="5.5" cy="5.5" r="1"/><path d="M2 11l4-4 3 3 2-2 3 3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Images</div>
+  <div class="nav-item" id="nav-apps" onclick="showPage('apps')"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg></span>Apps</div>
+  <div class="nav-item"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4h12M2 8h8M2 12h5" stroke-linecap="round"/></svg></span>Deep research</div>
+  <div class="nav-div"></div>
+  <div class="nav-item" id="nav-pricing" onclick="showPage('pricing')"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M6 6c0-1.1.9-2 2-2a2 2 0 0 1 1 3.73C8.5 8.18 8 8.8 8 9.5" stroke-linecap="round"/><circle cx="8" cy="12" r="0.5" fill="currentColor"/></svg></span>See plans and pricing</div>
+  <div class="nav-item" id="nav-settings" onclick="showPage('settings')"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="2.5"/><path d="M8 2v1.5M8 12.5V14M2 8h1.5M12.5 8H14M3.5 3.5l1 1M11.5 11.5l1 1M11.5 3.5l-1 1M4.5 11.5l-1 1" stroke-linecap="round"/></svg></span>Settings</div>
+  <div class="nav-item"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M6 6c0-1.1.9-2 2-2a2 2 0 0 1 1 3.73C8.5 8.18 8 8.8 8 9.5" stroke-linecap="round"/><circle cx="8" cy="12" r="0.5" fill="currentColor"/></svg></span>Help</div>
+  <div class="sidebar-bottom">
+    <div class="info-card" id="side-card"><strong>Get responses tailored to you</strong>Log in to get answers based on saved chats, plus create images and upload files.</div>
+    <div id="side-btns">
+      <button class="btn btn-primary btn-full" onclick="openModal()">Log in</button>
+      <button class="btn btn-outline btn-full" onclick="openModal()" style="margin-top:6px">Sign up for free</button>
     </div>
+  </div>
+</aside>
 
-    <div class="input-area">
-        <div class="input-container">
-            <textarea id="userInput" placeholder="Message OptimaSeek... (Shift+Enter = new line, Enter = send)" rows="1"></textarea>
-            <button id="sendBtn">➤ Send</button>
-        </div>
-        <div class="action-group" style="display: flex; justify-content: space-between; margin-top: 8px;">
-            <div style="font-size:0.7rem; color:#6c86a3;">✨ smart replies · contextual memory</div>
-            <button id="scrollToBottomBtn" style="background: none; color:#2c6e8f; padding:0.2rem 0.6rem; font-size:0.7rem;">↓ newest</button>
-        </div>
-        <footer>OptimaSeek · conversational AI — full capabilities, no limits</footer>
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-title" onclick="goHome()">OptimaSeek <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5l4 4 4-4" stroke-linecap="round"/></svg></div>
+    <div class="topbar-actions" id="topbar-auth">
+      <button class="btn btn-primary" onclick="openModal()">Log in</button>
+      <button class="btn btn-outline" onclick="openModal()">Sign up for free</button>
     </div>
+  </div>
+
+  <!-- CHAT PAGE -->
+  <div class="page active" id="page-chat">
+    <div class="limit-bar" id="limit-bar">
+      <span>Used <strong id="used-count">0</strong>/8 free searches. Upgrade for unlimited.</span>
+      <button class="btn btn-primary" style="padding:6px 12px;font-size:13px" onclick="showPage('pricing')">Upgrade</button>
+    </div>
+    <div class="msgs" id="msgs"></div>
+    <div class="chat-center" id="chat-center">
+      <div class="chat-greeting">Ready when you are.</div>
+      <div class="input-wrap">
+        <button class="add-btn" id="add-btn" onclick="toggleDD()">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 3v10M3 8h10" stroke-linecap="round"/></svg>
+        </button>
+        <textarea class="chat-input" id="inp1" placeholder="Ask anything" rows="1"></textarea>
+        <div class="send-wrap">
+          <button class="voice-btn"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="1" width="6" height="9" rx="3"/><path d="M2 8a6 6 0 0 0 12 0M8 14v2" stroke-linecap="round"/></svg> Voice</button>
+          <button class="send-btn" id="send1"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="2"><path d="M8 13V3M3 8l5-5 5 5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+        <div class="dropdown" id="dd">
+          <div class="dd-item" onclick="triggerPhoto()">&#128247; &nbsp;Add photos</div>
+          <div class="dd-item" onclick="closeDD()">&#127760; &nbsp;Web search</div>
+          <div class="dd-sep"></div>
+          <div class="dd-label" id="dd-login-label">Log in to use</div>
+          <div class="dd-item" id="dd-files" style="color:var(--muted)" onclick="triggerFile()">&#128206; &nbsp;Add files</div>
+          <div class="dd-item" style="color:var(--muted)">&#128300; &nbsp;Deep research</div>
+        </div>
+      </div>
+      <div class="chips">
+        <div class="chip" onclick="fillPrompt(this)">Summarize a document</div>
+        <div class="chip" onclick="fillPrompt(this)">Write an email</div>
+        <div class="chip" onclick="fillPrompt(this)">Brainstorm ideas</div>
+        <div class="chip" onclick="fillPrompt(this)">Explain a concept</div>
+        <div class="chip" onclick="fillPrompt(this)">Help me code</div>
+      </div>
+    </div>
+    <div class="bottom-bar" id="bottom-bar">
+      <div class="input-wrap" style="max-width:720px;margin:0 auto">
+        <button class="add-btn" onclick="toggleDD()"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 3v10M3 8h10" stroke-linecap="round"/></svg></button>
+        <textarea class="chat-input" id="inp2" placeholder="Ask anything" rows="1"></textarea>
+        <div class="send-wrap">
+          <button class="send-btn" id="send2"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="2"><path d="M8 13V3M3 8l5-5 5 5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+      </div>
+      <div class="bottom-note">OptimaSeek can make mistakes. Check important info.</div>
+    </div>
+  </div>
+
+  <!-- IMAGES PAGE -->
+  <div class="page" id="page-images">
+    <div class="page-content">
+      <div class="page-title">Images</div>
+      <textarea class="img-textarea" id="img-prompt" placeholder="Describe what you want to create... e.g. cute cat, animated sunset, fantasy landscape"></textarea>
+      <div style="position:relative;z-index:3;margin-bottom:24px">
+        <button class="btn btn-primary" id="gen-btn" onclick="generateImage()" type="button">Generate image</button>
+      </div>
+      <div id="gen-section" style="display:none;margin-bottom:28px">
+        <div class="spinner-row" id="gen-spinner" style="display:none">
+          <svg class="spin" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2a6 6 0 1 0 6 6" stroke-linecap="round"/></svg>
+          Generating images, please wait...
+        </div>
+        <div class="section-label">Generated</div>
+        <div class="gen-grid" id="gen-grid"></div>
+      </div>
+      <div class="section-label">Create an image</div>
+      <div class="preset-grid">
+        <div class="preset-card" onclick="setImgPrompt('improve desk setup, productivity workspace, ultrawide monitor, plants, aesthetic')"><div class="preset-thumb" style="background:linear-gradient(135deg,#1a1a2e,#16213e)">&#128421;</div><div class="preset-label">Desk Setup</div></div>
+        <div class="preset-card" onclick="setImgPrompt('wanderlust travel landscape, mountains, golden hour, cinematic photography')"><div class="preset-thumb" style="background:linear-gradient(135deg,#2d6a4f,#40916c)">&#127757;</div><div class="preset-label">Wanderlust</div></div>
+        <div class="preset-card" onclick="setImgPrompt('cute scribble doodle art, kawaii style, pastel colors, pencil sketch')"><div class="preset-thumb" style="background:linear-gradient(135deg,#7b2d8b,#a855f7)">&#9999;</div><div class="preset-label">Scribble</div></div>
+        <div class="preset-card" onclick="setImgPrompt('cute chibi dog sticker, kawaii style, big eyes, white background, cartoon')"><div class="preset-thumb" style="background:linear-gradient(135deg,#ffecd2,#fcb69f)">&#128054;</div><div class="preset-label">Chibi stickers</div></div>
+        <div class="preset-card" onclick="setImgPrompt('makeup beauty guide, cosmetics flat lay, pastel aesthetic, lipstick eyeshadow')"><div class="preset-thumb" style="background:linear-gradient(135deg,#1a1a1a,#555)">&#128132;</div><div class="preset-label">Makeup guide</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPS PAGE -->
+  <div class="page" id="page-apps">
+    <div class="page-content">
+      <div class="page-title">Apps <span style="background:var(--hover);color:var(--sub);font-size:11px;padding:2px 8px;border-radius:12px;font-weight:500">BETA</span></div>
+      <div class="apps-hero"><div class="apps-hero-icon">&#127912;</div><div><h2>Create with Canva</h2><p>Make designs and flyers directly from the chat</p><button class="btn" style="background:#fff;color:#0070f3;margin-top:10px;padding:7px 16px" onclick="window.open('https://www.canva.com','_blank')">View</button></div></div>
+      <div class="apps-grid">
+        <div class="app-row" onclick="window.open('https://www.adobe.com/products/photoshop.html','_blank')"><div class="app-left"><div class="app-icon" style="background:#0078d4">&#128394;</div><div><div class="app-name">Adobe Photoshop</div><div class="app-desc">Edit and transform images</div></div></div><div class="app-chev">&#8250;</div></div>
+        <div class="app-row" onclick="window.open('https://airtable.com','_blank')"><div class="app-left"><div class="app-icon" style="background:#fcb400">&#128202;</div><div><div class="app-name">Airtable</div><div class="app-desc">Structured data in OptimaSeek</div></div></div><div class="app-chev">&#8250;</div></div>
+        <div class="app-row" onclick="window.open('https://www.canva.com','_blank')"><div class="app-left"><div class="app-icon" style="background:#7d2ae8">&#127912;</div><div><div class="app-name">Canva</div><div class="app-desc">Search, create, edit designs</div></div></div><div class="app-chev">&#8250;</div></div>
+        <div class="app-row" onclick="window.open('https://www.figma.com','_blank')"><div class="app-left"><div class="app-icon" style="background:#f24e1e">&#127917;</div><div><div class="app-name">Figma</div><div class="app-desc">Make diagrams and slides</div></div></div><div class="app-chev">&#8250;</div></div>
+        <div class="app-row" onclick="window.open('https://replit.com','_blank')"><div class="app-left"><div class="app-icon" style="background:#0d6efd">&#128187;</div><div><div class="app-name">Replit</div><div class="app-desc">Turn ideas into real apps</div></div></div><div class="app-chev">&#8250;</div></div>
+        <div class="app-row" onclick="window.open('https://open.spotify.com','_blank')"><div class="app-left"><div class="app-icon" style="background:#1db954">&#127911;</div><div><div class="app-name">Spotify</div><div class="app-desc">Music and podcasts for you</div></div></div><div class="app-chev">&#8250;</div></div>
+        <div class="app-row" onclick="window.open('https://www.booking.com','_blank')"><div class="app-left"><div class="app-icon" style="background:#003580">&#127976;</div><div><div class="app-name">Booking.com</div><div class="app-desc">Find stays and rental cars</div></div></div><div class="app-chev">&#8250;</div></div>
+        <div class="app-row" onclick="window.open('https://www.expedia.com','_blank')"><div class="app-left"><div class="app-icon" style="background:#ff6b6b">&#9992;</div><div><div class="app-name">Expedia</div><div class="app-desc">Plan trips and flights</div></div></div><div class="app-chev">&#8250;</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRICING PAGE -->
+  <div class="page" id="page-pricing">
+    <div class="page-content" style="max-width:980px">
+      <div class="pricing-hdr"><h1>Pricing</h1><p>Individual, business, and enterprise plans.</p></div>
+      <div class="plan-grid">
+        <div class="plan"><div><div class="plan-name">Free</div><div class="plan-tag">Try OptimaSeek AI</div></div><div class="plan-price">CA$0<span>/mo</span></div><button class="btn btn-outline btn-full" onclick="openModal()">Get Free</button><ul class="plan-feats"><li>8 free AI searches</li><li>Basic chat responses</li><li>Add photos to chat</li><li>No account required</li></ul></div>
+        <div class="plan"><div><div class="plan-name">Go</div><div class="plan-tag">Expanded access</div></div><div class="plan-price">CA$11<span>/mo</span></div><button class="btn btn-outline btn-full" id="btn-go" onclick="subscribe('go')">Get Go</button><ul class="plan-feats"><li>Unlimited AI messages</li><li>More uploads</li><li>More image creation</li><li>Add files feature</li></ul></div>
+        <div class="plan featured"><div><div class="plan-name">Plus</div><div class="plan-tag">Advanced intelligence</div></div><div class="plan-price">CA$25<span>/mo</span></div><button class="btn btn-primary btn-full" id="btn-plus" onclick="subscribe('plus')">Get Plus</button><ul class="plan-feats"><li>Everything in Go</li><li>Advanced AI reasoning</li><li>High quality images</li><li>Deep research</li><li>Early access</li></ul></div>
+        <div class="plan"><div><div class="plan-name">Pro</div><div class="plan-tag">Maximum productivity</div></div><div class="plan-price">CA$55<span>/mo</span></div><button class="btn btn-outline btn-full" id="btn-pro" onclick="subscribe('pro')">Get Pro</button><ul class="plan-feats"><li>Everything in Plus</li><li>Max usage limits</li><li>Fastest responses</li><li>Unlimited images</li><li>Priority support</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETTINGS PAGE -->
+  <div class="page" id="page-settings">
+    <div class="page-content">
+      <div class="settings-wrap">
+        <div class="settings-nav">
+          <div class="settings-nav-item active">General</div>
+          <div class="settings-nav-item">Personalization</div>
+          <div class="settings-nav-item">Speech</div>
+          <div class="settings-nav-item">Data controls</div>
+          <div class="settings-nav-item">Security</div>
+          <div class="settings-nav-item">Billing</div>
+        </div>
+        <div class="settings-body">
+          <div class="settings-section">General</div>
+          <div class="settings-row"><div><div class="row-label">Theme</div></div><select style="border:1px solid var(--border);border-radius:var(--rsm);padding:6px 10px;font-family:var(--font);font-size:13px"><option>System</option><option>Light</option><option>Dark</option></select></div>
+          <div class="settings-row"><div><div class="row-label">Language</div></div><select style="border:1px solid var(--border);border-radius:var(--rsm);padding:6px 10px;font-family:var(--font);font-size:13px"><option>Auto-detect</option><option>English</option><option>French</option></select></div>
+          <div class="settings-row"><div><div class="row-label">Improve model for everyone</div><div class="row-sub">Allow content to train our models</div></div><div class="toggle" onclick="this.classList.toggle('off')"></div></div>
+          <div class="settings-row"><div><div class="row-label" style="color:#dc2626">Delete all chats</div></div><button class="btn btn-outline" style="padding:6px 12px;font-size:13px;border-color:#fca5a5;color:#dc2626">Delete all</button></div>
+          <div class="settings-row"><div><div class="row-label" style="color:#dc2626">Log out of all devices</div></div><button class="btn btn-outline" style="padding:6px 12px;font-size:13px;border-color:#fca5a5;color:#dc2626" onclick="logout()">Log out all</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- LOGIN MODAL -->
+<div class="overlay" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&#10005;</button>
+    <div class="modal-logo"><div class="logo-dot" style="margin:0 auto;width:38px;height:38px;font-size:17px">O</div></div>
+    <div class="modal-title">Welcome back</div>
+    <div class="modal-sub">Log in to your OptimaSeek account</div>
+    <button class="btn-google" onclick="window.location.href='/api/auth/login'">
+      <svg width="17" height="17" viewBox="0 0 18 18"><path d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18z" fill="#4285F4"/><path d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2.04c-.71.48-1.62.75-2.7.75-2.08 0-3.84-1.4-4.47-3.29H1.85v2.07A8 8 0 0 0 8.98 17z" fill="#34A853"/><path d="M4.51 10.48A4.8 4.8 0 0 1 4.26 9c0-.52.09-1.02.25-1.48V5.45H1.85A8 8 0 0 0 .98 9c0 1.29.31 2.51.87 3.55l2.66-2.07z" fill="#FBBC05"/><path d="M8.98 4.72c1.17 0 2.22.4 3.05 1.2l2.28-2.28A8 8 0 0 0 8.98 1 8 8 0 0 0 1.85 5.45L4.51 7.52c.63-1.89 2.39-3.3 4.47-3.3z" fill="#EA4335"/></svg>
+      Continue with Google
+    </button>
+    <div class="modal-div">or</div>
+    <input class="modal-input" type="email" placeholder="Email address"/>
+    <button class="btn btn-primary" style="width:100%">Continue</button>
+    <p style="text-align:center;font-size:12px;color:var(--muted)">No account? <a href="#" style="color:var(--text)">Sign up</a></p>
+  </div>
 </div>
 
 <script>
-    // ---------- FULL OPTIONAL CHATGPT-LIKE ENGINE ----------
-    // This assistant uses a hybrid approach:
-    // 1. Maintains conversation history in context (memory)
-    // 2. Uses an intelligent fallback + simulated reasoning (can be replaced with real API key later)
-    // 3. Rich responses: code, lists, friendly tone
-    // 4. "Full optional" meaning you can expand to real OpenAI / local LLM anytime
-    
-    // ---------- CONFIG ----------
-    let conversationHistory = [
-        { role: "system", content: "You are OptimaSeek, a highly intelligent, helpful, and creative AI assistant. You answer clearly, concisely, and warmly. You can write code, solve problems, brainstorm, and respond like ChatGPT. Use markdown-friendly plaintext but with good structure. Keep responses under ~400 tokens but detailed enough. You're running on optimaseek.com — full optional AI." }
-    ];
-    
-    // DOM elements
-    const messagesContainer = document.getElementById('chatMessages');
-    const userInputField = document.getElementById('userInput');
-    const sendButton = document.getElementById('sendBtn');
-    const clearButton = document.getElementById('clearChatBtn');
-    const scrollToBottomButton = document.getElementById('scrollToBottomBtn');
-    
-    // Helper: auto-resize textarea
-    function autoResizeTextarea() {
-        userInputField.style.height = 'auto';
-        userInputField.style.height = Math.min(userInputField.scrollHeight, 140) + 'px';
+var EXCEL_B64 = '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';
+var currentUser = null;
+var chatHistory = [];
+var FREE_LIMIT = 8;
+
+function getCookie(n){var m=document.cookie.match(new RegExp('(^| )'+n+'=([^;]+)'));return m?m[2]:null;}
+function getCount(){try{return parseInt(localStorage.getItem('os_n')||'0');}catch(e){return 0;}}
+function bumpCount(){try{var n=getCount()+1;localStorage.setItem('os_n',n);return n;}catch(e){return 1;}}
+function canSearch(){return currentUser?true:getCount()<FREE_LIMIT;}
+function updateBanner(){
+  var bar=document.getElementById('limit-bar');
+  if(currentUser){bar.classList.remove('show');return;}
+  var n=getCount();
+  document.getElementById('used-count').textContent=n;
+  if(n>=3)bar.classList.add('show');else bar.classList.remove('show');
+}
+function checkLogin(){
+  var c=getCookie('os_user');
+  if(!c){updateBanner();return;}
+  try{currentUser=JSON.parse(atob(c));applyUser(currentUser);}catch(e){}
+}
+function applyUser(u){
+  var init=u.name?u.name[0].toUpperCase():'U';
+  document.getElementById('topbar-auth').innerHTML='<div style="display:flex;align-items:center;gap:10px"><span style="font-size:13px;color:var(--sub)">'+u.name+'</span>'+(u.picture?'<img src="'+u.picture+'" style="width:32px;height:32px;border-radius:50%;border:2px solid var(--border)">':'<div class="logo-dot">'+init+'</div>')+'<button class="btn btn-outline" style="padding:6px 12px;font-size:13px" onclick="logout()">Log out</button></div>';
+  document.getElementById('side-card').innerHTML='<strong>Welcome, '+u.name+'!</strong>'+u.email;
+  document.getElementById('side-btns').style.display='none';
+  document.getElementById('limit-bar').classList.remove('show');
+  var l=document.getElementById('dd-login-label');if(l)l.style.display='none';
+  var f=document.getElementById('dd-files');if(f)f.style.color='';
+}
+function logout(){document.cookie='os_user=; Path=/; Max-Age=0';window.location.href='/';}
+function openModal(){document.getElementById('modal').classList.add('open');}
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+
+function showPage(name){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
+  document.getElementById('page-'+name).classList.add('active');
+  var nav=document.getElementById('nav-'+name);if(nav)nav.classList.add('active');
+}
+function goHome(){
+  showPage('chat');
+  chatHistory=[];
+  document.getElementById('msgs').innerHTML='';
+  document.getElementById('msgs').classList.remove('show');
+  document.getElementById('chat-center').style.display='';
+  document.getElementById('bottom-bar').classList.remove('show');
+  document.getElementById('send1').disabled=false;
+  document.getElementById('send2').disabled=false;
+  updateBanner();
+}
+function enterChat(){
+  document.getElementById('chat-center').style.display='none';
+  document.getElementById('msgs').classList.add('show');
+  document.getElementById('bottom-bar').classList.add('show');
+}
+
+function md(text){
+  var h=text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  h=h.replace(/```[\w]*\n?([\s\S]*?)```/g,'<pre><code>$1</code></pre>');
+  h=h.replace(/`([^`]+)`/g,'<code>$1</code>');
+  h=h.replace(/^### (.+)$/gm,'<h3>$1</h3>');
+  h=h.replace(/^## (.+)$/gm,'<h2>$1</h2>');
+  h=h.replace(/^# (.+)$/gm,'<h1>$1</h1>');
+  h=h.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+  h=h.replace(/\*([^*]+)\*/g,'<em>$1</em>');
+  h=h.replace(/^[-*] (.+)$/gm,'<li>$1</li>');
+  h=h.replace(/(<li>[\s\S]*?<\/li>)+/g,function(m){return '<ul>'+m+'</ul>';});
+  h=h.replace(/^\d+\. (.+)$/gm,'<li>$1</li>');
+  h=h.replace(/^> (.+)$/gm,'<blockquote>$1</blockquote>');
+  h=h.split(/\n\n+/).map(function(b){
+    b=b.trim();if(!b)return'';
+    if(/^<(h[1-3]|ul|ol|pre|blockquote)/.test(b))return b;
+    return'<p>'+b.replace(/\n/g,'<br>')+'</p>';
+  }).join('');
+  return h;
+}
+
+function addMsg(role,text){
+  var box=document.getElementById('msgs');
+  var d=document.createElement('div');d.className='msg '+role;
+  var init=role==='ai'?'O':(currentUser&&currentUser.name?currentUser.name[0].toUpperCase():'U');
+  if(role==='user'){
+    d.innerHTML='<div class="avatar user">'+init+'</div><div class="bubble">'+text+'</div>';
+  }else{
+    d.innerHTML='<div class="avatar ai">'+init+'</div><div class="bubble">'+md(text)+'</div>';
+  }
+  box.appendChild(d);box.scrollTop=box.scrollHeight;return d;
+}
+
+function addFileCard(icon,label,filename,fn){
+  var box=document.getElementById('msgs');
+  var d=document.createElement('div');d.className='msg ai';
+  d.innerHTML='<div class="avatar ai">O</div><div class="bubble"><p>Here is your <strong>'+label+'</strong> &#8212; ready to download!</p>'
+    +'<div class="file-card" onclick="'+fn+'">'
+    +'<div class="file-icon">'+icon+'</div>'
+    +'<div class="file-info"><div class="file-name">'+filename+'</div><div class="file-dl">&#11015; Click to download</div></div>'
+    +'</div></div>';
+  box.appendChild(d);box.scrollTop=box.scrollHeight;
+}
+
+function showTyping(){
+  var box=document.getElementById('msgs');
+  var d=document.createElement('div');d.className='msg ai';d.id='typing';
+  d.innerHTML='<div class="avatar ai">O</div><div class="bubble"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>';
+  box.appendChild(d);box.scrollTop=box.scrollHeight;
+}
+function removeTyping(){var el=document.getElementById('typing');if(el)el.remove();}
+
+function resize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,200)+'px';}
+function fillPrompt(el){document.getElementById('inp1').value=el.textContent;document.getElementById('inp1').focus();}
+function toggleDD(){document.getElementById('dd').classList.toggle('open');}
+function closeDD(){document.getElementById('dd').classList.remove('open');}
+function triggerPhoto(){closeDD();document.getElementById('photo-input').click();}
+function triggerFile(){if(!currentUser){openModal();closeDD();return;}closeDD();document.getElementById('file-input').click();}
+
+function detectFile(text){
+  var t=text.toLowerCase();
+  if(/excel|xlsx|spreadsheet|payscal|pay.?scale|salary.?sheet|payroll|employee.?sheet/.test(t))return'excel';
+  if(/\bpdf\b|create.?pdf|make.?pdf|generate.?pdf/.test(t))return'pdf';
+  if(/\bword\b|\.docx|wordpad|\bletter\b|\bmemo\b|\bresume\b/.test(t))return'word';
+  if(/powerpoint|\.pptx|presentation|slideshow/.test(t))return'ppt';
+  return null;
+}
+
+function dlBase64(b64,mime,filename){
+  var a=document.createElement('a');
+  a.href='data:'+mime+';base64,'+b64;
+  a.download=filename;
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+}
+
+function downloadExcel(){
+  dlBase64(EXCEL_B64,'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','Employee_Payscale.xlsx');
+}
+
+function downloadPDF(title,content){
+  var lines=(content||'').split('\n');
+  var win=window.open('','_blank');
+  if(!win){alert('Please allow popups to download PDF');return;}
+  var body='';
+  lines.forEach(function(l){
+    var t=l.trim();if(!t)return;
+    if(t.indexOf('## ')===0)body+='<h2>'+t.slice(3)+'</h2>';
+    else if(t.indexOf('# ')===0)body+='<h1>'+t.slice(2)+'</h1>';
+    else body+='<p>'+t.replace(/\*\*/g,'')+'</p>';
+  });
+  win.document.write('<!DOCTYPE html><html><head><title>'+title+'</title><style>body{font-family:Arial,sans-serif;font-size:12pt;margin:40px;color:#222;line-height:1.7}h1{font-size:20pt;color:#1F3864;border-bottom:2px solid #1F3864;padding-bottom:8px;margin-bottom:18px}h2{font-size:14pt;color:#2E75B6;margin-top:18px}p{margin:6px 0}.btn{background:#0d0d0d;color:#fff;padding:10px 20px;border:none;border-radius:6px;cursor:pointer;margin-bottom:20px;font-size:14px;display:inline-block}.footer{margin-top:40px;font-size:9pt;color:#999;border-top:1px solid #ddd;padding-top:10px}@media print{.btn{display:none}}</style></head><body><div class="btn" onclick="window.print()">&#11015; Save as PDF</div><h1>'+title+'</h1>'+body+'<div class="footer">Generated by OptimaSeek &bull; '+new Date().toLocaleDateString()+'</div></body></html>');
+  win.document.close();
+  setTimeout(function(){try{win.print();}catch(e){}},700);
+}
+
+function downloadPPT(title,items){
+  var win=window.open('','_blank');
+  if(!win){alert('Please allow popups');return;}
+  var liHtml=items.slice(0,8).map(function(c){return'<li>'+c+'</li>';}).join('');
+  win.document.write('<!DOCTYPE html><html><head><title>'+title+'</title><style>*{box-sizing:border-box;margin:0;padding:0}body{background:#111;font-family:Arial,sans-serif}.slide{width:960px;height:540px;margin:30px auto;background:linear-gradient(135deg,#1F3864,#2E75B6);border-radius:14px;padding:60px;display:flex;flex-direction:column;justify-content:center}h1{font-size:34px;font-weight:700;color:#fff;border-bottom:3px solid rgba(255,255,255,.3);padding-bottom:16px;margin-bottom:24px}ul{list-style:none}li{font-size:19px;padding:9px 0;color:rgba(255,255,255,.9);display:flex;align-items:flex-start;gap:12px}li::before{content:"\\25B6";color:#ffd700;font-size:12px;margin-top:5px;flex-shrink:0}.top{text-align:center;padding:20px}button{background:#10a37f;color:#fff;border:none;padding:12px 28px;border-radius:8px;font-size:15px;cursor:pointer}@media print{body{background:#fff}.top{display:none}}</style></head><body><div class="top"><button onclick="window.print()">&#128247; Print as PDF</button></div><div class="slide"><h1>'+title+'</h1><ul>'+liHtml+'</ul></div></body></html>');
+  win.document.close();
+}
+
+function sleep(ms){return new Promise(function(r){setTimeout(r,ms);});}
+
+async function sendText(text){
+  if(!text.trim())return;
+  if(!canSearch()){
+    enterChat();
+    addMsg('ai','You have used all **8 free searches**. Please upgrade to continue.');
+    setTimeout(function(){showPage('pricing');},1500);
+    return;
+  }
+  enterChat();
+  addMsg('user',text);
+  chatHistory.push({role:'user',content:text});
+  bumpCount();updateBanner();
+
+  var fileType=detectFile(text);
+  if(fileType){
+    showTyping();
+    await sleep(700);
+    removeTyping();
+    if(fileType==='excel'){
+      addFileCard('&#128202;','Employee Payscale Excel Sheet','Employee_Payscale.xlsx','downloadExcel()');
+      chatHistory.push({role:'assistant',content:'Here is your Employee Payscale Excel sheet with 10 employees and automatic formulas.'});
+    }else if(fileType==='pdf'){
+      var topic=text.replace(/create|make|generate|pdf|download/gi,'').trim()||'Document';
+      downloadPDF(topic,'# '+topic+'\n\nGenerated by OptimaSeek\n\n## Content\n\nYour PDF content here.\n\nDate: '+new Date().toLocaleDateString());
+      addMsg('ai','Your PDF opened in a new tab. Click **Save as PDF** to download it!');
+      chatHistory.push({role:'assistant',content:'PDF opened.'});
+    }else if(fileType==='word'){
+      var topic2=text.replace(/create|make|generate|word|docx|document|download/gi,'').trim()||'Document';
+      downloadPDF(topic2,'# '+topic2+'\n\nGenerated by OptimaSeek\n\n## Content\n\nYour document content here.\n\nDate: '+new Date().toLocaleDateString());
+      addMsg('ai','Your document opened in a new tab. Click **Save as PDF** to download or copy to Word/Google Docs!');
+      chatHistory.push({role:'assistant',content:'Document opened.'});
+    }else if(fileType==='ppt'){
+      var topic3=text.replace(/create|make|generate|powerpoint|pptx|presentation|slides/gi,'').trim()||'Presentation';
+      downloadPPT(topic3,['Introduction to '+topic3,'Key Points and Overview','Main Content','Data and Analysis','Conclusions and Next Steps']);
+      addMsg('ai','Your presentation opened in a new tab. Click **Print as PDF** to save it!');
+      chatHistory.push({role:'assistant',content:'Presentation opened.'});
     }
-    userInputField.addEventListener('input', autoResizeTextarea);
-    
-    // Scroll to bottom smoothly
-    function scrollToBottom() {
-        messagesContainer.scrollTo({ top: messagesContainer.scrollHeight, behavior: 'smooth' });
+    document.getElementById('send1').disabled=false;
+    document.getElementById('send2').disabled=false;
+    return;
+  }
+
+  showTyping();
+  document.getElementById('send1').disabled=true;
+  document.getElementById('send2').disabled=true;
+  try{
+    var res=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:chatHistory})});
+    var data=await res.json();
+    removeTyping();
+    var reply=(data&&data.reply)?data.reply:'Sorry, I could not get a response.';
+    addMsg('ai',reply);
+    chatHistory.push({role:'assistant',content:reply});
+  }catch(e){
+    removeTyping();
+    addMsg('ai','Connection error. Please check your internet and try again.');
+  }
+  document.getElementById('send1').disabled=false;
+  document.getElementById('send2').disabled=false;
+}
+
+function setImgPrompt(text){document.getElementById('img-prompt').value=text;document.getElementById('img-prompt').focus();document.getElementById('page-images').scrollTop=0;}
+function setPromptAndGen(p){document.getElementById('img-prompt').value=p;generateImage();}
+
+async function loadImg(url,retries){
+  for(var i=0;i<retries;i++){
+    try{
+      await new Promise(function(resolve,reject){
+        var img=new Image();img.onload=resolve;img.onerror=reject;
+        img.src=i===0?url:url+'&cb='+Date.now();
+      });
+      return true;
+    }catch(e){if(i<retries-1)await sleep(2000);}
+  }
+  return false;
+}
+
+async function generateImage(){
+  var promptEl=document.getElementById('img-prompt');
+  var prompt=promptEl.value.trim();
+  if(!prompt){promptEl.style.borderColor='#ef4444';promptEl.focus();setTimeout(function(){promptEl.style.borderColor='';},1500);return;}
+  var btn=document.getElementById('gen-btn');
+  var sec=document.getElementById('gen-section');
+  var grid=document.getElementById('gen-grid');
+  var spinner=document.getElementById('gen-spinner');
+  btn.disabled=true;btn.textContent='Generating...';
+  sec.style.display='block';spinner.style.display='flex';grid.innerHTML='';
+  var variations=[
+    {suffix:'',label:'Variation 1'},
+    {suffix:', vibrant colors, highly detailed',label:'Variation 2'},
+    {suffix:', soft dreamy lighting, artistic',label:'Variation 3'},
+    {suffix:', cinematic, high quality',label:'Variation 4'}
+  ];
+  variations.forEach(function(v,i){
+    var card=document.createElement('div');card.className='gen-card';card.id='gc'+i;
+    card.innerHTML='<div class="skeleton"></div><div class="gen-label">Loading '+v.label+'...</div>';
+    grid.appendChild(card);
+  });
+  sec.scrollIntoView({behavior:'smooth',block:'nearest'});
+  for(var i=0;i<variations.length;i++){
+    var v=variations[i];
+    var seed=Math.floor(Math.random()*99999)+1;
+    var url='https://image.pollinations.ai/prompt/'+encodeURIComponent(prompt+v.suffix)+'?width=512&height=512&seed='+seed+'&nologo=true&enhance=true&model=flux';
+    var card=document.getElementById('gc'+i);
+    var ok=await loadImg(url,3);
+    var safeP=prompt.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    if(ok){
+      card.innerHTML='<img src="'+url+'" alt="generated image" loading="lazy"/><div class="gen-label">'+v.label+'</div><div class="gen-actions"><a href="'+url+'" target="_blank" rel="noopener">&#11015; Download</a><a onclick="setPromptAndGen(\''+safeP+'\')">&#8635; Again</a></div>';
+    }else{
+      card.innerHTML='<div class="skeleton" style="background:#fafafa;display:flex;align-items:center;justify-content:center;color:#999;font-size:12px">&#9888; Failed</div><div class="gen-actions"><a style="color:#ef4444" onclick="retrySingle('+i+',\''+safeP+'\',\''+encodeURIComponent(v.suffix)+'\',\''+v.label+'\')">&#8635; Retry</a></div>';
     }
-    
-    // Add message to UI (both user and bot)
-    function addMessageToUI(role, content, isStreamPlaceholder = false) {
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `message ${role === 'user' ? 'user-message' : 'bot-message'}`;
-        const avatarSpan = document.createElement('div');
-        avatarSpan.className = 'avatar';
-        avatarSpan.innerText = role === 'user' ? '👤' : '⚡';
-        const bubbleDiv = document.createElement('div');
-        bubbleDiv.className = 'bubble';
-        // simple formatting: convert newlines to <br> and markdown-like code blocks (basic)
-        let formattedContent = content;
-        if (role !== 'user') {
-            // very minimal beautifier for bot responses: detect code blocks ```
-            formattedContent = formatBotMessage(content);
-        } else {
-            formattedContent = escapeHtml(content).replace(/\n/g, '<br>');
-        }
-        bubbleDiv.innerHTML = formattedContent;
-        messageDiv.appendChild(avatarSpan);
-        messageDiv.appendChild(bubbleDiv);
-        messagesContainer.appendChild(messageDiv);
-        scrollToBottom();
-        return messageDiv;
-    }
-    
-    function escapeHtml(str) {
-        return str.replace(/[&<>]/g, function(m) {
-            if(m === '&') return '&amp;';
-            if(m === '<') return '&lt;';
-            if(m === '>') return '&gt;';
-            return m;
-        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
-            return c;
-        });
-    }
-    
-    function formatBotMessage(text) {
-        // basic code block detection: ```language ... ```
-        let formatted = escapeHtml(text);
-        // replace inline code `code` (non-greedy)
-        formatted = formatted.replace(/`([^`]+)`/g, '<code>$1</code>');
-        // replace triple backticks blocks
-        formatted = formatted.replace(/```(\w*)\n([\s\S]*?)```/g, function(match, lang, code) {
-            return `<pre><code class="language-${lang || 'txt'}">${escapeHtml(code)}</code></pre>`;
-        });
-        // line breaks
-        formatted = formatted.replace(/\n/g, '<br>');
-        // lists improvement: detect * or - 
-        formatted = formatted.replace(/^\s*[\*\-\+]\s/gm, '• ');
-        return formatted;
-    }
-    
-    // show typing indicator (fake delay)
-    let typingIndicatorElement = null;
-    function showTyping() {
-        if (typingIndicatorElement) return;
-        const tempDiv = document.createElement('div');
-        tempDiv.className = 'message bot-message';
-        tempDiv.id = 'typingIndicatorMsg';
-        const avatarDiv = document.createElement('div');
-        avatarDiv.className = 'avatar';
-        avatarDiv.innerText = '⚡';
-        const bubbleDiv = document.createElement('div');
-        bubbleDiv.className = 'bubble';
-        bubbleDiv.innerHTML = `<div class="typing-indicator"><span></span><span></span><span></span></div>`;
-        tempDiv.appendChild(avatarDiv);
-        tempDiv.appendChild(bubbleDiv);
-        messagesContainer.appendChild(tempDiv);
-        typingIndicatorElement = tempDiv;
-        scrollToBottom();
-    }
-    
-    function hideTyping() {
-        if (typingIndicatorElement) {
-            typingIndicatorElement.remove();
-            typingIndicatorElement = null;
-        }
-    }
-    
-    // ----- CORE AI RESPONSE ENGINE (Full optional ChatGPT-like) -----
-    // This function combines conversation context and generates a relevant response.
-    // It simulates an advanced LLM, but you can seamlessly plug in OpenAI / Gemini API later.
-    // It supports reasoning, memory, dynamic replies.
-    async function generateBotResponse(userMessage) {
-        // add user message to history
-        conversationHistory.push({ role: "user", content: userMessage });
-        
-        // Build prompt context (last 10 exchanges to stay inside token friendly)
-        const recentContext = conversationHistory.slice(-10);
-        // System + conversation context shaping
-        const systemPrompt = conversationHistory[0].content;
-        let fullPrompt = `${systemPrompt}\n\nConversation so far:\n`;
-        for (let i = 1; i < recentContext.length; i++) {
-            const msg = recentContext[i];
-            fullPrompt += `${msg.role === 'user' ? 'User' : 'OptimaSeek'}: ${msg.content}\n`;
-        }
-        fullPrompt += `OptimaSeek: Provide a thoughtful, precise and friendly answer. Include helpful formatting if needed. Avoid excessive fluff.`;
-        
-        // ---------- ADVANCED RESPONSE ENGINE ----------
-        // This engine acts as a powerful rule-based + generative fallback with
-        // high intelligence & flexible responses. It's designed to mimic ChatGPT behavior
-        // as close as possible without external API, but it's 100% extensible.
-        // keywords, logic trees, reasoning, dynamic memory recall.
-        
-        let botReply = "";
-        const lowerMsg = userMessage.toLowerCase();
-        
-        // ========== SMART CONTEXTUAL BRAIN ==========
-        // Welcome / identity handling
-        if (lowerMsg.includes("who are you") || lowerMsg.includes("what are you") || (lowerMsg.includes("your name") && !lowerMsg.includes("optimaseek"))) {
-            botReply = "I am **OptimaSeek**, a next-gen AI assistant designed to be fully functional like ChatGPT. I can answer questions, write code, generate ideas, and converse naturally. I run on optimaseek.com and I'm always learning! How can I help you today? ✨";
-        } 
-        else if (lowerMsg.includes("optimaseek")) {
-            botReply = "OptimaSeek is your intelligent companion! The platform offers full conversational AI, similar to ChatGPT, with memory, rich responses, and optional API upgrade paths. Feel free to challenge me with any topic!";
-        }
-        else if (lowerMsg.includes("code") || lowerMsg.includes("javascript") || lowerMsg.includes("python") || lowerMsg.includes("html") || lowerMsg.includes("function")) {
-            if (lowerMsg.includes("write code") || lowerMsg.includes("example") || lowerMsg.includes("show me")) {
-                botReply = "Sure! Here's a sample JavaScript function that fetches data from an API and displays it:\n\n```javascript\nasync function fetchData(url) {\n  try {\n    const response = await fetch(url);\n    const data = await response.json();\n    console.log(data);\n    return data;\n  } catch(error) {\n    console.error('Error:', error);\n  }\n}\n\n// Usage: fetchData('https://api.example.com/posts');\n```\nNeed a Python snippet or a React component? Just ask!";
-            } else {
-                botReply = "I can generate code across many languages. Tell me the specific language and problem. For example: *'Write a python function to reverse a string'* or *'Create a responsive navbar with HTML/CSS'*.";
-            }
-        }
-        else if (lowerMsg.includes("hello") || lowerMsg.includes("hi ") || lowerMsg === "hi" || lowerMsg === "hey") {
-            botReply = "Hello! 👋 Great to have you here. I'm OptimaSeek, ready to assist. What's on your mind today?";
-        }
-        else if (lowerMsg.includes("help") || lowerMsg.includes("what can you do")) {
-            botReply = "I can help with:\n- ✍️ Writing & editing\n- 💻 Coding (JS, Python, HTML, CSS, etc.)\n- 📚 Explaining concepts\n- 🧠 Brainstorming & ideas\n- 🔍 Summaries, translations, maths, logic\n- 🎨 Creative tasks\nJust type anything! I keep conversation memory (full context).";
-        }
-        else if (lowerMsg.includes("thank")) {
-            botReply = "You're very welcome! 😊 It's my pleasure to assist. Let me know if there's anything else I can do for you.";
-        }
-        else if (lowerMsg.includes("memory") || lowerMsg.includes("remember") || lowerMsg.includes("context")) {
-            botReply = "Absolutely! I retain the conversation history within this session. You can ask follow-up questions referencing earlier messages. I'm like ChatGPT with full context awareness. Try mentioning something from our previous replies!";
-        }
-        else if (lowerMsg.includes("explain") || lowerMsg.includes("what is")) {
-            botReply = `That's an interesting topic! Based on what you asked: "${userMessage.substring(0, 80)}..." — I'd explain that in simple terms: \n\n*Everything in our universe or in computing can be broken down into principles.* If you specify a concept like 'quantum computing' or 'closure in JavaScript', I'll give an in-depth explanation. Go ahead, give me a detailed subject!`;
-        }
-        else {
-            // general intelligent response: use context + generative fill
-            botReply = `I understand you're asking about: "${userMessage.substring(0, 100)}". As OptimaSeek, I'll give you a detailed answer:\n\n` +
-            `💡 **Insight**: Based on your query, here is what you should consider. ` +
-            `I can assist with step-by-step reasoning, real-world examples, or creative solutions. ` +
-            `\n\n*Would you like me to dive deeper into any specific aspect? Or provide relevant examples, code, or analogies?* \n\n` +
-            `I'm fully optional: you can request a tailored response. For instance, ask: "give me 3 solutions", "write a poem", or "debug this logic". 🚀`;
-        }
-        
-        // Additional dynamic - if user message is very long / advanced, simulate more thorough reply.
-        if (userMessage.length > 120 && !botReply.includes("detailed answer")) {
-            botReply += `\n\n📌 *Extended analysis:* I noticed your message has depth, so I want to highlight key points. Feel free to refine the question for even more precision. I'm equipped to provide comprehensive assistance.`;
-        }
-        
-        // make sure botReply isn't empty fallback
-        if (!botReply || botReply.trim() === "") {
-            botReply = "I'm processing your request. Could you rephrase or give me more context? I'm here to give you the best ChatGPT-like experience possible!";
-        }
-        
-        // add assistant response to conversation history
-        conversationHistory.push({ role: "assistant", content: botReply });
-        return botReply;
-    }
-    
-    // Main send message flow
-    async function handleSendMessage() {
-        let userMessage = userInputField.value.trim();
-        if (userMessage === "") return;
-        
-        // disable send briefly to avoid spam
-        sendButton.disabled = true;
-        const originalBtnText = sendButton.innerHTML;
-        sendButton.innerHTML = "⏳ Sending";
-        
-        // display user message
-        addMessageToUI('user', userMessage);
-        userInputField.value = "";
-        autoResizeTextarea();
-        
-        // show typing indicator
-        showTyping();
-        
-        try {
-            // simulate network / processing time (natural feel)
-            await new Promise(resolve => setTimeout(resolve, 400 + Math.random() * 500));
-            const reply = await generateBotResponse(userMessage);
-            hideTyping();
-            addMessageToUI('assistant', reply);
-        } catch (err) {
-            hideTyping();
-            addMessageToUI('assistant', "⚠️ Oops! I encountered a glitch. Please try again. (Server-side simulator is perfect, but just in case, refresh?)");
-            console.error(err);
-        } finally {
-            sendButton.disabled = false;
-            sendButton.innerHTML = originalBtnText;
-            userInputField.focus();
-        }
-    }
-    
-    // clear entire chat except system and first welcome message
-    function clearChatHistory() {
-        // reset conversation history but keep system prompt
-        const systemMsg = conversationHistory[0];
-        conversationHistory = [systemMsg];
-        // clear UI messages but keep first bot welcome message?
-        messagesContainer.innerHTML = '';
-        // readd a fresh greeting message
-        const welcomeDiv = document.createElement('div');
-        welcomeDiv.className = 'message bot-message';
-        welcomeDiv.innerHTML = `<div class="avatar">🤖</div><div class="bubble">✨ Session cleared! I'm OptimaSeek, ready for new conversation. Ask me anything, from code to creative writing. ✨</div>`;
-        messagesContainer.appendChild(welcomeDiv);
-        scrollToBottom();
-    }
-    
-    // event listeners
-    sendButton.addEventListener('click', handleSendMessage);
-    clearButton.addEventListener('click', () => {
-        clearChatHistory();
-    });
-    scrollToBottomButton.addEventListener('click', scrollToBottom);
-    userInputField.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            handleSendMessage();
-        }
-    });
-    
-    // initial autofocus
-    userInputField.focus();
-    autoResizeTextarea();
-    scrollToBottom();
+    if(i<variations.length-1)await sleep(800);
+  }
+  spinner.style.display='none';btn.disabled=false;btn.textContent='Generate image';
+}
+
+async function retrySingle(idx,prompt,encSuffix,label){
+  var card=document.getElementById('gc'+idx);if(!card)return;
+  card.innerHTML='<div class="skeleton"></div><div class="gen-label">Retrying...</div>';
+  var seed=Math.floor(Math.random()*99999)+1;
+  var suffix=decodeURIComponent(encSuffix);
+  var url='https://image.pollinations.ai/prompt/'+encodeURIComponent(prompt+suffix)+'?width=512&height=512&seed='+seed+'&nologo=true&enhance=true&model=flux';
+  var ok=await loadImg(url,3);
+  var safeP=prompt.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+  if(ok){
+    card.innerHTML='<img src="'+url+'" alt="generated"/><div class="gen-label">'+label+'</div><div class="gen-actions"><a href="'+url+'" target="_blank" rel="noopener">&#11015; Download</a></div>';
+  }else{
+    card.innerHTML='<div class="skeleton" style="background:#fafafa;display:flex;align-items:center;justify-content:center;color:#999;font-size:12px">&#9888; Still failing</div><div class="gen-actions"><a style="color:#ef4444" onclick="retrySingle('+idx+',\''+safeP+'\',\''+encSuffix+'\',\''+label+'\')">&#8635; Retry again</a></div>';
+  }
+}
+
+async function subscribe(plan){
+  var btn=document.getElementById('btn-'+plan);
+  var orig=btn.textContent;btn.textContent='Loading...';btn.disabled=true;
+  try{
+    var res=await fetch('/api/stripe/checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan:plan})});
+    var data=await res.json();
+    if(data.url){window.location.href=data.url;return;}
+    throw new Error(data.error||'No URL');
+  }catch(e){alert('Checkout error: '+e.message);btn.textContent=orig;btn.disabled=false;}
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+  var inp1=document.getElementById('inp1');
+  var inp2=document.getElementById('inp2');
+  inp1.addEventListener('input',function(){resize(this);});
+  inp2.addEventListener('input',function(){resize(this);});
+  inp1.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();var t=this.value.trim();if(t){this.value='';this.style.height='auto';sendText(t);}}});
+  inp2.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();var t=this.value.trim();if(t){this.value='';this.style.height='auto';sendText(t);}}});
+  document.getElementById('send1').addEventListener('click',function(){var t=inp1.value.trim();if(t){inp1.value='';inp1.style.height='auto';sendText(t);}});
+  document.getElementById('send2').addEventListener('click',function(){var t=inp2.value.trim();if(t){inp2.value='';inp2.style.height='auto';sendText(t);}});
+  document.getElementById('img-prompt').addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();generateImage();}});
+  document.querySelectorAll('.settings-nav-item').forEach(function(el){el.addEventListener('click',function(){document.querySelectorAll('.settings-nav-item').forEach(function(x){x.classList.remove('active');});el.classList.add('active');});});
+  document.getElementById('photo-input').addEventListener('change',function(e){var f=e.target.files[0];if(!f)return;enterChat();addMsg('user','&#128247; Photo: '+f.name);addMsg('ai','I can see you attached **'+f.name+'**. I can help with questions about your photo!');e.target.value='';});
+  document.getElementById('file-input').addEventListener('change',function(e){var f=e.target.files[0];if(!f)return;enterChat();addMsg('user','&#128206; File: '+f.name);addMsg('ai','I can see you uploaded **'+f.name+'**. Ask me questions and I will help!');e.target.value='';});
+  document.addEventListener('click',function(e){if(!e.target.closest('#add-btn')&&!e.target.closest('#dd'))closeDD();});
+  checkLogin();
+  if(window.location.search.includes('login=success')){history.replaceState({},'','/');closeModal();}
+  if(window.location.search.includes('login=error')){history.replaceState({},'','/');alert('Google login failed.');}
+  if(window.location.search.includes('payment=success')){history.replaceState({},'','/');goHome();setTimeout(function(){enterChat();addMsg('ai','Payment successful! Welcome to OptimaSeek. You now have unlimited access!');},400);}
+  if(window.location.search.includes('payment=cancelled')){history.replaceState({},'','/');showPage('pricing');}
+});
 </script>
 </body>
 </html>
