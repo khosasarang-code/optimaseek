@@ -1,692 +1,1169 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>OptimaSeek</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>OptimaSeek — Build Real Apps with AI</title>
+<meta name="description" content="Build complete SaaS apps, dashboards, CRMs, marketplaces, and business software using natural language. No code required." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--sidebar:260px;--border:#e5e5e5;--text:#0d0d0d;--sub:#666;--muted:#999;--hover:#f5f5f5;--active:#ebebeb;--green:#10a37f;--font:"Inter",sans-serif;--rsm:6px;--rmd:10px;--rlg:16px}
-body{font-family:var(--font);font-size:14px;color:var(--text);background:#fff;display:flex;height:100vh;overflow:hidden}
-.sidebar{width:var(--sidebar);min-width:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:10px 8px;overflow-y:auto;z-index:10;background:#fff}
-.sidebar-top{display:flex;align-items:center;justify-content:space-between;padding:4px 6px 12px}
-.logo{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;cursor:pointer;padding:4px 8px;border-radius:var(--rsm);transition:background .15s}
-.logo:hover{background:var(--hover)}
-.logo-dot{width:28px;height:28px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px;flex-shrink:0}
-.menu-btn{width:30px;height:30px;border:none;background:transparent;cursor:pointer;border-radius:var(--rsm);font-size:18px;color:var(--sub);display:flex;align-items:center;justify-content:center}
-.menu-btn:hover{background:var(--hover)}
-.nav-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--rsm);cursor:pointer;font-size:14px;transition:background .15s;user-select:none}
-.nav-item:hover{background:var(--hover)}
-.nav-item.active{background:var(--active);font-weight:500}
-.nav-icon{width:18px;height:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--sub)}
-.nav-div{height:1px;background:var(--border);margin:8px 0}
-.sidebar-bottom{margin-top:auto;border-top:1px solid var(--border);padding-top:10px;display:flex;flex-direction:column;gap:6px}
-.info-card{background:#f9f9f9;border-radius:var(--rmd);padding:12px;font-size:12px;color:var(--sub);line-height:1.5}
-.info-card strong{color:var(--text);font-size:13px;display:block;margin-bottom:4px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:9px 16px;border-radius:var(--rmd);font-size:14px;font-weight:500;cursor:pointer;border:none;font-family:var(--font);transition:opacity .15s,background .15s}
-.btn-primary{background:#0d0d0d;color:#fff}
-.btn-primary:hover{opacity:.85}
-.btn-outline{background:transparent;border:1px solid #d4d4d4;color:var(--text)}
-.btn-outline:hover{background:var(--hover)}
-.btn-full{width:100%}
-.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--border);flex-shrink:0}
-.topbar-title{font-size:15px;font-weight:600;display:flex;align-items:center;gap:5px;cursor:pointer;padding:6px 10px;border-radius:var(--rsm)}
-.topbar-title:hover{background:var(--hover)}
-.topbar-actions{display:flex;gap:8px}
-.page{display:none;flex:1;flex-direction:column;overflow-y:auto}
-.page.active{display:flex}
-.chat-center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px}
-.chat-greeting{font-size:28px;font-weight:600;margin-bottom:28px;text-align:center}
-.input-wrap{width:100%;max-width:640px;position:relative}
-.chat-input{background:#f4f4f4;border:1px solid #d4d4d4;border-radius:var(--rlg);padding:14px 110px 14px 44px;font-size:15px;font-family:var(--font);width:100%;outline:none;resize:none;min-height:52px;max-height:200px;color:var(--text);transition:border-color .15s;position:relative;z-index:1;pointer-events:all;cursor:text}
-.chat-input:focus{border-color:#888}
-.chat-input::placeholder{color:var(--muted)}
-.add-btn{position:absolute;left:11px;top:50%;transform:translateY(-50%);background:transparent;border:none;cursor:pointer;color:var(--sub);display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:var(--rsm);z-index:2}
-.add-btn:hover{background:var(--hover)}
-.send-wrap{position:absolute;right:10px;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:6px;z-index:2}
-.voice-btn{background:transparent;border:none;cursor:pointer;color:var(--sub);font-size:13px;display:flex;align-items:center;gap:4px;padding:4px 8px;border-radius:var(--rsm)}
-.voice-btn:hover{background:var(--hover)}
-.send-btn{width:32px;height:32px;border-radius:50%;background:#0d0d0d;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;transition:opacity .15s}
-.send-btn:hover{opacity:.8}
-.send-btn:disabled{opacity:.35;cursor:not-allowed}
-.chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:14px;max-width:640px}
-.chip{border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:13px;cursor:pointer;color:var(--sub);background:#fff;transition:background .15s}
-.chip:hover{background:var(--hover);color:var(--text)}
-.msgs{flex:1;overflow-y:auto;padding:20px;display:none;flex-direction:column;gap:0;max-width:760px;width:100%;margin:0 auto}
-.msgs.show{display:flex}
-.msg{display:flex;gap:14px;padding:18px 0;animation:fadeIn .2s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
-.msg.user{flex-direction:row-reverse}
-.msg.user .bubble{background:#f4f4f4;border-radius:var(--rlg);padding:11px 16px;max-width:75%;font-size:15px;line-height:1.6}
-.avatar{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;margin-top:2px}
-.avatar.ai{background:var(--green);color:#fff}
-.avatar.user{background:#0d0d0d;color:#fff}
-.msg.ai .bubble{background:transparent;padding:0;flex:1;font-size:15px;line-height:1.75}
-.msg.ai .bubble p{margin-bottom:10px}
-.msg.ai .bubble p:last-child{margin-bottom:0}
-.msg.ai .bubble strong{font-weight:600}
-.msg.ai .bubble h1,.msg.ai .bubble h2,.msg.ai .bubble h3{font-weight:600;margin:14px 0 6px}
-.msg.ai .bubble ul,.msg.ai .bubble ol{padding-left:22px;margin:6px 0 10px}
-.msg.ai .bubble li{margin-bottom:3px;line-height:1.6}
-.msg.ai .bubble code{background:#f0f0f0;border-radius:4px;padding:1px 5px;font-family:monospace;font-size:13px}
-.msg.ai .bubble pre{background:#1e1e1e;border-radius:8px;padding:14px;margin:10px 0;overflow-x:auto}
-.msg.ai .bubble pre code{background:transparent;color:#d4d4d4}
-.dot{display:inline-block;width:6px;height:6px;background:#999;border-radius:50%;margin:0 2px;animation:bounce 1s infinite}
-.dot:nth-child(2){animation-delay:.2s}
-.dot:nth-child(3){animation-delay:.4s}
-@keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
-.bottom-bar{padding:10px 20px 14px;border-top:1px solid var(--border);flex-shrink:0;display:none;background:#fff}
-.bottom-bar.show{display:block}
-.bottom-note{text-align:center;font-size:11px;color:var(--muted);margin-top:6px}
-.limit-bar{background:#fff8e1;border:1px solid #ffd54f;border-radius:var(--rmd);padding:10px 16px;margin:10px 20px 0;font-size:13px;color:#5d4037;display:none;align-items:center;justify-content:space-between;gap:12px;flex-shrink:0}
-.limit-bar.show{display:flex}
-.file-card{display:inline-flex;align-items:center;gap:12px;background:#f0fdf7;border:1.5px solid var(--green);border-radius:var(--rmd);padding:12px 18px;cursor:pointer;margin-top:8px;transition:background .15s}
-.file-card:hover{background:#dcfce7}
-.file-icon{font-size:28px;flex-shrink:0}
-.file-info .file-name{font-weight:600;font-size:14px}
-.file-info .file-dl{font-size:12px;color:var(--green);margin-top:2px}
-.page-content{padding:32px;max-width:840px;margin:0 auto;width:100%}
-.page-title{font-size:24px;font-weight:600;margin-bottom:20px}
-.img-textarea{border:1px solid var(--border);border-radius:var(--rmd);padding:14px;font-size:14px;font-family:var(--font);width:100%;min-height:90px;outline:none;resize:vertical;color:var(--text);background:#fff;cursor:text;display:block;margin-bottom:14px;pointer-events:all;position:relative;z-index:2}
-.img-textarea:focus{border-color:#888}
-.img-textarea::placeholder{color:var(--muted)}
-.section-label{font-size:14px;font-weight:600;margin-bottom:12px}
-.preset-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:28px}
-.preset-card{border-radius:var(--rmd);overflow:hidden;cursor:pointer;border:1px solid var(--border);transition:transform .15s,box-shadow .15s}
-.preset-card:hover{transform:scale(1.04);box-shadow:0 4px 14px rgba(0,0,0,.1)}
-.preset-thumb{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:26px}
-.preset-label{padding:6px 8px;font-size:12px;font-weight:500;background:#fff;border-top:1px solid var(--border)}
-.gen-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
-.gen-card{border-radius:var(--rmd);overflow:hidden;border:1px solid var(--border);background:#f9f9f9}
-.gen-card img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
-.gen-label{padding:6px 10px;font-size:12px;color:var(--sub);border-top:1px solid var(--border);background:#fff}
-.gen-actions{display:flex;gap:6px;padding:5px 8px;background:#fff;border-top:1px solid var(--border)}
-.gen-actions a{font-size:11px;color:var(--sub);text-decoration:none;padding:2px 6px;border-radius:4px;cursor:pointer}
-.gen-actions a:hover{background:var(--hover)}
-.skeleton{aspect-ratio:1;background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 1.4s infinite}
-@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-.spinner-row{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--sub);margin-bottom:10px}
-.spin{animation:spinanim 1s linear infinite}
-@keyframes spinanim{from{transform:rotate(0)}to{transform:rotate(360deg)}}
-.apps-hero{background:linear-gradient(135deg,#0070f3,#7c3aed);border-radius:var(--rlg);padding:26px;margin-bottom:24px;color:#fff;display:flex;align-items:center;gap:18px}
-.apps-hero-icon{font-size:44px}
-.apps-hero h2{font-size:20px;font-weight:600}
-.apps-hero p{font-size:13px;opacity:.85;margin-top:3px}
-.apps-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;background:var(--border);border:1px solid var(--border);border-radius:var(--rmd);overflow:hidden}
-.app-row{display:flex;align-items:center;gap:12px;padding:12px 14px;background:#fff;cursor:pointer;justify-content:space-between;transition:background .15s}
-.app-row:hover{background:var(--hover)}
-.app-left{display:flex;align-items:center;gap:10px}
-.app-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
-.app-name{font-size:14px;font-weight:500}
-.app-desc{font-size:12px;color:var(--sub)}
-.app-chev{color:var(--muted);font-size:16px;transition:transform .15s}
-.app-row:hover .app-chev{transform:translateX(3px)}
-.pricing-hdr{text-align:center;margin-bottom:36px}
-.pricing-hdr h1{font-size:30px;font-weight:700}
-.pricing-hdr p{color:var(--sub);margin-top:6px}
-.plan-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.plan{border:1px solid var(--border);border-radius:var(--rlg);padding:22px;display:flex;flex-direction:column;gap:14px;transition:transform .15s,box-shadow .15s}
-.plan:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.07)}
-.plan.featured{border:2px solid #0d0d0d;position:relative}
-.plan.featured::before{content:"Most popular";position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:#0d0d0d;color:#fff;font-size:11px;font-weight:500;padding:3px 10px;border-radius:12px;white-space:nowrap}
-.plan-name{font-size:15px;font-weight:600}
-.plan-tag{font-size:12px;color:var(--sub);margin-top:2px}
-.plan-price{font-size:26px;font-weight:700}
-.plan-price span{font-size:13px;font-weight:400;color:var(--sub)}
-.plan-feats{list-style:none;display:flex;flex-direction:column;gap:7px;flex:1}
-.plan-feats li{display:flex;align-items:flex-start;gap:7px;font-size:13px;color:var(--sub)}
-.plan-feats li::before{content:"\2713";color:var(--green);font-weight:600;flex-shrink:0}
-.settings-wrap{display:flex;gap:0}
-.settings-nav{display:flex;flex-direction:column;gap:2px;width:190px;min-width:190px;padding-right:20px;border-right:1px solid var(--border)}
-.settings-nav-item{padding:7px 10px;border-radius:var(--rsm);cursor:pointer;font-size:14px;color:var(--sub)}
-.settings-nav-item:hover{background:var(--hover);color:var(--text)}
-.settings-nav-item.active{background:var(--active);color:var(--text);font-weight:500}
-.settings-body{flex:1;padding-left:22px}
-.settings-section{font-size:15px;font-weight:600;margin-bottom:18px}
-.settings-row{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid var(--border)}
-.settings-row:last-child{border-bottom:none}
-.row-label{font-size:14px}
-.row-sub{font-size:12px;color:var(--sub);margin-top:2px}
-.toggle{width:38px;height:20px;background:var(--green);border-radius:10px;position:relative;cursor:pointer;flex-shrink:0;transition:background .2s}
-.toggle::after{content:"";position:absolute;width:16px;height:16px;background:#fff;border-radius:50%;top:2px;right:2px;transition:.2s}
-.toggle.off{background:var(--border)}
-.toggle.off::after{right:auto;left:2px}
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;display:none;align-items:center;justify-content:center}
-.overlay.open{display:flex}
-.modal{background:#fff;border-radius:var(--rlg);padding:30px;width:370px;max-width:90vw;display:flex;flex-direction:column;gap:14px;position:relative;animation:modalIn .2s ease}
-@keyframes modalIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
-.modal-close{position:absolute;top:14px;right:14px;width:26px;height:26px;border:none;background:transparent;cursor:pointer;font-size:17px;color:var(--sub);border-radius:var(--rsm);display:flex;align-items:center;justify-content:center}
-.modal-close:hover{background:var(--hover)}
-.modal-logo{text-align:center}
-.modal-title{font-size:19px;font-weight:600;text-align:center}
-.modal-sub{font-size:13px;color:var(--sub);text-align:center;margin-top:-6px}
-.modal-div{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:12px}
-.modal-div::before,.modal-div::after{content:"";flex:1;height:1px;background:var(--border)}
-.modal-input{width:100%;border:1px solid var(--border);border-radius:var(--rsm);padding:10px 12px;font-size:14px;font-family:var(--font);outline:none}
-.modal-input:focus{border-color:#0d0d0d}
-.btn-google{background:#fff;border:1px solid var(--border);color:var(--text);width:100%;cursor:pointer;font-family:var(--font);display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border-radius:var(--rmd);font-size:14px;font-weight:500}
-.btn-google:hover{background:var(--hover)}
-.dropdown{position:absolute;left:0;bottom:calc(100% + 6px);background:#fff;border:1px solid var(--border);border-radius:var(--rmd);box-shadow:0 4px 20px rgba(0,0,0,.1);min-width:200px;overflow:hidden;z-index:100;display:none;animation:fadeUp .15s ease}
-@keyframes fadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
-.dropdown.open{display:block}
-.dd-item{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;font-size:14px}
-.dd-item:hover{background:var(--hover)}
-.dd-sep{height:1px;background:var(--border)}
-.dd-label{padding:6px 14px 3px;font-size:11px;color:var(--muted);font-weight:500}
-#photo-input,#file-input{display:none}
-@media(max-width:900px){.sidebar{display:none}.plan-grid{grid-template-columns:repeat(2,1fr)}.preset-grid{grid-template-columns:repeat(3,1fr)}.gen-grid{grid-template-columns:repeat(2,1fr)}}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #03040a;
+    --bg2: #07090f;
+    --bg3: #0c0f1a;
+    --surface: #111420;
+    --surface2: #1a1f30;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --accent: #4f6fff;
+    --accent2: #7b5ea7;
+    --accent3: #00d4aa;
+    --accent-glow: rgba(79,111,255,0.25);
+    --text: #f0f2ff;
+    --text2: #9098b8;
+    --text3: #5a6282;
+    --gold: #f5c842;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --radius: 12px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection { background: rgba(79,111,255,0.35); color: #fff; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 10px; }
+
+  /* LAYOUT */
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+  .section { padding: 120px 0; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    padding: 18px 0;
+    border-bottom: 1px solid transparent;
+    transition: all 0.4s ease;
+    backdrop-filter: blur(0px);
+  }
+  nav.scrolled {
+    background: rgba(3,4,10,0.88);
+    backdrop-filter: blur(20px);
+    border-color: var(--border);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    max-width: 1200px; margin: 0 auto; padding: 0 24px;
+  }
+  .logo {
+    font-family: var(--font-display);
+    font-size: 22px; font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    text-decoration: none;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .logo-dot {
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 12px var(--accent);
+    animation: pulse 2.5s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity:1; transform:scale(1); }
+    50% { opacity:0.5; transform:scale(0.85); }
+  }
+  .nav-links { display: flex; align-items: center; gap: 8px; }
+  .nav-links a {
+    font-size: 14px; font-weight: 400;
+    color: var(--text2); text-decoration: none;
+    padding: 8px 16px; border-radius: 8px;
+    transition: color 0.2s, background 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); background: var(--surface); }
+  .nav-cta {
+    display: flex; align-items: center; gap: 10px; margin-left: 16px;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 22px; border-radius: 10px;
+    font-family: var(--font-body); font-size: 14px; font-weight: 500;
+    text-decoration: none; cursor: pointer;
+    transition: all 0.25s ease; border: none;
+  }
+  .btn-ghost {
+    color: var(--text2); background: transparent;
+    border: 1px solid var(--border2);
+  }
+  .btn-ghost:hover { color: var(--text); border-color: rgba(255,255,255,0.25); background: var(--surface); }
+  .btn-primary {
+    color: #fff; background: var(--accent);
+    box-shadow: 0 0 0 1px rgba(79,111,255,0.5), 0 4px 24px rgba(79,111,255,0.35);
+  }
+  .btn-primary:hover {
+    background: #6077ff;
+    box-shadow: 0 0 0 1px rgba(79,111,255,0.7), 0 8px 32px rgba(79,111,255,0.5);
+    transform: translateY(-1px);
+  }
+  .btn-lg {
+    padding: 15px 32px;
+    font-size: 16px;
+    border-radius: 12px;
+  }
+  .btn-xl {
+    padding: 18px 40px;
+    font-size: 17px;
+    border-radius: 14px;
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 140px 24px 100px;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(79,111,255,0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 40% at 80% 50%, rgba(123,94,167,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 20% 80%, rgba(0,212,170,0.08) 0%, transparent 60%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 80%);
+  }
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 7px 16px; border-radius: 100px;
+    border: 1px solid rgba(79,111,255,0.35);
+    background: rgba(79,111,255,0.08);
+    font-size: 13px; font-weight: 500; color: #8fa4ff;
+    margin-bottom: 32px;
+    animation: fadeSlideDown 0.6s ease both;
+  }
+  .badge-dot { width:6px; height:6px; border-radius:50%; background:var(--accent); box-shadow:0 0 8px var(--accent); }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 7vw, 88px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -2px;
+    margin-bottom: 28px;
+    animation: fadeSlideDown 0.6s ease 0.1s both;
+  }
+  .hero h1 .line1 { display: block; color: var(--text); }
+  .hero h1 .line2 {
+    display: block;
+    background: linear-gradient(135deg, var(--accent) 0%, #a78bff 50%, var(--accent3) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-sub {
+    font-size: clamp(16px, 2vw, 20px); font-weight: 300;
+    color: var(--text2); max-width: 600px; margin: 0 auto 48px;
+    line-height: 1.65;
+    animation: fadeSlideDown 0.6s ease 0.2s both;
+  }
+  .hero-actions {
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap; justify-content: center;
+    animation: fadeSlideDown 0.6s ease 0.3s both;
+    margin-bottom: 72px;
+  }
+  .hero-prompt-demo {
+    position: relative;
+    width: 100%; max-width: 720px;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius-lg);
+    padding: 6px 6px 6px 20px;
+    display: flex; align-items: center; gap: 12px;
+    animation: fadeSlideDown 0.6s ease 0.4s both;
+    box-shadow: 0 0 0 1px rgba(79,111,255,0.1), 0 20px 60px rgba(0,0,0,0.4);
+  }
+  .hero-prompt-demo input {
+    flex: 1; background: transparent; border: none; outline: none;
+    color: var(--text); font-family: var(--font-body);
+    font-size: 15px; padding: 12px 0;
+    caret-color: var(--accent);
+  }
+  .hero-prompt-demo input::placeholder { color: var(--text3); }
+  .hero-prompt-demo .gen-btn {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--accent); color: #fff;
+    border: none; cursor: pointer;
+    padding: 12px 20px; border-radius: 10px;
+    font-family: var(--font-body); font-size: 14px; font-weight: 500;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .hero-prompt-demo .gen-btn:hover { background: #6077ff; transform: scale(1.02); }
+  .hero-prompt-chips {
+    display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+    animation: fadeSlideDown 0.6s ease 0.5s both;
+    margin-top: 16px;
+  }
+  .chip {
+    padding: 6px 14px; border-radius: 100px;
+    border: 1px solid var(--border);
+    background: var(--surface); color: var(--text2);
+    font-size: 13px; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .chip:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* LOGOS */
+  .logos-section {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 40px 0;
+    overflow: hidden;
+  }
+  .logos-label {
+    text-align: center; font-size: 13px; font-weight: 500;
+    color: var(--text3); letter-spacing: 0.08em; text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .logos-track {
+    display: flex; align-items: center; gap: 64px;
+    animation: scroll 30s linear infinite;
+    width: max-content;
+  }
+  .logos-wrap { overflow: hidden; }
+  @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .logo-item {
+    font-family: var(--font-display); font-size: 16px; font-weight: 700;
+    color: var(--text3); white-space: nowrap; letter-spacing: -0.5px;
+    transition: color 0.2s;
+  }
+  .logo-item:hover { color: var(--text2); }
+
+  /* STATS */
+  .stats-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin: 80px 0 0;
+  }
+  .stat-cell {
+    background: var(--bg);
+    padding: 40px 32px; text-align: center;
+  }
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 48px; font-weight: 800; letter-spacing: -2px;
+    background: linear-gradient(135deg, var(--text), var(--text2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    display: block; margin-bottom: 6px;
+  }
+  .stat-label { font-size: 14px; color: var(--text3); font-weight: 400; }
+
+  /* SECTION HEADER */
+  .section-eyebrow {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 800; letter-spacing: -1.5px; line-height: 1.1;
+    color: var(--text); margin-bottom: 20px;
+  }
+  .section-sub {
+    font-size: 18px; color: var(--text2); font-weight: 300;
+    max-width: 560px; line-height: 1.65;
+  }
+  .section-header { margin-bottom: 72px; }
+  .section-header.center { text-align: center; }
+  .section-header.center .section-sub { margin: 0 auto; }
+
+  /* FEATURES BENTO */
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 16px;
+  }
+  .bento-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    transition: all 0.35s ease;
+    position: relative; overflow: hidden;
+  }
+  .bento-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at 0% 0%, var(--accent-glow) 0%, transparent 60%);
+    opacity: 0; transition: opacity 0.35s;
+  }
+  .bento-card:hover { border-color: var(--border2); transform: translateY(-2px); }
+  .bento-card:hover::before { opacity: 1; }
+  .bento-col-8 { grid-column: span 8; }
+  .bento-col-4 { grid-column: span 4; }
+  .bento-col-6 { grid-column: span 6; }
+  .bento-col-5 { grid-column: span 5; }
+  .bento-col-7 { grid-column: span 7; }
+  .bento-col-12 { grid-column: span 12; }
+  .bento-icon {
+    width: 44px; height: 44px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 20px; font-size: 22px;
+  }
+  .bento-card h3 {
+    font-family: var(--font-display);
+    font-size: 20px; font-weight: 700; letter-spacing: -0.5px;
+    color: var(--text); margin-bottom: 10px;
+  }
+  .bento-card p { font-size: 14px; color: var(--text2); line-height: 1.7; }
+  .bento-tag {
+    display: inline-block; padding: 3px 10px; border-radius: 100px;
+    font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
+    background: rgba(79,111,255,0.12); color: var(--accent);
+    border: 1px solid rgba(79,111,255,0.25);
+    margin-bottom: 14px;
+  }
+
+  /* FAKE SCREEN */
+  .fake-screen {
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden;
+    margin-top: 28px;
+  }
+  .fake-bar {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .fake-dot { width:10px; height:10px; border-radius:50%; }
+  .fake-dot.r { background:#ff5f57; }
+  .fake-dot.y { background:#ffbd2e; }
+  .fake-dot.g { background:#28c840; }
+  .fake-bar-url {
+    flex: 1; height:22px; border-radius:4px;
+    background: var(--surface2);
+    margin-left: 8px;
+    display: flex; align-items: center; padding: 0 10px;
+  }
+  .fake-bar-url span { font-size: 11px; color: var(--text3); }
+  .fake-body { padding: 16px; }
+  .fake-code {
+    font-family: 'Courier New', monospace; font-size: 12px;
+    color: var(--text2); line-height: 1.7;
+  }
+  .fake-code .kw { color: #818cf8; }
+  .fake-code .str { color: var(--accent3); }
+  .fake-code .fn { color: var(--gold); }
+  .fake-code .cm { color: var(--text3); font-style: italic; }
+
+  /* HOW IT WORKS */
+  .steps-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+  }
+  .step-card {
+    position: relative; padding: 40px 32px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    transition: all 0.3s;
+  }
+  .step-card:hover { border-color: var(--border2); }
+  .step-num {
+    font-family: var(--font-display);
+    font-size: 80px; font-weight: 800; line-height: 1;
+    color: var(--surface2); position: absolute;
+    top: 24px; right: 28px; letter-spacing: -4px;
+    transition: color 0.3s;
+  }
+  .step-card:hover .step-num { color: var(--surface2); }
+  .step-icon {
+    width: 52px; height: 52px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; margin-bottom: 24px;
+    border: 1px solid var(--border);
+  }
+  .step-card h3 {
+    font-family: var(--font-display);
+    font-size: 22px; font-weight: 700; letter-spacing: -0.5px;
+    color: var(--text); margin-bottom: 12px;
+  }
+  .step-card p { font-size: 15px; color: var(--text2); }
+  .step-connector {
+    display: flex; align-items: center;
+    padding: 0 8px; color: var(--text3); font-size: 24px;
+  }
+
+  /* TECH STACK */
+  .tech-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px;
+  }
+  .tech-pill {
+    display: flex; align-items: center; gap: 10px;
+    padding: 14px 18px; border-radius: var(--radius);
+    background: var(--surface); border: 1px solid var(--border);
+    font-size: 14px; font-weight: 500; color: var(--text2);
+    transition: all 0.25s;
+  }
+  .tech-pill:hover { border-color: var(--border2); color: var(--text); }
+  .tech-pill .dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+
+  /* PRICING */
+  .pricing-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+    align-items: start;
+  }
+  .plan-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 32px;
+    transition: all 0.3s;
+    position: relative;
+  }
+  .plan-card.featured {
+    background: var(--surface2);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px rgba(79,111,255,0.3), 0 0 40px rgba(79,111,255,0.1);
+  }
+  .plan-badge-top {
+    position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+    background: var(--accent); color: #fff;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+    text-transform: uppercase; padding: 4px 14px; border-radius: 100px;
+    white-space: nowrap;
+  }
+  .plan-name {
+    font-family: var(--font-display);
+    font-size: 18px; font-weight: 700; color: var(--text);
+    margin-bottom: 8px;
+  }
+  .plan-price {
+    font-family: var(--font-display);
+    font-size: 42px; font-weight: 800; letter-spacing: -2px;
+    color: var(--text); margin-bottom: 4px;
+    line-height: 1;
+  }
+  .plan-price sup { font-size: 22px; font-weight: 500; vertical-align: super; }
+  .plan-price .per { font-size: 16px; font-weight: 400; color: var(--text2); }
+  .plan-desc { font-size: 13px; color: var(--text3); margin-bottom: 24px; }
+  .plan-divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+  .plan-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; }
+  .plan-features li {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 14px; color: var(--text2);
+  }
+  .plan-features li .check { color: var(--accent3); flex-shrink:0; margin-top:2px; }
+  .plan-features li .cross { color: var(--text3); flex-shrink:0; margin-top:2px; }
+
+  /* TESTIMONIALS */
+  .testimonials-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+  }
+  .testi-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 28px;
+    transition: all 0.3s;
+  }
+  .testi-card:hover { border-color: var(--border2); }
+  .testi-stars { color: var(--gold); font-size: 14px; margin-bottom: 14px; }
+  .testi-text {
+    font-size: 15px; color: var(--text2); line-height: 1.7;
+    margin-bottom: 20px; font-style: italic;
+  }
+  .testi-author { display: flex; align-items: center; gap: 12px; }
+  .testi-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-size: 14px; font-weight: 700;
+    border: 1px solid var(--border);
+  }
+  .testi-name { font-size: 14px; font-weight: 500; color: var(--text); }
+  .testi-role { font-size: 12px; color: var(--text3); }
+
+  /* CTA SECTION */
+  .cta-section {
+    position: relative; overflow: hidden;
+    padding: 120px 0;
+    text-align: center;
+  }
+  .cta-glow {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 600px; height: 300px;
+    background: radial-gradient(ellipse, rgba(79,111,255,0.2) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-section h2 {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 800; letter-spacing: -2px;
+    color: var(--text); margin-bottom: 20px; line-height: 1.1;
+  }
+  .cta-section p { font-size: 18px; color: var(--text2); margin-bottom: 48px; }
+  .cta-actions { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 60px 0 40px;
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 48px;
+    margin-bottom: 60px;
+  }
+  .footer-brand p { font-size: 14px; color: var(--text3); margin-top: 12px; max-width: 260px; line-height: 1.65; }
+  .footer-col h4 {
+    font-family: var(--font-display); font-size: 14px; font-weight: 700;
+    color: var(--text); margin-bottom: 16px; letter-spacing: -0.3px;
+  }
+  .footer-col a {
+    display: block; font-size: 14px; color: var(--text3);
+    text-decoration: none; margin-bottom: 10px; transition: color 0.2s;
+  }
+  .footer-col a:hover { color: var(--text2); }
+  .footer-bottom {
+    border-top: 1px solid var(--border); padding-top: 28px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .footer-bottom p { font-size: 13px; color: var(--text3); }
+
+  /* ANIMATIONS */
+  @keyframes fadeSlideDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .reveal {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    .bento-col-8 { grid-column: span 12; }
+    .bento-col-4 { grid-column: span 12; }
+    .bento-col-6 { grid-column: span 12; }
+    .bento-col-5 { grid-column: span 12; }
+    .bento-col-7 { grid-column: span 12; }
+    .pricing-grid { grid-template-columns: repeat(2,1fr); }
+    .stats-grid { grid-template-columns: repeat(2,1fr); }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  }
+  @media (max-width: 768px) {
+    .section { padding: 80px 0; }
+    .steps-grid { grid-template-columns: 1fr; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .hero h1 { letter-spacing: -1px; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+    .stats-grid { grid-template-columns: repeat(2,1fr); }
+  }
 </style>
 </head>
 <body>
-<input type="file" id="photo-input" accept="image/*"/>
-<input type="file" id="file-input" accept=".pdf,.doc,.docx,.txt,.csv"/>
 
-<aside class="sidebar">
-  <div class="sidebar-top">
-    <div class="logo" onclick="goHome()"><div class="logo-dot">O</div>OptimaSeek</div>
-    <button class="menu-btn" onclick="document.querySelector('.sidebar').style.display='none'">&#9776;</button>
-  </div>
-  <div class="nav-item active" id="nav-chat" onclick="goHome()"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3v10M3 8h10" stroke-linecap="round"/></svg></span>New chat</div>
-  <div class="nav-item" onclick="goHome()"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6.5" cy="6.5" r="4"/><path d="M13 13l-2.5-2.5" stroke-linecap="round"/></svg></span>Search chats</div>
-  <div class="nav-item" id="nav-images" onclick="showPage('images')"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="2"/><circle cx="5.5" cy="5.5" r="1"/><path d="M2 11l4-4 3 3 2-2 3 3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Images</div>
-  <div class="nav-item" id="nav-apps" onclick="showPage('apps')"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg></span>Apps</div>
-  <div class="nav-item"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4h12M2 8h8M2 12h5" stroke-linecap="round"/></svg></span>Deep research</div>
-  <div class="nav-div"></div>
-  <div class="nav-item" id="nav-pricing" onclick="showPage('pricing')"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M6 6c0-1.1.9-2 2-2a2 2 0 0 1 1 3.73C8.5 8.18 8 8.8 8 9.5" stroke-linecap="round"/><circle cx="8" cy="12" r="0.5" fill="currentColor"/></svg></span>See plans and pricing</div>
-  <div class="nav-item" id="nav-settings" onclick="showPage('settings')"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="2.5"/><path d="M8 2v1.5M8 12.5V14M2 8h1.5M12.5 8H14M3.5 3.5l1 1M11.5 11.5l1 1M11.5 3.5l-1 1M4.5 11.5l-1 1" stroke-linecap="round"/></svg></span>Settings</div>
-  <div class="nav-item"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M6 6c0-1.1.9-2 2-2a2 2 0 0 1 1 3.73C8.5 8.18 8 8.8 8 9.5" stroke-linecap="round"/><circle cx="8" cy="12" r="0.5" fill="currentColor"/></svg></span>Help</div>
-  <div class="sidebar-bottom">
-    <div class="info-card" id="side-card"><strong>Get responses tailored to you</strong>Log in to get answers based on saved chats, plus create images and upload files.</div>
-    <div id="side-btns">
-      <button class="btn btn-primary btn-full" onclick="openModal()">Log in</button>
-      <button class="btn btn-outline btn-full" onclick="openModal()" style="margin-top:6px">Sign up for free</button>
+<!-- NAVIGATION -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <span class="logo-dot"></span>OptimaSeek
+    </a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how">How it Works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#stack">Tech Stack</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#" class="btn btn-ghost">Sign In</a>
+      <a href="#" class="btn btn-primary">Start Building Free →</a>
     </div>
   </div>
-</aside>
+</nav>
 
-<main class="main">
-  <div class="topbar">
-    <div class="topbar-title" onclick="goHome()">OptimaSeek <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5l4 4 4-4" stroke-linecap="round"/></svg></div>
-    <div class="topbar-actions" id="topbar-auth">
-      <button class="btn btn-primary" onclick="openModal()">Log in</button>
-      <button class="btn btn-outline" onclick="openModal()">Sign up for free</button>
-    </div>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="badge">
+    <span class="badge-dot"></span>
+    AI-Powered No-Code App Builder — Now in Beta
   </div>
-
-  <!-- CHAT PAGE -->
-  <div class="page active" id="page-chat">
-    <div class="limit-bar" id="limit-bar">
-      <span>Used <strong id="used-count">0</strong>/8 free searches. Upgrade for unlimited.</span>
-      <button class="btn btn-primary" style="padding:6px 12px;font-size:13px" onclick="showPage('pricing')">Upgrade</button>
-    </div>
-    <div class="msgs" id="msgs"></div>
-    <div class="chat-center" id="chat-center">
-      <div class="chat-greeting">Ready when you are.</div>
-      <div class="input-wrap">
-        <button class="add-btn" id="add-btn" onclick="toggleDD()">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 3v10M3 8h10" stroke-linecap="round"/></svg>
-        </button>
-        <textarea class="chat-input" id="inp1" placeholder="Ask anything" rows="1"></textarea>
-        <div class="send-wrap">
-          <button class="voice-btn"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="1" width="6" height="9" rx="3"/><path d="M2 8a6 6 0 0 0 12 0M8 14v2" stroke-linecap="round"/></svg> Voice</button>
-          <button class="send-btn" id="send1"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="2"><path d="M8 13V3M3 8l5-5 5 5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-        </div>
-        <div class="dropdown" id="dd">
-          <div class="dd-item" onclick="triggerPhoto()">&#128247; &nbsp;Add photos</div>
-          <div class="dd-item" onclick="closeDD()">&#127760; &nbsp;Web search</div>
-          <div class="dd-sep"></div>
-          <div class="dd-label" id="dd-login-label">Log in to use</div>
-          <div class="dd-item" id="dd-files" style="color:var(--muted)" onclick="triggerFile()">&#128206; &nbsp;Add files</div>
-          <div class="dd-item" style="color:var(--muted)">&#128300; &nbsp;Deep research</div>
-        </div>
-      </div>
-      <div class="chips">
-        <div class="chip" onclick="fillPrompt(this)">Summarize a document</div>
-        <div class="chip" onclick="fillPrompt(this)">Write an email</div>
-        <div class="chip" onclick="fillPrompt(this)">Brainstorm ideas</div>
-        <div class="chip" onclick="fillPrompt(this)">Explain a concept</div>
-        <div class="chip" onclick="fillPrompt(this)">Help me code</div>
-      </div>
-    </div>
-    <div class="bottom-bar" id="bottom-bar">
-      <div class="input-wrap" style="max-width:720px;margin:0 auto">
-        <button class="add-btn" onclick="toggleDD()"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 3v10M3 8h10" stroke-linecap="round"/></svg></button>
-        <textarea class="chat-input" id="inp2" placeholder="Ask anything" rows="1"></textarea>
-        <div class="send-wrap">
-          <button class="send-btn" id="send2"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="2"><path d="M8 13V3M3 8l5-5 5 5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-        </div>
-      </div>
-      <div class="bottom-note">OptimaSeek can make mistakes. Check important info.</div>
-    </div>
+  <h1>
+    <span class="line1">Build Real Apps.</span>
+    <span class="line2">Zero Code. Infinite Power.</span>
+  </h1>
+  <p class="hero-sub">
+    Describe your idea in plain English. OptimaSeek generates a full-stack SaaS app — with real backend, real database, real auth, and real deployment — in seconds.
+  </p>
+  <div class="hero-actions">
+    <a href="#" class="btn btn-primary btn-xl">Start Building for Free →</a>
+    <a href="#how" class="btn btn-ghost btn-xl">See How It Works</a>
   </div>
-
-  <!-- IMAGES PAGE -->
-  <div class="page" id="page-images">
-    <div class="page-content">
-      <div class="page-title">Images</div>
-      <textarea class="img-textarea" id="img-prompt" placeholder="Describe what you want to create... e.g. cute cat, animated sunset, fantasy landscape"></textarea>
-      <div style="position:relative;z-index:3;margin-bottom:24px">
-        <button class="btn btn-primary" id="gen-btn" onclick="generateImage()" type="button">Generate image</button>
-      </div>
-      <div id="gen-section" style="display:none;margin-bottom:28px">
-        <div class="spinner-row" id="gen-spinner" style="display:none">
-          <svg class="spin" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2a6 6 0 1 0 6 6" stroke-linecap="round"/></svg>
-          Generating images, please wait...
-        </div>
-        <div class="section-label">Generated</div>
-        <div class="gen-grid" id="gen-grid"></div>
-      </div>
-      <div class="section-label">Create an image</div>
-      <div class="preset-grid">
-        <div class="preset-card" onclick="setImgPrompt('improve desk setup, productivity workspace, ultrawide monitor, plants, aesthetic')"><div class="preset-thumb" style="background:linear-gradient(135deg,#1a1a2e,#16213e)">&#128421;</div><div class="preset-label">Desk Setup</div></div>
-        <div class="preset-card" onclick="setImgPrompt('wanderlust travel landscape, mountains, golden hour, cinematic photography')"><div class="preset-thumb" style="background:linear-gradient(135deg,#2d6a4f,#40916c)">&#127757;</div><div class="preset-label">Wanderlust</div></div>
-        <div class="preset-card" onclick="setImgPrompt('cute scribble doodle art, kawaii style, pastel colors, pencil sketch')"><div class="preset-thumb" style="background:linear-gradient(135deg,#7b2d8b,#a855f7)">&#9999;</div><div class="preset-label">Scribble</div></div>
-        <div class="preset-card" onclick="setImgPrompt('cute chibi dog sticker, kawaii style, big eyes, white background, cartoon')"><div class="preset-thumb" style="background:linear-gradient(135deg,#ffecd2,#fcb69f)">&#128054;</div><div class="preset-label">Chibi stickers</div></div>
-        <div class="preset-card" onclick="setImgPrompt('makeup beauty guide, cosmetics flat lay, pastel aesthetic, lipstick eyeshadow')"><div class="preset-thumb" style="background:linear-gradient(135deg,#1a1a1a,#555)">&#128132;</div><div class="preset-label">Makeup guide</div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- APPS PAGE -->
-  <div class="page" id="page-apps">
-    <div class="page-content">
-      <div class="page-title">Apps <span style="background:var(--hover);color:var(--sub);font-size:11px;padding:2px 8px;border-radius:12px;font-weight:500">BETA</span></div>
-      <div class="apps-hero"><div class="apps-hero-icon">&#127912;</div><div><h2>Create with Canva</h2><p>Make designs and flyers directly from the chat</p><button class="btn" style="background:#fff;color:#0070f3;margin-top:10px;padding:7px 16px" onclick="window.open('https://www.canva.com','_blank')">View</button></div></div>
-      <div class="apps-grid">
-        <div class="app-row" onclick="window.open('https://www.adobe.com/products/photoshop.html','_blank')"><div class="app-left"><div class="app-icon" style="background:#0078d4">&#128394;</div><div><div class="app-name">Adobe Photoshop</div><div class="app-desc">Edit and transform images</div></div></div><div class="app-chev">&#8250;</div></div>
-        <div class="app-row" onclick="window.open('https://airtable.com','_blank')"><div class="app-left"><div class="app-icon" style="background:#fcb400">&#128202;</div><div><div class="app-name">Airtable</div><div class="app-desc">Structured data in OptimaSeek</div></div></div><div class="app-chev">&#8250;</div></div>
-        <div class="app-row" onclick="window.open('https://www.canva.com','_blank')"><div class="app-left"><div class="app-icon" style="background:#7d2ae8">&#127912;</div><div><div class="app-name">Canva</div><div class="app-desc">Search, create, edit designs</div></div></div><div class="app-chev">&#8250;</div></div>
-        <div class="app-row" onclick="window.open('https://www.figma.com','_blank')"><div class="app-left"><div class="app-icon" style="background:#f24e1e">&#127917;</div><div><div class="app-name">Figma</div><div class="app-desc">Make diagrams and slides</div></div></div><div class="app-chev">&#8250;</div></div>
-        <div class="app-row" onclick="window.open('https://replit.com','_blank')"><div class="app-left"><div class="app-icon" style="background:#0d6efd">&#128187;</div><div><div class="app-name">Replit</div><div class="app-desc">Turn ideas into real apps</div></div></div><div class="app-chev">&#8250;</div></div>
-        <div class="app-row" onclick="window.open('https://open.spotify.com','_blank')"><div class="app-left"><div class="app-icon" style="background:#1db954">&#127911;</div><div><div class="app-name">Spotify</div><div class="app-desc">Music and podcasts for you</div></div></div><div class="app-chev">&#8250;</div></div>
-        <div class="app-row" onclick="window.open('https://www.booking.com','_blank')"><div class="app-left"><div class="app-icon" style="background:#003580">&#127976;</div><div><div class="app-name">Booking.com</div><div class="app-desc">Find stays and rental cars</div></div></div><div class="app-chev">&#8250;</div></div>
-        <div class="app-row" onclick="window.open('https://www.expedia.com','_blank')"><div class="app-left"><div class="app-icon" style="background:#ff6b6b">&#9992;</div><div><div class="app-name">Expedia</div><div class="app-desc">Plan trips and flights</div></div></div><div class="app-chev">&#8250;</div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PRICING PAGE -->
-  <div class="page" id="page-pricing">
-    <div class="page-content" style="max-width:980px">
-      <div class="pricing-hdr"><h1>Pricing</h1><p>Individual, business, and enterprise plans.</p></div>
-      <div class="plan-grid">
-        <div class="plan"><div><div class="plan-name">Free</div><div class="plan-tag">Try OptimaSeek AI</div></div><div class="plan-price">CA$0<span>/mo</span></div><button class="btn btn-outline btn-full" onclick="openModal()">Get Free</button><ul class="plan-feats"><li>8 free AI searches</li><li>Basic chat responses</li><li>Add photos to chat</li><li>No account required</li></ul></div>
-        <div class="plan"><div><div class="plan-name">Go</div><div class="plan-tag">Expanded access</div></div><div class="plan-price">CA$11<span>/mo</span></div><button class="btn btn-outline btn-full" id="btn-go" onclick="subscribe('go')">Get Go</button><ul class="plan-feats"><li>Unlimited AI messages</li><li>More uploads</li><li>More image creation</li><li>Add files feature</li></ul></div>
-        <div class="plan featured"><div><div class="plan-name">Plus</div><div class="plan-tag">Advanced intelligence</div></div><div class="plan-price">CA$25<span>/mo</span></div><button class="btn btn-primary btn-full" id="btn-plus" onclick="subscribe('plus')">Get Plus</button><ul class="plan-feats"><li>Everything in Go</li><li>Advanced AI reasoning</li><li>High quality images</li><li>Deep research</li><li>Early access</li></ul></div>
-        <div class="plan"><div><div class="plan-name">Pro</div><div class="plan-tag">Maximum productivity</div></div><div class="plan-price">CA$55<span>/mo</span></div><button class="btn btn-outline btn-full" id="btn-pro" onclick="subscribe('pro')">Get Pro</button><ul class="plan-feats"><li>Everything in Plus</li><li>Max usage limits</li><li>Fastest responses</li><li>Unlimited images</li><li>Priority support</li></ul></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SETTINGS PAGE -->
-  <div class="page" id="page-settings">
-    <div class="page-content">
-      <div class="settings-wrap">
-        <div class="settings-nav">
-          <div class="settings-nav-item active">General</div>
-          <div class="settings-nav-item">Personalization</div>
-          <div class="settings-nav-item">Speech</div>
-          <div class="settings-nav-item">Data controls</div>
-          <div class="settings-nav-item">Security</div>
-          <div class="settings-nav-item">Billing</div>
-        </div>
-        <div class="settings-body">
-          <div class="settings-section">General</div>
-          <div class="settings-row"><div><div class="row-label">Theme</div></div><select style="border:1px solid var(--border);border-radius:var(--rsm);padding:6px 10px;font-family:var(--font);font-size:13px"><option>System</option><option>Light</option><option>Dark</option></select></div>
-          <div class="settings-row"><div><div class="row-label">Language</div></div><select style="border:1px solid var(--border);border-radius:var(--rsm);padding:6px 10px;font-family:var(--font);font-size:13px"><option>Auto-detect</option><option>English</option><option>French</option></select></div>
-          <div class="settings-row"><div><div class="row-label">Improve model for everyone</div><div class="row-sub">Allow content to train our models</div></div><div class="toggle" onclick="this.classList.toggle('off')"></div></div>
-          <div class="settings-row"><div><div class="row-label" style="color:#dc2626">Delete all chats</div></div><button class="btn btn-outline" style="padding:6px 12px;font-size:13px;border-color:#fca5a5;color:#dc2626">Delete all</button></div>
-          <div class="settings-row"><div><div class="row-label" style="color:#dc2626">Log out of all devices</div></div><button class="btn btn-outline" style="padding:6px 12px;font-size:13px;border-color:#fca5a5;color:#dc2626" onclick="logout()">Log out all</button></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</main>
-
-<!-- LOGIN MODAL -->
-<div class="overlay" id="modal" onclick="if(event.target===this)closeModal()">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal()">&#10005;</button>
-    <div class="modal-logo"><div class="logo-dot" style="margin:0 auto;width:38px;height:38px;font-size:17px">O</div></div>
-    <div class="modal-title">Welcome back</div>
-    <div class="modal-sub">Log in to your OptimaSeek account</div>
-    <button class="btn-google" onclick="window.location.href='/api/auth/login'">
-      <svg width="17" height="17" viewBox="0 0 18 18"><path d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18z" fill="#4285F4"/><path d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2.04c-.71.48-1.62.75-2.7.75-2.08 0-3.84-1.4-4.47-3.29H1.85v2.07A8 8 0 0 0 8.98 17z" fill="#34A853"/><path d="M4.51 10.48A4.8 4.8 0 0 1 4.26 9c0-.52.09-1.02.25-1.48V5.45H1.85A8 8 0 0 0 .98 9c0 1.29.31 2.51.87 3.55l2.66-2.07z" fill="#FBBC05"/><path d="M8.98 4.72c1.17 0 2.22.4 3.05 1.2l2.28-2.28A8 8 0 0 0 8.98 1 8 8 0 0 0 1.85 5.45L4.51 7.52c.63-1.89 2.39-3.3 4.47-3.3z" fill="#EA4335"/></svg>
-      Continue with Google
+  <div class="hero-prompt-demo">
+    <input type="text" id="heroInput" placeholder='Try: "Build me a CRM with Stripe payments and team roles"' />
+    <button class="gen-btn" onclick="generateDemo()">
+      ✦ Generate App
     </button>
-    <div class="modal-div">or</div>
-    <input class="modal-input" type="email" placeholder="Email address"/>
-    <button class="btn btn-primary" style="width:100%">Continue</button>
-    <p style="text-align:center;font-size:12px;color:var(--muted)">No account? <a href="#" style="color:var(--text)">Sign up</a></p>
   </div>
-</div>
+  <div class="hero-prompt-chips">
+    <div class="chip" onclick="setPrompt('Build a marketplace with payments')">🏪 Marketplace</div>
+    <div class="chip" onclick="setPrompt('Create an AI chatbot SaaS')">🤖 AI Chatbot SaaS</div>
+    <div class="chip" onclick="setPrompt('Build a booking & calendar app')">📅 Booking App</div>
+    <div class="chip" onclick="setPrompt('Create a fitness tracker dashboard')">💪 Fitness Tracker</div>
+    <div class="chip" onclick="setPrompt('Build a CRM with analytics')">📊 CRM + Analytics</div>
+    <div class="chip" onclick="setPrompt('Create an LMS with video courses')">🎓 LMS Platform</div>
+  </div>
+</section>
+
+<!-- LOGOS -->
+<section class="logos-section">
+  <div class="logos-label">Trusted by teams who ship fast</div>
+  <div class="logos-wrap">
+    <div class="logos-track" id="logosTrack">
+      <span class="logo-item">TechVentures ↗</span>
+      <span class="logo-item">LaunchPad Co</span>
+      <span class="logo-item">StartupForge</span>
+      <span class="logo-item">PixelWorks</span>
+      <span class="logo-item">CodeNova</span>
+      <span class="logo-item">BuildFast Inc</span>
+      <span class="logo-item">AppMatrix</span>
+      <span class="logo-item">SkyBuild</span>
+      <span class="logo-item">NexaTech</span>
+      <span class="logo-item">DevPulse</span>
+      <span class="logo-item">CloudSpire</span>
+      <span class="logo-item">OrbitalSaaS</span>
+      <!-- Duplicate for seamless loop -->
+      <span class="logo-item">TechVentures ↗</span>
+      <span class="logo-item">LaunchPad Co</span>
+      <span class="logo-item">StartupForge</span>
+      <span class="logo-item">PixelWorks</span>
+      <span class="logo-item">CodeNova</span>
+      <span class="logo-item">BuildFast Inc</span>
+      <span class="logo-item">AppMatrix</span>
+      <span class="logo-item">SkyBuild</span>
+      <span class="logo-item">NexaTech</span>
+      <span class="logo-item">DevPulse</span>
+      <span class="logo-item">CloudSpire</span>
+      <span class="logo-item">OrbitalSaaS</span>
+    </div>
+  </div>
+  <div class="container">
+    <div class="stats-grid reveal">
+      <div class="stat-cell">
+        <span class="stat-num">120k+</span>
+        <span class="stat-label">Apps Generated</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num">8 sec</span>
+        <span class="stat-label">Avg. Generation Time</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num">98%</span>
+        <span class="stat-label">Uptime Guaranteed</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num">50+</span>
+        <span class="stat-label">Integrations Available</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="container">
+    <div class="section-header center reveal">
+      <div class="section-eyebrow">Platform Features</div>
+      <h2 class="section-title">Everything you need.<br/>Nothing you don't.</h2>
+      <p class="section-sub">OptimaSeek isn't a mockup generator. It builds production-grade, deployable applications with real infrastructure.</p>
+    </div>
+    <div class="bento-grid">
+      <!-- Card 1 — AI Engine (large) -->
+      <div class="bento-card bento-col-8 reveal">
+        <div class="bento-tag">Core Engine</div>
+        <div class="bento-icon" style="background:rgba(79,111,255,0.12); color:var(--accent);">✦</div>
+        <h3>AI App Generation Engine</h3>
+        <p>Type any prompt. Get a complete full-stack application — frontend, backend APIs, database schema, authentication, and admin panel — generated and live in under 10 seconds. Supports GPT-4.1, Claude, Gemini, and DeepSeek.</p>
+        <div class="fake-screen">
+          <div class="fake-bar">
+            <div class="fake-dot r"></div><div class="fake-dot y"></div><div class="fake-dot g"></div>
+            <div class="fake-bar-url"><span>optimaseek.com/app/my-crm</span></div>
+          </div>
+          <div class="fake-body">
+            <div class="fake-code">
+              <span class="cm">// Auto-generated by OptimaSeek AI</span><br/>
+              <span class="kw">const</span> app = <span class="fn">createApp</span>({<br/>
+              &nbsp;&nbsp;name: <span class="str">"My CRM"</span>,<br/>
+              &nbsp;&nbsp;auth: <span class="str">"email + google + github"</span>,<br/>
+              &nbsp;&nbsp;db: <span class="str">"PostgreSQL"</span>,<br/>
+              &nbsp;&nbsp;features: [<span class="str">"contacts"</span>, <span class="str">"pipelines"</span>, <span class="str">"emails"</span>],<br/>
+              &nbsp;&nbsp;deploy: <span class="str">"vercel + aws"</span><br/>
+              });<br/>
+              <span class="cm">// ✓ Deployed in 8.2 seconds</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 — Visual Builder (small) -->
+      <div class="bento-card bento-col-4 reveal">
+        <div class="bento-icon" style="background:rgba(123,94,167,0.15); color:#a78bff;">⬛</div>
+        <h3>Visual Drag & Drop Builder</h3>
+        <p>Edit your app visually. Resize, rearrange, and customize every component without touching code. Dark mode editor included.</p>
+        <div style="margin-top:20px; display:flex; flex-direction:column; gap:8px;">
+          <div style="height:32px; border-radius:8px; background:var(--surface2); border:1px solid var(--border); display:flex; align-items:center; padding:0 12px; gap:8px;">
+            <div style="width:12px;height:12px;border-radius:3px;background:var(--accent);opacity:0.7;"></div>
+            <div style="flex:1;height:6px;border-radius:3px;background:var(--border2);"></div>
+          </div>
+          <div style="height:60px; border-radius:8px; background:var(--surface2); border:1px solid rgba(79,111,255,0.3); display:flex; align-items:center; padding:0 12px;">
+            <div style="font-size:11px;color:var(--accent);">📊 Chart Component — Selected</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <div style="height:40px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);"></div>
+            <div style="height:40px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 — Auth -->
+      <div class="bento-card bento-col-4 reveal">
+        <div class="bento-icon" style="background:rgba(0,212,170,0.1); color:var(--accent3);">🔐</div>
+        <h3>Authentication System</h3>
+        <p>Email, Google, Apple, GitHub, magic links, OTP, SSO, SCIM, and multi-tenant org support — all auto-configured.</p>
+        <div style="margin-top:16px;display:flex;flex-wrap:wrap;gap:6px;">
+          <span style="padding:4px 10px;border-radius:100px;border:1px solid var(--border);font-size:11px;color:var(--text2);">📧 Email</span>
+          <span style="padding:4px 10px;border-radius:100px;border:1px solid var(--border);font-size:11px;color:var(--text2);">🔵 Google</span>
+          <span style="padding:4px 10px;border-radius:100px;border:1px solid var(--border);font-size:11px;color:var(--text2);">🐙 GitHub</span>
+          <span style="padding:4px 10px;border-radius:100px;border:1px solid var(--border);font-size:11px;color:var(--text2);">🔗 Magic Link</span>
+          <span style="padding:4px 10px;border-radius:100px;border:1px solid var(--border);font-size:11px;color:var(--text2);">🔢 OTP</span>
+          <span style="padding:4px 10px;border-radius:100px;border:1px solid rgba(0,212,170,0.3);font-size:11px;color:var(--accent3);">🏢 SSO</span>
+        </div>
+      </div>
+
+      <!-- Card 4 — Database -->
+      <div class="bento-card bento-col-4 reveal">
+        <div class="bento-icon" style="background:rgba(245,200,66,0.1); color:var(--gold);">🗄️</div>
+        <h3>Visual Database Builder</h3>
+        <p>Create tables, define relations, run migrations, and view live data — all from a visual SQL-free interface. PostgreSQL + Prisma under the hood.</p>
+      </div>
+
+      <!-- Card 5 — Workflows -->
+      <div class="bento-card bento-col-4 reveal">
+        <div class="bento-icon" style="background:rgba(255,100,100,0.1); color:#ff7070;">⚡</div>
+        <h3>Workflow Automation</h3>
+        <p>If-this-then-that automations. Form submitted → send email. Payment success → create invoice. Triggers, conditions, loops, and webhooks.</p>
+      </div>
+
+      <!-- Card 6 — AI Chat (wide) -->
+      <div class="bento-card bento-col-7 reveal">
+        <div class="bento-tag">Built-in AI</div>
+        <div class="bento-icon" style="background:rgba(79,111,255,0.12); color:var(--accent);">💬</div>
+        <h3>AI Chat Builder Assistant</h3>
+        <p>Your AI copilot lives inside the editor. Ask it to add a payment system, fix mobile layout, generate an analytics page, or optimize SEO — and watch it happen live.</p>
+        <div class="fake-screen" style="margin-top:20px;">
+          <div class="fake-bar">
+            <div class="fake-dot r"></div><div class="fake-dot y"></div><div class="fake-dot g"></div>
+            <div style="font-size:11px;color:var(--text3);margin-left:8px;">AI Chat Assistant</div>
+          </div>
+          <div class="fake-body" style="display:flex;flex-direction:column;gap:10px;">
+            <div style="background:var(--surface2);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--text2);align-self:flex-start;max-width:80%;">Add Stripe payments to my checkout page</div>
+            <div style="background:rgba(79,111,255,0.12);border:1px solid rgba(79,111,255,0.2);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--text2);align-self:flex-end;max-width:80%;">✓ Installing Stripe SDK... Creating /api/checkout endpoint... Adding payment UI components... Done! 💳</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 7 — Deploy -->
+      <div class="bento-card bento-col-5 reveal">
+        <div class="bento-icon" style="background:rgba(0,212,170,0.1); color:var(--accent3);">🚀</div>
+        <h3>One-Click Deployment</h3>
+        <p>Click Publish. Your app goes live instantly with SSL, CDN, custom domain, staging environment, and rollback support.</p>
+        <div style="margin-top:20px;display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);">
+            <span style="font-size:13px;color:var(--text2);">Production</span>
+            <span style="font-size:11px;padding:3px 10px;border-radius:100px;background:rgba(0,212,170,0.12);color:var(--accent3);border:1px solid rgba(0,212,170,0.25);">● Live</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);">
+            <span style="font-size:13px;color:var(--text2);">Staging</span>
+            <span style="font-size:11px;padding:3px 10px;border-radius:100px;background:rgba(245,200,66,0.12);color:var(--gold);border:1px solid rgba(245,200,66,0.25);">● Preview</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 8 — AI Agents -->
+      <div class="bento-card bento-col-6 reveal">
+        <div class="bento-icon" style="background:rgba(123,94,167,0.15); color:#a78bff;">🤖</div>
+        <h3>AI Agents System</h3>
+        <p>Build AI agents inside your app. Customer support, sales, appointment booking, lead gen, and voice agents — with memory, tools, RAG, and API calling.</p>
+      </div>
+
+      <!-- Card 9 — Integrations -->
+      <div class="bento-card bento-col-6 reveal">
+        <div class="bento-icon" style="background:rgba(245,200,66,0.1); color:var(--gold);">🔌</div>
+        <h3>50+ Integrations</h3>
+        <p>Slack, Stripe, HubSpot, Notion, Airtable, Shopify, Twilio, WhatsApp API, Gmail, Firebase, Zapier, and more — all one-click to connect.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:16px;">
+          <span style="padding:4px 10px;border-radius:100px;border:1px solid var(--border);font-size:11px;color:var(--text2);">Stripe</span>
+          <span style="padding:4px 10px;border-radius:100px;border:1px solid var(--border);font-size:11px;color:var(--text2);">Slack</span>
+          <span style="padding:4px 10px;border-radius:100px;border:1px solid var(--border);font-size:11px;color:var(--text2);">HubSpot</span>
+          <span style="padding:4px 10px;border-radius:100px;border:1px solid var(--border);font-size:11px;color:var(--text2);">Notion</span>
+          <span style="padding:4px 10px;border-radius:100px;border:1px solid var(--border);font-size:11px;color:var(--text2);">Shopify</span>
+          <span style="padding:4px 10px;border-radius:100px;border:1px solid var(--border);font-size:11px;color:var(--text2);">Twilio</span>
+          <span style="padding:4px 10px;border-radius:100px;border:1px solid rgba(79,111,255,0.3);font-size:11px;color:var(--accent);">+44 more →</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how" style="background:var(--bg2); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+  <div class="container">
+    <div class="section-header center reveal">
+      <div class="section-eyebrow">How It Works</div>
+      <h2 class="section-title">From idea to live app<br/>in three steps</h2>
+      <p class="section-sub">No setup. No DevOps. No waiting. Just describe what you want to build.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card reveal">
+        <span class="step-num">01</span>
+        <div class="step-icon" style="background:rgba(79,111,255,0.1);">💭</div>
+        <h3>Describe Your App</h3>
+        <p>Type a natural language prompt like "Build me a marketplace with seller profiles, listings, Stripe checkout, and an admin dashboard." That's it.</p>
+      </div>
+      <div class="step-card reveal">
+        <span class="step-num">02</span>
+        <div class="step-icon" style="background:rgba(0,212,170,0.1);">⚙️</div>
+        <h3>AI Builds Everything</h3>
+        <p>OptimaSeek's engine generates your frontend pages, backend APIs, database schema, authentication, and admin panel — fully connected and working.</p>
+      </div>
+      <div class="step-card reveal">
+        <span class="step-num">03</span>
+        <div class="step-icon" style="background:rgba(245,200,66,0.1);">🚀</div>
+        <h3>Launch & Scale</h3>
+        <p>Click Publish. Your app is live with SSL, CDN, custom domain, and real hosting. Edit via chat or drag-and-drop at any time. Scales automatically.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section class="section" id="stack">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-eyebrow">Technology</div>
+      <h2 class="section-title">Production-grade<br/>architecture, always.</h2>
+      <p class="section-sub">Every app built on OptimaSeek uses enterprise-level tech — so you never have to worry about scaling.</p>
+    </div>
+    <div class="tech-grid reveal">
+      <div class="tech-pill"><div class="dot" style="background:#61dafb;"></div>React</div>
+      <div class="tech-pill"><div class="dot" style="background:#000;border:1px solid var(--border2);"></div>Next.js</div>
+      <div class="tech-pill"><div class="dot" style="background:#38bdf8;"></div>TailwindCSS</div>
+      <div class="tech-pill"><div class="dot" style="background:#3178c6;"></div>TypeScript</div>
+      <div class="tech-pill"><div class="dot" style="background:#339933;"></div>Node.js</div>
+      <div class="tech-pill"><div class="dot" style="background:#e0234e;"></div>NestJS</div>
+      <div class="tech-pill"><div class="dot" style="background:#336791;"></div>PostgreSQL</div>
+      <div class="tech-pill"><div class="dot" style="background:#5a67d8;"></div>Prisma ORM</div>
+      <div class="tech-pill"><div class="dot" style="background:#dc382d;"></div>Redis</div>
+      <div class="tech-pill"><div class="dot" style="background:#74aa9c;"></div>OpenAI GPT-4.1</div>
+      <div class="tech-pill"><div class="dot" style="background:#d97706;"></div>Claude AI</div>
+      <div class="tech-pill"><div class="dot" style="background:#4285f4;"></div>Gemini</div>
+      <div class="tech-pill"><div class="dot" style="background:#ff6c37;"></div>LangChain</div>
+      <div class="tech-pill"><div class="dot" style="background:#47a248;"></div>Pinecone</div>
+      <div class="tech-pill"><div class="dot" style="background:#ff9900;"></div>AWS S3</div>
+      <div class="tech-pill"><div class="dot" style="background:#000;border:1px solid var(--border2);"></div>Vercel</div>
+      <div class="tech-pill"><div class="dot" style="background:#f38020;"></div>Cloudflare</div>
+      <div class="tech-pill"><div class="dot" style="background:#635bff;"></div>Stripe</div>
+      <div class="tech-pill"><div class="dot" style="background:#00b4d8;"></div>Socket.io</div>
+      <div class="tech-pill"><div class="dot" style="background:#ff4154;"></div>Railway</div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section" style="background:var(--bg2); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+  <div class="container">
+    <div class="section-header center reveal">
+      <div class="section-eyebrow">Testimonials</div>
+      <h2 class="section-title">Builders love OptimaSeek</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testi-card reveal">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"I built and launched my SaaS in a single weekend. The generated code is actually clean and production-ready. I was fully expecting garbage — I got something I'm proud to ship."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:rgba(79,111,255,0.15);color:var(--accent);">AK</div>
+          <div>
+            <div class="testi-name">Arjun Kapoor</div>
+            <div class="testi-role">Founder, TrackFlow</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"The AI chat assistant is incredibly powerful. I told it to 'add Stripe subscriptions and a customer portal' and it just did it. Database tables, API routes, UI — everything. Wild."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:rgba(0,212,170,0.12);color:var(--accent3);">SL</div>
+          <div>
+            <div class="testi-name">Sara Liu</div>
+            <div class="testi-role">Product Lead, NovaBuild</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"We replaced 3 months of development with 2 hours on OptimaSeek. Our MVP is live, paying customers are onboarded. I don't think we could have moved this fast any other way."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:rgba(245,200,66,0.12);color:var(--gold);">MR</div>
+          <div>
+            <div class="testi-name">Marco Ruzzi</div>
+            <div class="testi-role">CEO, DeskOS</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="pricing">
+  <div class="container">
+    <div class="section-header center reveal">
+      <div class="section-eyebrow">Pricing</div>
+      <h2 class="section-title">Start free.<br/>Scale when ready.</h2>
+      <p class="section-sub">No credit card needed to start. Upgrade as your apps grow.</p>
+    </div>
+    <div class="pricing-grid reveal">
+      <!-- Free -->
+      <div class="plan-card">
+        <div class="plan-name">Free</div>
+        <div class="plan-price"><sup>$</sup>0<span class="per"> / mo</span></div>
+        <div class="plan-desc">Perfect to explore and prototype</div>
+        <hr class="plan-divider" />
+        <ul class="plan-features">
+          <li><span class="check">✓</span> 3 apps</li>
+          <li><span class="check">✓</span> 50 AI credits/mo</li>
+          <li><span class="check">✓</span> optimaseek.app subdomain</li>
+          <li><span class="check">✓</span> Basic templates</li>
+          <li><span class="cross">✗</span> Custom domain</li>
+          <li><span class="cross">✗</span> Team collaboration</li>
+        </ul>
+        <a href="#" class="btn btn-ghost" style="width:100%;justify-content:center;">Get Started Free</a>
+      </div>
+      <!-- Pro -->
+      <div class="plan-card featured">
+        <div class="plan-badge-top">Most Popular</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price"><sup>$</sup>49<span class="per"> / mo</span></div>
+        <div class="plan-desc">For solo founders & freelancers</div>
+        <hr class="plan-divider" />
+        <ul class="plan-features">
+          <li><span class="check">✓</span> Unlimited apps</li>
+          <li><span class="check">✓</span> 2,000 AI credits/mo</li>
+          <li><span class="check">✓</span> Custom domains</li>
+          <li><span class="check">✓</span> All templates</li>
+          <li><span class="check">✓</span> Priority support</li>
+          <li><span class="check">✓</span> Code export</li>
+        </ul>
+        <a href="#" class="btn btn-primary" style="width:100%;justify-content:center;">Start Pro Trial</a>
+      </div>
+      <!-- Team -->
+      <div class="plan-card">
+        <div class="plan-name">Team</div>
+        <div class="plan-price"><sup>$</sup>149<span class="per"> / mo</span></div>
+        <div class="plan-desc">For growing teams and agencies</div>
+        <hr class="plan-divider" />
+        <ul class="plan-features">
+          <li><span class="check">✓</span> Everything in Pro</li>
+          <li><span class="check">✓</span> 10,000 AI credits/mo</li>
+          <li><span class="check">✓</span> Up to 10 team members</li>
+          <li><span class="check">✓</span> Role permissions</li>
+          <li><span class="check">✓</span> Version history</li>
+          <li><span class="check">✓</span> API access</li>
+        </ul>
+        <a href="#" class="btn btn-ghost" style="width:100%;justify-content:center;">Start Team Trial</a>
+      </div>
+      <!-- Enterprise -->
+      <div class="plan-card">
+        <div class="plan-name">Enterprise</div>
+        <div class="plan-price" style="font-size:32px;">Custom</div>
+        <div class="plan-desc">For large teams and organizations</div>
+        <hr class="plan-divider" />
+        <ul class="plan-features">
+          <li><span class="check">✓</span> Everything in Team</li>
+          <li><span class="check">✓</span> Unlimited credits</li>
+          <li><span class="check">✓</span> SSO & SCIM</li>
+          <li><span class="check">✓</span> SLA guarantee</li>
+          <li><span class="check">✓</span> On-premise option</li>
+          <li><span class="check">✓</span> Dedicated support</li>
+        </ul>
+        <a href="#" class="btn btn-ghost" style="width:100%;justify-content:center;">Contact Sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-glow"></div>
+  <div class="container">
+    <div class="reveal">
+      <h2>Your startup starts<br/>with one prompt.</h2>
+      <p>Join thousands of founders building real businesses with OptimaSeek.<br/>No code. No DevOps. No limits.</p>
+      <div class="cta-actions">
+        <a href="#" class="btn btn-primary btn-xl">Start Building for Free →</a>
+        <a href="#" class="btn btn-ghost btn-xl">Book a Demo</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo"><span class="logo-dot"></span>OptimaSeek</a>
+        <p>Build real full-stack applications with AI. From idea to production in minutes — no code required.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="#">Features</a>
+        <a href="#">Pricing</a>
+        <a href="#">Templates</a>
+        <a href="#">Changelog</a>
+        <a href="#">Roadmap</a>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <a href="#">Documentation</a>
+        <a href="#">API Reference</a>
+        <a href="#">Tutorials</a>
+        <a href="#">Blog</a>
+        <a href="#">Status</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About</a>
+        <a href="#">Careers</a>
+        <a href="#">Press</a>
+        <a href="#">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Security</a>
+        <a href="#">Cookie Policy</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 OptimaSeek. All rights reserved.</p>
+      <p style="color:var(--text3);">Built for builders. Loved by founders.</p>
+    </div>
+  </div>
+</footer>
 
 <script>
-var EXCEL_B64 = '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';
-var currentUser = null;
-var chatHistory = [];
-var FREE_LIMIT = 8;
-
-function getCookie(n){var m=document.cookie.match(new RegExp('(^| )'+n+'=([^;]+)'));return m?m[2]:null;}
-function getCount(){try{return parseInt(localStorage.getItem('os_n')||'0');}catch(e){return 0;}}
-function bumpCount(){try{var n=getCount()+1;localStorage.setItem('os_n',n);return n;}catch(e){return 1;}}
-function canSearch(){return currentUser?true:getCount()<FREE_LIMIT;}
-function updateBanner(){
-  var bar=document.getElementById('limit-bar');
-  if(currentUser){bar.classList.remove('show');return;}
-  var n=getCount();
-  document.getElementById('used-count').textContent=n;
-  if(n>=3)bar.classList.add('show');else bar.classList.remove('show');
-}
-function checkLogin(){
-  var c=getCookie('os_user');
-  if(!c){updateBanner();return;}
-  try{currentUser=JSON.parse(atob(c));applyUser(currentUser);}catch(e){}
-}
-function applyUser(u){
-  var init=u.name?u.name[0].toUpperCase():'U';
-  document.getElementById('topbar-auth').innerHTML='<div style="display:flex;align-items:center;gap:10px"><span style="font-size:13px;color:var(--sub)">'+u.name+'</span>'+(u.picture?'<img src="'+u.picture+'" style="width:32px;height:32px;border-radius:50%;border:2px solid var(--border)">':'<div class="logo-dot">'+init+'</div>')+'<button class="btn btn-outline" style="padding:6px 12px;font-size:13px" onclick="logout()">Log out</button></div>';
-  document.getElementById('side-card').innerHTML='<strong>Welcome, '+u.name+'!</strong>'+u.email;
-  document.getElementById('side-btns').style.display='none';
-  document.getElementById('limit-bar').classList.remove('show');
-  var l=document.getElementById('dd-login-label');if(l)l.style.display='none';
-  var f=document.getElementById('dd-files');if(f)f.style.color='';
-}
-function logout(){document.cookie='os_user=; Path=/; Max-Age=0';window.location.href='/';}
-function openModal(){document.getElementById('modal').classList.add('open');}
-function closeModal(){document.getElementById('modal').classList.remove('open');}
-
-function showPage(name){
-  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
-  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
-  document.getElementById('page-'+name).classList.add('active');
-  var nav=document.getElementById('nav-'+name);if(nav)nav.classList.add('active');
-}
-function goHome(){
-  showPage('chat');
-  chatHistory=[];
-  document.getElementById('msgs').innerHTML='';
-  document.getElementById('msgs').classList.remove('show');
-  document.getElementById('chat-center').style.display='';
-  document.getElementById('bottom-bar').classList.remove('show');
-  document.getElementById('send1').disabled=false;
-  document.getElementById('send2').disabled=false;
-  updateBanner();
-}
-function enterChat(){
-  document.getElementById('chat-center').style.display='none';
-  document.getElementById('msgs').classList.add('show');
-  document.getElementById('bottom-bar').classList.add('show');
-}
-
-function md(text){
-  var h=text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  h=h.replace(/```[\w]*\n?([\s\S]*?)```/g,'<pre><code>$1</code></pre>');
-  h=h.replace(/`([^`]+)`/g,'<code>$1</code>');
-  h=h.replace(/^### (.+)$/gm,'<h3>$1</h3>');
-  h=h.replace(/^## (.+)$/gm,'<h2>$1</h2>');
-  h=h.replace(/^# (.+)$/gm,'<h1>$1</h1>');
-  h=h.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
-  h=h.replace(/\*([^*]+)\*/g,'<em>$1</em>');
-  h=h.replace(/^[-*] (.+)$/gm,'<li>$1</li>');
-  h=h.replace(/(<li>[\s\S]*?<\/li>)+/g,function(m){return '<ul>'+m+'</ul>';});
-  h=h.replace(/^\d+\. (.+)$/gm,'<li>$1</li>');
-  h=h.replace(/^> (.+)$/gm,'<blockquote>$1</blockquote>');
-  h=h.split(/\n\n+/).map(function(b){
-    b=b.trim();if(!b)return'';
-    if(/^<(h[1-3]|ul|ol|pre|blockquote)/.test(b))return b;
-    return'<p>'+b.replace(/\n/g,'<br>')+'</p>';
-  }).join('');
-  return h;
-}
-
-function addMsg(role,text){
-  var box=document.getElementById('msgs');
-  var d=document.createElement('div');d.className='msg '+role;
-  var init=role==='ai'?'O':(currentUser&&currentUser.name?currentUser.name[0].toUpperCase():'U');
-  if(role==='user'){
-    d.innerHTML='<div class="avatar user">'+init+'</div><div class="bubble">'+text+'</div>';
-  }else{
-    d.innerHTML='<div class="avatar ai">'+init+'</div><div class="bubble">'+md(text)+'</div>';
-  }
-  box.appendChild(d);box.scrollTop=box.scrollHeight;return d;
-}
-
-function addFileCard(icon,label,filename,fn){
-  var box=document.getElementById('msgs');
-  var d=document.createElement('div');d.className='msg ai';
-  d.innerHTML='<div class="avatar ai">O</div><div class="bubble"><p>Here is your <strong>'+label+'</strong> &#8212; ready to download!</p>'
-    +'<div class="file-card" onclick="'+fn+'">'
-    +'<div class="file-icon">'+icon+'</div>'
-    +'<div class="file-info"><div class="file-name">'+filename+'</div><div class="file-dl">&#11015; Click to download</div></div>'
-    +'</div></div>';
-  box.appendChild(d);box.scrollTop=box.scrollHeight;
-}
-
-function showTyping(){
-  var box=document.getElementById('msgs');
-  var d=document.createElement('div');d.className='msg ai';d.id='typing';
-  d.innerHTML='<div class="avatar ai">O</div><div class="bubble"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>';
-  box.appendChild(d);box.scrollTop=box.scrollHeight;
-}
-function removeTyping(){var el=document.getElementById('typing');if(el)el.remove();}
-
-function resize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,200)+'px';}
-function fillPrompt(el){document.getElementById('inp1').value=el.textContent;document.getElementById('inp1').focus();}
-function toggleDD(){document.getElementById('dd').classList.toggle('open');}
-function closeDD(){document.getElementById('dd').classList.remove('open');}
-function triggerPhoto(){closeDD();document.getElementById('photo-input').click();}
-function triggerFile(){if(!currentUser){openModal();closeDD();return;}closeDD();document.getElementById('file-input').click();}
-
-function detectFile(text){
-  var t=text.toLowerCase();
-  if(/excel|xlsx|spreadsheet|payscal|pay.?scale|salary.?sheet|payroll|employee.?sheet/.test(t))return'excel';
-  if(/\bpdf\b|create.?pdf|make.?pdf|generate.?pdf/.test(t))return'pdf';
-  if(/\bword\b|\.docx|wordpad|\bletter\b|\bmemo\b|\bresume\b/.test(t))return'word';
-  if(/powerpoint|\.pptx|presentation|slideshow/.test(t))return'ppt';
-  return null;
-}
-
-function dlBase64(b64,mime,filename){
-  var a=document.createElement('a');
-  a.href='data:'+mime+';base64,'+b64;
-  a.download=filename;
-  document.body.appendChild(a);a.click();document.body.removeChild(a);
-}
-
-function downloadExcel(){
-  dlBase64(EXCEL_B64,'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','Employee_Payscale.xlsx');
-}
-
-function downloadPDF(title,content){
-  var lines=(content||'').split('\n');
-  var win=window.open('','_blank');
-  if(!win){alert('Please allow popups to download PDF');return;}
-  var body='';
-  lines.forEach(function(l){
-    var t=l.trim();if(!t)return;
-    if(t.indexOf('## ')===0)body+='<h2>'+t.slice(3)+'</h2>';
-    else if(t.indexOf('# ')===0)body+='<h1>'+t.slice(2)+'</h1>';
-    else body+='<p>'+t.replace(/\*\*/g,'')+'</p>';
+  // NAV SCROLL
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
   });
-  win.document.write('<!DOCTYPE html><html><head><title>'+title+'</title><style>body{font-family:Arial,sans-serif;font-size:12pt;margin:40px;color:#222;line-height:1.7}h1{font-size:20pt;color:#1F3864;border-bottom:2px solid #1F3864;padding-bottom:8px;margin-bottom:18px}h2{font-size:14pt;color:#2E75B6;margin-top:18px}p{margin:6px 0}.btn{background:#0d0d0d;color:#fff;padding:10px 20px;border:none;border-radius:6px;cursor:pointer;margin-bottom:20px;font-size:14px;display:inline-block}.footer{margin-top:40px;font-size:9pt;color:#999;border-top:1px solid #ddd;padding-top:10px}@media print{.btn{display:none}}</style></head><body><div class="btn" onclick="window.print()">&#11015; Save as PDF</div><h1>'+title+'</h1>'+body+'<div class="footer">Generated by OptimaSeek &bull; '+new Date().toLocaleDateString()+'</div></body></html>');
-  win.document.close();
-  setTimeout(function(){try{win.print();}catch(e){}},700);
-}
 
-function downloadPPT(title,items){
-  var win=window.open('','_blank');
-  if(!win){alert('Please allow popups');return;}
-  var liHtml=items.slice(0,8).map(function(c){return'<li>'+c+'</li>';}).join('');
-  win.document.write('<!DOCTYPE html><html><head><title>'+title+'</title><style>*{box-sizing:border-box;margin:0;padding:0}body{background:#111;font-family:Arial,sans-serif}.slide{width:960px;height:540px;margin:30px auto;background:linear-gradient(135deg,#1F3864,#2E75B6);border-radius:14px;padding:60px;display:flex;flex-direction:column;justify-content:center}h1{font-size:34px;font-weight:700;color:#fff;border-bottom:3px solid rgba(255,255,255,.3);padding-bottom:16px;margin-bottom:24px}ul{list-style:none}li{font-size:19px;padding:9px 0;color:rgba(255,255,255,.9);display:flex;align-items:flex-start;gap:12px}li::before{content:"\\25B6";color:#ffd700;font-size:12px;margin-top:5px;flex-shrink:0}.top{text-align:center;padding:20px}button{background:#10a37f;color:#fff;border:none;padding:12px 28px;border-radius:8px;font-size:15px;cursor:pointer}@media print{body{background:#fff}.top{display:none}}</style></head><body><div class="top"><button onclick="window.print()">&#128247; Print as PDF</button></div><div class="slide"><h1>'+title+'</h1><ul>'+liHtml+'</ul></div></body></html>');
-  win.document.close();
-}
+  // SCROLL REVEAL
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
 
-function sleep(ms){return new Promise(function(r){setTimeout(r,ms);});}
-
-async function sendText(text){
-  if(!text.trim())return;
-  if(!canSearch()){
-    enterChat();
-    addMsg('ai','You have used all **8 free searches**. Please upgrade to continue.');
-    setTimeout(function(){showPage('pricing');},1500);
-    return;
-  }
-  enterChat();
-  addMsg('user',text);
-  chatHistory.push({role:'user',content:text});
-  bumpCount();updateBanner();
-
-  var fileType=detectFile(text);
-  if(fileType){
-    showTyping();
-    await sleep(700);
-    removeTyping();
-    if(fileType==='excel'){
-      addFileCard('&#128202;','Employee Payscale Excel Sheet','Employee_Payscale.xlsx','downloadExcel()');
-      chatHistory.push({role:'assistant',content:'Here is your Employee Payscale Excel sheet with 10 employees and automatic formulas.'});
-    }else if(fileType==='pdf'){
-      var topic=text.replace(/create|make|generate|pdf|download/gi,'').trim()||'Document';
-      downloadPDF(topic,'# '+topic+'\n\nGenerated by OptimaSeek\n\n## Content\n\nYour PDF content here.\n\nDate: '+new Date().toLocaleDateString());
-      addMsg('ai','Your PDF opened in a new tab. Click **Save as PDF** to download it!');
-      chatHistory.push({role:'assistant',content:'PDF opened.'});
-    }else if(fileType==='word'){
-      var topic2=text.replace(/create|make|generate|word|docx|document|download/gi,'').trim()||'Document';
-      downloadPDF(topic2,'# '+topic2+'\n\nGenerated by OptimaSeek\n\n## Content\n\nYour document content here.\n\nDate: '+new Date().toLocaleDateString());
-      addMsg('ai','Your document opened in a new tab. Click **Save as PDF** to download or copy to Word/Google Docs!');
-      chatHistory.push({role:'assistant',content:'Document opened.'});
-    }else if(fileType==='ppt'){
-      var topic3=text.replace(/create|make|generate|powerpoint|pptx|presentation|slides/gi,'').trim()||'Presentation';
-      downloadPPT(topic3,['Introduction to '+topic3,'Key Points and Overview','Main Content','Data and Analysis','Conclusions and Next Steps']);
-      addMsg('ai','Your presentation opened in a new tab. Click **Print as PDF** to save it!');
-      chatHistory.push({role:'assistant',content:'Presentation opened.'});
-    }
-    document.getElementById('send1').disabled=false;
-    document.getElementById('send2').disabled=false;
-    return;
+  // HERO PROMPT CHIPS
+  function setPrompt(text) {
+    document.getElementById('heroInput').value = text;
+    document.getElementById('heroInput').focus();
   }
 
-  showTyping();
-  document.getElementById('send1').disabled=true;
-  document.getElementById('send2').disabled=true;
-  try{
-    var res=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:chatHistory})});
-    var data=await res.json();
-    removeTyping();
-    var reply=(data&&data.reply)?data.reply:'Sorry, I could not get a response.';
-    addMsg('ai',reply);
-    chatHistory.push({role:'assistant',content:reply});
-  }catch(e){
-    removeTyping();
-    addMsg('ai','Connection error. Please check your internet and try again.');
+  // DEMO GENERATE
+  function generateDemo() {
+    const input = document.getElementById('heroInput');
+    const val = input.value.trim();
+    if (!val) { input.placeholder = 'Please enter a prompt first...'; return; }
+    const btn = document.querySelector('.gen-btn');
+    btn.textContent = '⏳ Generating...';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.textContent = '✓ App Ready! Sign up to view →';
+      btn.style.background = 'var(--accent3)';
+      btn.style.color = '#000';
+      btn.disabled = false;
+      btn.onclick = () => window.location.href = '#pricing';
+    }, 2200);
   }
-  document.getElementById('send1').disabled=false;
-  document.getElementById('send2').disabled=false;
-}
 
-function setImgPrompt(text){document.getElementById('img-prompt').value=text;document.getElementById('img-prompt').focus();document.getElementById('page-images').scrollTop=0;}
-function setPromptAndGen(p){document.getElementById('img-prompt').value=p;generateImage();}
-
-async function loadImg(url,retries){
-  for(var i=0;i<retries;i++){
-    try{
-      await new Promise(function(resolve,reject){
-        var img=new Image();img.onload=resolve;img.onerror=reject;
-        img.src=i===0?url:url+'&cb='+Date.now();
-      });
-      return true;
-    }catch(e){if(i<retries-1)await sleep(2000);}
-  }
-  return false;
-}
-
-async function generateImage(){
-  var promptEl=document.getElementById('img-prompt');
-  var prompt=promptEl.value.trim();
-  if(!prompt){promptEl.style.borderColor='#ef4444';promptEl.focus();setTimeout(function(){promptEl.style.borderColor='';},1500);return;}
-  var btn=document.getElementById('gen-btn');
-  var sec=document.getElementById('gen-section');
-  var grid=document.getElementById('gen-grid');
-  var spinner=document.getElementById('gen-spinner');
-  btn.disabled=true;btn.textContent='Generating...';
-  sec.style.display='block';spinner.style.display='flex';grid.innerHTML='';
-  var variations=[
-    {suffix:'',label:'Variation 1'},
-    {suffix:', vibrant colors, highly detailed',label:'Variation 2'},
-    {suffix:', soft dreamy lighting, artistic',label:'Variation 3'},
-    {suffix:', cinematic, high quality',label:'Variation 4'}
-  ];
-  variations.forEach(function(v,i){
-    var card=document.createElement('div');card.className='gen-card';card.id='gc'+i;
-    card.innerHTML='<div class="skeleton"></div><div class="gen-label">Loading '+v.label+'...</div>';
-    grid.appendChild(card);
+  // ENTER KEY SUBMIT
+  document.getElementById('heroInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') generateDemo();
   });
-  sec.scrollIntoView({behavior:'smooth',block:'nearest'});
-  for(var i=0;i<variations.length;i++){
-    var v=variations[i];
-    var seed=Math.floor(Math.random()*99999)+1;
-    var url='https://image.pollinations.ai/prompt/'+encodeURIComponent(prompt+v.suffix)+'?width=512&height=512&seed='+seed+'&nologo=true&enhance=true&model=flux';
-    var card=document.getElementById('gc'+i);
-    var ok=await loadImg(url,3);
-    var safeP=prompt.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-    if(ok){
-      card.innerHTML='<img src="'+url+'" alt="generated image" loading="lazy"/><div class="gen-label">'+v.label+'</div><div class="gen-actions"><a href="'+url+'" target="_blank" rel="noopener">&#11015; Download</a><a onclick="setPromptAndGen(\''+safeP+'\')">&#8635; Again</a></div>';
-    }else{
-      card.innerHTML='<div class="skeleton" style="background:#fafafa;display:flex;align-items:center;justify-content:center;color:#999;font-size:12px">&#9888; Failed</div><div class="gen-actions"><a style="color:#ef4444" onclick="retrySingle('+i+',\''+safeP+'\',\''+encodeURIComponent(v.suffix)+'\',\''+v.label+'\')">&#8635; Retry</a></div>';
+
+  // ANIMATED COUNTER
+  function animateCount(el, target, suffix) {
+    const duration = 2000; const step = 16;
+    const steps = duration / step;
+    let current = 0;
+    const isFloat = String(target).includes('.');
+    const increment = target / steps;
+    const timer = setInterval(() => {
+      current = Math.min(current + increment, target);
+      el.textContent = (isFloat ? current.toFixed(1) : Math.floor(current)) + suffix;
+      if (current >= target) clearInterval(timer);
+    }, step);
+  }
+  const statsObserver = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+      animateCount(document.querySelectorAll('.stat-num')[0], 120, 'k+');
+      animateCount(document.querySelectorAll('.stat-num')[1], 8, ' sec');
+      animateCount(document.querySelectorAll('.stat-num')[2], 98, '%');
+      animateCount(document.querySelectorAll('.stat-num')[3], 50, '+');
+      statsObserver.disconnect();
     }
-    if(i<variations.length-1)await sleep(800);
-  }
-  spinner.style.display='none';btn.disabled=false;btn.textContent='Generate image';
-}
-
-async function retrySingle(idx,prompt,encSuffix,label){
-  var card=document.getElementById('gc'+idx);if(!card)return;
-  card.innerHTML='<div class="skeleton"></div><div class="gen-label">Retrying...</div>';
-  var seed=Math.floor(Math.random()*99999)+1;
-  var suffix=decodeURIComponent(encSuffix);
-  var url='https://image.pollinations.ai/prompt/'+encodeURIComponent(prompt+suffix)+'?width=512&height=512&seed='+seed+'&nologo=true&enhance=true&model=flux';
-  var ok=await loadImg(url,3);
-  var safeP=prompt.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-  if(ok){
-    card.innerHTML='<img src="'+url+'" alt="generated"/><div class="gen-label">'+label+'</div><div class="gen-actions"><a href="'+url+'" target="_blank" rel="noopener">&#11015; Download</a></div>';
-  }else{
-    card.innerHTML='<div class="skeleton" style="background:#fafafa;display:flex;align-items:center;justify-content:center;color:#999;font-size:12px">&#9888; Still failing</div><div class="gen-actions"><a style="color:#ef4444" onclick="retrySingle('+idx+',\''+safeP+'\',\''+encSuffix+'\',\''+label+'\')">&#8635; Retry again</a></div>';
-  }
-}
-
-async function subscribe(plan){
-  var btn=document.getElementById('btn-'+plan);
-  var orig=btn.textContent;btn.textContent='Loading...';btn.disabled=true;
-  try{
-    var res=await fetch('/api/stripe/checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan:plan})});
-    var data=await res.json();
-    if(data.url){window.location.href=data.url;return;}
-    throw new Error(data.error||'No URL');
-  }catch(e){alert('Checkout error: '+e.message);btn.textContent=orig;btn.disabled=false;}
-}
-
-document.addEventListener('DOMContentLoaded',function(){
-  var inp1=document.getElementById('inp1');
-  var inp2=document.getElementById('inp2');
-  inp1.addEventListener('input',function(){resize(this);});
-  inp2.addEventListener('input',function(){resize(this);});
-  inp1.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();var t=this.value.trim();if(t){this.value='';this.style.height='auto';sendText(t);}}});
-  inp2.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();var t=this.value.trim();if(t){this.value='';this.style.height='auto';sendText(t);}}});
-  document.getElementById('send1').addEventListener('click',function(){var t=inp1.value.trim();if(t){inp1.value='';inp1.style.height='auto';sendText(t);}});
-  document.getElementById('send2').addEventListener('click',function(){var t=inp2.value.trim();if(t){inp2.value='';inp2.style.height='auto';sendText(t);}});
-  document.getElementById('img-prompt').addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();generateImage();}});
-  document.querySelectorAll('.settings-nav-item').forEach(function(el){el.addEventListener('click',function(){document.querySelectorAll('.settings-nav-item').forEach(function(x){x.classList.remove('active');});el.classList.add('active');});});
-  document.getElementById('photo-input').addEventListener('change',function(e){var f=e.target.files[0];if(!f)return;enterChat();addMsg('user','&#128247; Photo: '+f.name);addMsg('ai','I can see you attached **'+f.name+'**. I can help with questions about your photo!');e.target.value='';});
-  document.getElementById('file-input').addEventListener('change',function(e){var f=e.target.files[0];if(!f)return;enterChat();addMsg('user','&#128206; File: '+f.name);addMsg('ai','I can see you uploaded **'+f.name+'**. Ask me questions and I will help!');e.target.value='';});
-  document.addEventListener('click',function(e){if(!e.target.closest('#add-btn')&&!e.target.closest('#dd'))closeDD();});
-  checkLogin();
-  if(window.location.search.includes('login=success')){history.replaceState({},'','/');closeModal();}
-  if(window.location.search.includes('login=error')){history.replaceState({},'','/');alert('Google login failed.');}
-  if(window.location.search.includes('payment=success')){history.replaceState({},'','/');goHome();setTimeout(function(){enterChat();addMsg('ai','Payment successful! Welcome to OptimaSeek. You now have unlimited access!');},400);}
-  if(window.location.search.includes('payment=cancelled')){history.replaceState({},'','/');showPage('pricing');}
-});
+  }, { threshold: 0.5 });
+  const statsGrid = document.querySelector('.stats-grid');
+  if (statsGrid) statsObserver.observe(statsGrid);
 </script>
 </body>
 </html>
