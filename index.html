@@ -11,12 +11,11 @@
 body{font-family:var(--font);font-size:14px;color:var(--text);background:#fff;display:flex;height:100vh;overflow:hidden;-webkit-text-size-adjust:100%}
 .sidebar{width:var(--sidebar);min-width:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:10px 8px;overflow-y:auto;z-index:10;background:#fff;transition:transform .25s}
 .sidebar-top{display:flex;align-items:center;justify-content:space-between;padding:4px 6px 12px}
-.logo{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;cursor:pointer;padding:4px 8px;border-radius:var(--rsm);transition:background .15s}
+.logo{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;cursor:pointer;padding:4px 8px;border-radius:var(--rsm)}
 .logo:hover{background:var(--hover)}
 .logo-dot{width:28px;height:28px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px;flex-shrink:0}
-.menu-btn{width:32px;height:32px;border:none;background:transparent;cursor:pointer;border-radius:var(--rsm);font-size:20px;color:var(--sub);display:flex;align-items:center;justify-content:center;touch-action:manipulation}
-.menu-btn:hover{background:var(--hover)}
-.nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:var(--rsm);cursor:pointer;font-size:14px;transition:background .15s;user-select:none;touch-action:manipulation;min-height:40px}
+.menu-btn{width:32px;height:32px;border:none;background:transparent;cursor:pointer;border-radius:var(--rsm);font-size:20px;color:var(--sub);display:flex;align-items:center;justify-content:center}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:var(--rsm);cursor:pointer;font-size:14px;transition:background .15s;user-select:none;min-height:40px}
 .nav-item:hover,.nav-item:active{background:var(--hover)}
 .nav-item.active{background:var(--active);font-weight:500}
 .nav-icon{width:18px;height:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--sub)}
@@ -24,7 +23,7 @@ body{font-family:var(--font);font-size:14px;color:var(--text);background:#fff;di
 .sidebar-bottom{margin-top:auto;border-top:1px solid var(--border);padding-top:10px;display:flex;flex-direction:column;gap:6px}
 .info-card{background:#f9f9f9;border-radius:var(--rmd);padding:12px;font-size:12px;color:var(--sub);line-height:1.5}
 .info-card strong{color:var(--text);font-size:13px;display:block;margin-bottom:4px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:9px 16px;border-radius:var(--rmd);font-size:14px;font-weight:500;cursor:pointer;border:none;font-family:var(--font);transition:opacity .15s,background .15s;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:9px 16px;border-radius:var(--rmd);font-size:14px;font-weight:500;cursor:pointer;border:none;font-family:var(--font);transition:opacity .15s,background .15s;touch-action:manipulation}
 .btn-primary{background:#0d0d0d;color:#fff}
 .btn-primary:hover{opacity:.85}
 .btn-outline{background:transparent;border:1px solid #d4d4d4;color:var(--text)}
@@ -33,27 +32,24 @@ body{font-family:var(--font);font-size:14px;color:var(--text);background:#fff;di
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--border);flex-shrink:0}
 .topbar-left{display:flex;align-items:center;gap:8px}
-.mob-menu-btn{display:none;width:32px;height:32px;border:none;background:transparent;cursor:pointer;border-radius:var(--rsm);font-size:20px;color:var(--sub);align-items:center;justify-content:center;touch-action:manipulation}
+.mob-menu-btn{display:none;width:32px;height:32px;border:none;background:transparent;cursor:pointer;border-radius:var(--rsm);font-size:20px;color:var(--sub);align-items:center;justify-content:center}
 .topbar-title{font-size:15px;font-weight:600;display:flex;align-items:center;gap:5px;cursor:pointer;padding:6px 10px;border-radius:var(--rsm)}
-.topbar-title:hover{background:var(--hover)}
 .topbar-actions{display:flex;gap:8px;align-items:center}
 .page{display:none;flex:1;flex-direction:column;overflow-y:auto}
 .page.active{display:flex}
 .chat-center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 16px}
 .chat-greeting{font-size:26px;font-weight:600;margin-bottom:20px;text-align:center}
 .input-wrap{width:100%;max-width:640px;position:relative}
-/* KEY FIX: chat input fully clickable, no z-index blocking */
-.chat-input{background:#f4f4f4;border:1px solid #d4d4d4;border-radius:var(--rlg);padding:14px 52px 14px 44px;font-size:15px;font-family:var(--font);width:100%;outline:none;resize:none;min-height:52px;max-height:200px;color:var(--text);transition:border-color .15s;display:block;-webkit-appearance:none;touch-action:auto;position:relative}
+.chat-input{background:#f4f4f4;border:1px solid #d4d4d4;border-radius:var(--rlg);padding:14px 52px 14px 44px;font-size:15px;font-family:var(--font);width:100%;outline:none;resize:none;min-height:52px;max-height:200px;color:var(--text);transition:border-color .15s;display:block;-webkit-appearance:none;touch-action:auto}
 .chat-input:focus{border-color:#888}
 .chat-input::placeholder{color:var(--muted)}
-.add-btn{position:absolute;left:11px;top:13px;background:transparent;border:none;cursor:pointer;color:var(--sub);display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:var(--rsm);z-index:2;touch-action:manipulation}
-.add-btn:hover{background:var(--hover)}
+.add-btn{position:absolute;left:11px;top:13px;background:transparent;border:none;cursor:pointer;color:var(--sub);display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:var(--rsm);z-index:2}
 .send-wrap{position:absolute;right:10px;top:10px;display:flex;align-items:center;gap:6px;z-index:2}
-.send-btn{width:32px;height:32px;border-radius:50%;background:#0d0d0d;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;transition:opacity .15s;touch-action:manipulation;flex-shrink:0}
+.send-btn{width:32px;height:32px;border-radius:50%;background:#0d0d0d;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;transition:opacity .15s;flex-shrink:0}
 .send-btn:hover{opacity:.8}
 .send-btn:disabled{opacity:.35;cursor:not-allowed}
 .chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:14px;max-width:640px}
-.chip{border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:13px;cursor:pointer;color:var(--sub);background:#fff;transition:background .15s;touch-action:manipulation;white-space:nowrap}
+.chip{border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:13px;cursor:pointer;color:var(--sub);background:#fff;transition:background .15s;white-space:nowrap}
 .chip:hover,.chip:active{background:var(--hover);color:var(--text)}
 .msgs{flex:1;overflow-y:auto;padding:16px 20px;display:none;flex-direction:column;gap:0;max-width:760px;width:100%;margin:0 auto}
 .msgs.show{display:flex}
@@ -85,36 +81,38 @@ body{font-family:var(--font);font-size:14px;color:var(--text);background:#fff;di
 .limit-bar.show{display:flex}
 .limit-bar.warn{background:#fff8e1;border:1px solid #ffd54f;color:#5d4037}
 .limit-bar.danger{background:#fff0f0;border:1px solid #ffaaaa;color:#7a1010}
+/* FILE DOWNLOAD CARD — shows directly in chat */
+.dl-card{display:flex;align-items:center;gap:14px;background:#f0fdf7;border:2px solid var(--green);border-radius:12px;padding:14px 18px;margin-top:10px;text-decoration:none;color:inherit;transition:background .15s;max-width:420px}
+.dl-card:hover{background:#dcfce7}
+.dl-icon{font-size:32px;flex-shrink:0}
+.dl-info{flex:1;min-width:0}
+.dl-name{font-weight:600;font-size:14px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dl-meta{font-size:12px;color:var(--green);margin-top:3px}
+.dl-btn{background:var(--green);color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;flex-shrink:0;white-space:nowrap}
 /* Attach previews */
 .attach-preview{display:flex;gap:8px;flex-wrap:wrap;padding:8px 0 0;max-width:640px;margin:0 auto}
 .attach-preview.hide{display:none}
 .attach-thumb{position:relative;width:58px;height:58px;border-radius:8px;overflow:hidden;border:1px solid var(--border);flex-shrink:0}
 .attach-thumb img{width:100%;height:100%;object-fit:cover}
-.attach-remove{position:absolute;top:2px;right:2px;width:16px;height:16px;background:rgba(0,0,0,.65);border:none;border-radius:50%;color:#fff;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;line-height:1;touch-action:manipulation}
-/* UPGRADE WALL */
+.attach-remove{position:absolute;top:2px;right:2px;width:16px;height:16px;background:rgba(0,0,0,.65);border:none;border-radius:50%;color:#fff;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+/* Upgrade wall */
 .upgrade-wall{display:none;flex-direction:column;align-items:center;justify-content:center;padding:50px 24px;text-align:center;flex:1}
 .upgrade-wall.show{display:flex}
 .upgrade-wall h2{font-size:20px;font-weight:600;margin-bottom:10px}
 .upgrade-wall p{color:var(--sub);font-size:14px;margin-bottom:22px;max-width:360px}
-.upgrade-wall .perks{display:flex;flex-direction:column;gap:8px;margin-bottom:24px;text-align:left;width:100%;max-width:300px}
-.upgrade-wall .perk{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--sub)}
-.upgrade-wall .perk::before{content:"✓";color:var(--green);font-weight:700;flex-shrink:0}
-/* File card */
-.file-card{display:inline-flex;align-items:center;gap:12px;background:#f0fdf7;border:1.5px solid var(--green);border-radius:var(--rmd);padding:12px 18px;cursor:pointer;margin-top:8px;transition:background .15s;touch-action:manipulation}
-.file-card:hover,.file-card:active{background:#dcfce7}
-.file-icon{font-size:28px;flex-shrink:0}
-.file-info .file-name{font-weight:600;font-size:14px}
-.file-info .file-dl{font-size:12px;color:var(--green);margin-top:2px}
+.perks{display:flex;flex-direction:column;gap:8px;margin-bottom:24px;text-align:left;width:100%;max-width:300px}
+.perk{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--sub)}
+.perk::before{content:"✓";color:var(--green);font-weight:700;flex-shrink:0}
 /* Pages */
 .page-content{padding:24px;max-width:840px;margin:0 auto;width:100%}
 .page-title{font-size:22px;font-weight:600;margin-bottom:18px}
-.img-textarea{border:1px solid var(--border);border-radius:var(--rmd);padding:14px;font-size:14px;font-family:var(--font);width:100%;min-height:80px;outline:none;resize:vertical;color:var(--text);background:#fff;cursor:text;display:block;margin-bottom:12px;-webkit-appearance:none;touch-action:auto}
+.img-textarea{border:1px solid var(--border);border-radius:var(--rmd);padding:14px;font-size:14px;font-family:var(--font);width:100%;min-height:80px;outline:none;resize:vertical;color:var(--text);background:#fff;display:block;margin-bottom:12px;-webkit-appearance:none}
 .img-textarea:focus{border-color:#888}
 .img-textarea::placeholder{color:var(--muted)}
 .section-label{font-size:14px;font-weight:600;margin-bottom:12px}
 .preset-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:24px}
-.preset-card{border-radius:var(--rmd);overflow:hidden;cursor:pointer;border:1px solid var(--border);transition:transform .15s,box-shadow .15s;touch-action:manipulation}
-.preset-card:hover,.preset-card:active{transform:scale(1.04);box-shadow:0 4px 14px rgba(0,0,0,.1)}
+.preset-card{border-radius:var(--rmd);overflow:hidden;cursor:pointer;border:1px solid var(--border);transition:transform .15s,box-shadow .15s}
+.preset-card:hover{transform:scale(1.04);box-shadow:0 4px 14px rgba(0,0,0,.1)}
 .preset-thumb{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:24px}
 .preset-label{padding:5px 6px;font-size:11px;font-weight:500;background:#fff;border-top:1px solid var(--border)}
 .gen-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:24px}
@@ -122,7 +120,7 @@ body{font-family:var(--font);font-size:14px;color:var(--text);background:#fff;di
 .gen-card img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
 .gen-label{padding:6px 10px;font-size:12px;color:var(--sub);border-top:1px solid var(--border);background:#fff}
 .gen-actions{display:flex;gap:6px;padding:5px 8px;background:#fff;border-top:1px solid var(--border)}
-.gen-actions a{font-size:11px;color:var(--sub);text-decoration:none;padding:3px 8px;border-radius:4px;cursor:pointer;touch-action:manipulation}
+.gen-actions a{font-size:11px;color:var(--sub);text-decoration:none;padding:3px 8px;border-radius:4px;cursor:pointer}
 .gen-actions a:hover{background:var(--hover)}
 .skeleton{aspect-ratio:1;background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 1.4s infinite}
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
@@ -134,8 +132,8 @@ body{font-family:var(--font);font-size:14px;color:var(--text);background:#fff;di
 .apps-hero h2{font-size:18px;font-weight:600}
 .apps-hero p{font-size:13px;opacity:.85;margin-top:3px}
 .apps-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;background:var(--border);border:1px solid var(--border);border-radius:var(--rmd);overflow:hidden}
-.app-row{display:flex;align-items:center;gap:12px;padding:12px 14px;background:#fff;cursor:pointer;justify-content:space-between;transition:background .15s;touch-action:manipulation}
-.app-row:hover,.app-row:active{background:var(--hover)}
+.app-row{display:flex;align-items:center;gap:12px;padding:12px 14px;background:#fff;cursor:pointer;justify-content:space-between;transition:background .15s}
+.app-row:hover{background:var(--hover)}
 .app-left{display:flex;align-items:center;gap:10px}
 .app-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
 .app-name{font-size:14px;font-weight:500}
@@ -158,7 +156,7 @@ body{font-family:var(--font);font-size:14px;color:var(--text);background:#fff;di
 .plan-feats li::before{content:"\2713";color:var(--green);font-weight:600;flex-shrink:0}
 .settings-wrap{display:flex;gap:0;flex-wrap:wrap}
 .settings-nav{display:flex;flex-direction:column;gap:2px;width:180px;min-width:180px;padding-right:18px;border-right:1px solid var(--border)}
-.settings-nav-item{padding:7px 10px;border-radius:var(--rsm);cursor:pointer;font-size:14px;color:var(--sub);touch-action:manipulation}
+.settings-nav-item{padding:7px 10px;border-radius:var(--rsm);cursor:pointer;font-size:14px;color:var(--sub)}
 .settings-nav-item:hover{background:var(--hover);color:var(--text)}
 .settings-nav-item.active{background:var(--active);color:var(--text);font-weight:500}
 .settings-body{flex:1;padding-left:20px;min-width:0}
@@ -167,7 +165,7 @@ body{font-family:var(--font);font-size:14px;color:var(--text);background:#fff;di
 .settings-row:last-child{border-bottom:none}
 .row-label{font-size:14px}
 .row-sub{font-size:12px;color:var(--sub);margin-top:2px}
-.toggle{width:38px;height:20px;background:var(--green);border-radius:10px;position:relative;cursor:pointer;flex-shrink:0;transition:background .2s;touch-action:manipulation}
+.toggle{width:38px;height:20px;background:var(--green);border-radius:10px;position:relative;cursor:pointer;flex-shrink:0;transition:background .2s}
 .toggle::after{content:"";position:absolute;width:16px;height:16px;background:#fff;border-radius:50%;top:2px;right:2px;transition:.2s}
 .toggle.off{background:var(--border)}
 .toggle.off::after{right:auto;left:2px}
@@ -175,8 +173,7 @@ body{font-family:var(--font);font-size:14px;color:var(--text);background:#fff;di
 .overlay.open{display:flex}
 .modal{background:#fff;border-radius:var(--rlg);padding:28px;width:360px;max-width:92vw;display:flex;flex-direction:column;gap:14px;position:relative;animation:modalIn .2s ease}
 @keyframes modalIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
-.modal-close{position:absolute;top:14px;right:14px;width:26px;height:26px;border:none;background:transparent;cursor:pointer;font-size:17px;color:var(--sub);border-radius:var(--rsm);display:flex;align-items:center;justify-content:center;touch-action:manipulation}
-.modal-close:hover{background:var(--hover)}
+.modal-close{position:absolute;top:14px;right:14px;width:26px;height:26px;border:none;background:transparent;cursor:pointer;font-size:17px;color:var(--sub);border-radius:var(--rsm);display:flex;align-items:center;justify-content:center}
 .modal-logo{text-align:center}
 .modal-title{font-size:18px;font-weight:600;text-align:center}
 .modal-sub{font-size:13px;color:var(--sub);text-align:center;margin-top:-6px}
@@ -184,15 +181,15 @@ body{font-family:var(--font);font-size:14px;color:var(--text);background:#fff;di
 .modal-div::before,.modal-div::after{content:"";flex:1;height:1px;background:var(--border)}
 .modal-input{width:100%;border:1px solid var(--border);border-radius:var(--rsm);padding:10px 12px;font-size:14px;font-family:var(--font);outline:none;-webkit-appearance:none}
 .modal-input:focus{border-color:#0d0d0d}
-.btn-google{background:#fff;border:1px solid var(--border);color:var(--text);width:100%;cursor:pointer;font-family:var(--font);display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border-radius:var(--rmd);font-size:14px;font-weight:500;touch-action:manipulation}
+.btn-google{background:#fff;border:1px solid var(--border);color:var(--text);width:100%;cursor:pointer;font-family:var(--font);display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border-radius:var(--rmd);font-size:14px;font-weight:500}
 .btn-google:hover{background:var(--hover)}
 .dropdown{position:absolute;left:0;bottom:calc(100% + 8px);background:#fff;border:1px solid var(--border);border-radius:var(--rmd);box-shadow:0 4px 20px rgba(0,0,0,.12);min-width:210px;overflow:hidden;z-index:100;display:none;animation:fadeUp .15s ease}
 @keyframes fadeUp{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 .dropdown.open{display:block}
-.dd-item{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;font-size:14px;touch-action:manipulation;min-height:44px}
+.dd-item{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;font-size:14px;min-height:44px}
 .dd-item:hover,.dd-item:active{background:var(--hover)}
 .dd-sep{height:1px;background:var(--border)}
-.dd-label{padding:6px 14px 3px;font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.dd-label{padding:6px 14px 3px;font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase}
 .mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:9}
 .mob-overlay.show{display:block}
 .usage-pill{display:inline-flex;align-items:center;gap:8px;background:#f9f9f9;border:1px solid var(--border);border-radius:20px;padding:5px 14px;font-size:12px;color:var(--sub);margin-bottom:16px}
@@ -214,9 +211,6 @@ body{font-family:var(--font);font-size:14px;color:var(--text);background:#fff;di
   .settings-body{padding-left:0}
   .topbar-actions .btn-outline{display:none}
   .page-content{padding:16px}
-  .chat-center{padding:24px 12px}
-  .chips{gap:6px}
-  .chip{font-size:12px;padding:6px 10px}
 }
 @media(max-width:480px){
   .plan-grid{grid-template-columns:1fr}
@@ -226,17 +220,14 @@ body{font-family:var(--font);font-size:14px;color:var(--text);background:#fff;di
 </style>
 </head>
 <body>
-
-<!-- Hidden file inputs at top level so mobile can trigger them -->
 <input type="file" id="photo-input" accept="image/*" multiple/>
-<input type="file" id="file-input" accept=".pdf,.doc,.docx,.txt,.csv,.xlsx,.pptx"/>
-
+<input type="file" id="file-input" accept=".pdf,.doc,.docx,.txt,.csv"/>
 <div class="mob-overlay" id="mob-overlay" onclick="closeSidebar()"></div>
 
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-top">
     <div class="logo" onclick="goHome();closeSidebar()"><div class="logo-dot">O</div>OptimaSeek</div>
-    <button class="menu-btn" onclick="closeSidebar()">✕</button>
+    <button class="menu-btn" onclick="closeSidebar()">&#10005;</button>
   </div>
   <div class="nav-item active" id="nav-chat" onclick="goHome();closeSidebar()"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3v10M3 8h10" stroke-linecap="round"/></svg></span>New chat</div>
   <div class="nav-item" onclick="goHome();closeSidebar()"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6.5" cy="6.5" r="4"/><path d="M13 13l-2.5-2.5" stroke-linecap="round"/></svg></span>Search chats</div>
@@ -259,7 +250,7 @@ body{font-family:var(--font);font-size:14px;color:var(--text);background:#fff;di
 <main class="main">
   <div class="topbar">
     <div class="topbar-left">
-      <button class="mob-menu-btn" onclick="openSidebar()">☰</button>
+      <button class="mob-menu-btn" onclick="openSidebar()">&#9776;</button>
       <div class="topbar-title" onclick="goHome()">OptimaSeek <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5l4 4 4-4" stroke-linecap="round"/></svg></div>
     </div>
     <div class="topbar-actions" id="topbar-auth">
@@ -268,10 +259,9 @@ body{font-family:var(--font);font-size:14px;color:var(--text);background:#fff;di
     </div>
   </div>
 
-  <!-- CHAT -->
   <div class="page active" id="page-chat">
     <div class="limit-bar warn" id="limit-bar">
-      <span id="limit-text">⚠️ <strong id="used-count">0</strong>/9 free searches used.</span>
+      <span id="limit-text">&#9888; <strong id="used-count">0</strong>/9 free searches used.</span>
       <button class="btn btn-primary" style="padding:6px 12px;font-size:13px;flex-shrink:0" onclick="showPage('pricing')">Upgrade</button>
     </div>
     <div class="msgs" id="msgs"></div>
@@ -281,22 +271,22 @@ body{font-family:var(--font);font-size:14px;color:var(--text);background:#fff;di
         <div class="usage-pill"><div class="usage-dots" id="usage-dots"></div><span id="usage-text"></span></div>
       </div>
       <div class="input-wrap">
-        <button class="add-btn" id="add-btn1" aria-label="Attach">
+        <button class="add-btn" id="add-btn1">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 3v10M3 8h10" stroke-linecap="round"/></svg>
         </button>
-        <textarea class="chat-input" id="inp1" placeholder="Ask anything…" rows="1"></textarea>
+        <textarea class="chat-input" id="inp1" placeholder="Ask anything&#8230;" rows="1"></textarea>
         <div class="send-wrap">
-          <button class="send-btn" id="send1" aria-label="Send">
+          <button class="send-btn" id="send1">
             <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="2"><path d="M8 13V3M3 8l5-5 5 5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
         </div>
         <div class="dropdown" id="dd">
-          <div class="dd-item" id="dd-photo">📷 &nbsp;Add photo / image</div>
-          <div class="dd-item" onclick="closeDD()">🌐 &nbsp;Web search</div>
+          <div class="dd-item" id="dd-photo">&#128247; &nbsp;Add photo</div>
+          <div class="dd-item" onclick="closeDD()">&#127760; &nbsp;Web search</div>
           <div class="dd-sep"></div>
           <div class="dd-label" id="dd-login-label">Login required</div>
-          <div class="dd-item" id="dd-files">📄 &nbsp;Add file</div>
-          <div class="dd-item" style="color:var(--muted)">🔬 &nbsp;Deep research</div>
+          <div class="dd-item" id="dd-files">&#128206; &nbsp;Add file</div>
+          <div class="dd-item" style="color:var(--muted)">&#128300; &nbsp;Deep research</div>
         </div>
       </div>
       <div class="attach-preview hide" id="attach-preview1"></div>
@@ -310,12 +300,12 @@ body{font-family:var(--font);font-size:14px;color:var(--text);background:#fff;di
     </div>
     <div class="bottom-bar" id="bottom-bar">
       <div class="input-wrap" style="max-width:720px;margin:0 auto">
-        <button class="add-btn" id="add-btn2" aria-label="Attach">
+        <button class="add-btn" id="add-btn2">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 3v10M3 8h10" stroke-linecap="round"/></svg>
         </button>
-        <textarea class="chat-input" id="inp2" placeholder="Ask anything…" rows="1"></textarea>
+        <textarea class="chat-input" id="inp2" placeholder="Ask anything&#8230;" rows="1"></textarea>
         <div class="send-wrap">
-          <button class="send-btn" id="send2" aria-label="Send">
+          <button class="send-btn" id="send2">
             <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="2"><path d="M8 13V3M3 8l5-5 5 5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
         </div>
@@ -325,78 +315,73 @@ body{font-family:var(--font);font-size:14px;color:var(--text);background:#fff;di
     </div>
   </div>
 
-  <!-- IMAGES -->
   <div class="page" id="page-images">
     <div class="upgrade-wall" id="img-upgrade-wall">
-      <div style="font-size:48px;margin-bottom:14px">🎨</div>
+      <div style="font-size:48px;margin-bottom:14px">&#127912;</div>
       <h2>Free image limit reached</h2>
       <p>You have used all 3 free image generations. Upgrade for unlimited high-quality images.</p>
       <div class="perks">
         <div class="perk">Unlimited image generations</div>
         <div class="perk">4 variations per prompt</div>
         <div class="perk">High-resolution output</div>
-        <div class="perk">Cinematic &amp; artistic styles</div>
       </div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
-        <button class="btn btn-primary" style="padding:11px 26px;font-size:15px" onclick="showPage('pricing')">See Plans →</button>
+        <button class="btn btn-primary" style="padding:11px 26px;font-size:15px" onclick="showPage('pricing')">See Plans &#8594;</button>
         <button class="btn btn-outline" style="padding:11px 22px" onclick="openModal()">Log in</button>
       </div>
     </div>
     <div class="page-content" id="img-content">
       <div class="page-title">Images <span id="img-counter" style="font-size:13px;font-weight:400;color:var(--sub)"></span></div>
-      <textarea class="img-textarea" id="img-prompt" placeholder="Describe what you want to create… e.g. sunset over mountains, cute cartoon cat, futuristic city"></textarea>
-      <button class="btn btn-primary" id="gen-btn" style="margin-bottom:24px">✨ Generate image</button>
+      <textarea class="img-textarea" id="img-prompt" placeholder="Describe what you want to create&#8230; e.g. sunset over mountains, cute cartoon cat"></textarea>
+      <button class="btn btn-primary" id="gen-btn" style="margin-bottom:24px">&#10024; Generate image</button>
       <div id="gen-section" style="display:none;margin-bottom:24px">
         <div class="spinner-row" id="gen-spinner" style="display:none">
           <svg class="spin" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2a6 6 0 1 0 6 6" stroke-linecap="round"/></svg>
-          Generating your image…
+          Generating your image&#8230;
         </div>
         <div class="section-label">Generated</div>
         <div class="gen-grid" id="gen-grid"></div>
       </div>
       <div class="section-label">Try a style</div>
       <div class="preset-grid">
-        <div class="preset-card" onclick="setImgPrompt('productivity desk setup, ultrawide monitor, plants, cozy aesthetic, soft lighting')"><div class="preset-thumb" style="background:linear-gradient(135deg,#1a1a2e,#16213e)">🖥️</div><div class="preset-label">Desk Setup</div></div>
-        <div class="preset-card" onclick="setImgPrompt('travel landscape, mountains, golden hour, cinematic wide angle photography')"><div class="preset-thumb" style="background:linear-gradient(135deg,#2d6a4f,#40916c)">🌍</div><div class="preset-label">Wanderlust</div></div>
-        <div class="preset-card" onclick="setImgPrompt('cute kawaii doodle art, pastel colors, pencil sketch style, white background')"><div class="preset-thumb" style="background:linear-gradient(135deg,#7b2d8b,#a855f7)">✏️</div><div class="preset-label">Scribble</div></div>
-        <div class="preset-card" onclick="setImgPrompt('cute chibi dog sticker, kawaii style, big shiny eyes, white background')"><div class="preset-thumb" style="background:linear-gradient(135deg,#ffecd2,#fcb69f)">🐶</div><div class="preset-label">Chibi</div></div>
-        <div class="preset-card" onclick="setImgPrompt('makeup beauty flat lay, cosmetics, lipstick, eyeshadow palette, pastel aesthetic')"><div class="preset-thumb" style="background:linear-gradient(135deg,#1a1a1a,#555)">💄</div><div class="preset-label">Beauty</div></div>
+        <div class="preset-card" onclick="setImgPrompt('productivity desk setup, ultrawide monitor, plants, aesthetic')"><div class="preset-thumb" style="background:linear-gradient(135deg,#1a1a2e,#16213e)">&#128421;</div><div class="preset-label">Desk Setup</div></div>
+        <div class="preset-card" onclick="setImgPrompt('travel landscape, mountains, golden hour, cinematic photography')"><div class="preset-thumb" style="background:linear-gradient(135deg,#2d6a4f,#40916c)">&#127757;</div><div class="preset-label">Wanderlust</div></div>
+        <div class="preset-card" onclick="setImgPrompt('cute kawaii doodle art, pastel colors, pencil sketch, white background')"><div class="preset-thumb" style="background:linear-gradient(135deg,#7b2d8b,#a855f7)">&#9999;&#65039;</div><div class="preset-label">Scribble</div></div>
+        <div class="preset-card" onclick="setImgPrompt('cute chibi dog sticker, kawaii style, big eyes, white background')"><div class="preset-thumb" style="background:linear-gradient(135deg,#ffecd2,#fcb69f)">&#128054;</div><div class="preset-label">Chibi</div></div>
+        <div class="preset-card" onclick="setImgPrompt('makeup beauty flat lay, cosmetics, lipstick, pastel aesthetic')"><div class="preset-thumb" style="background:linear-gradient(135deg,#1a1a1a,#555)">&#128132;</div><div class="preset-label">Beauty</div></div>
       </div>
     </div>
   </div>
 
-  <!-- APPS -->
   <div class="page" id="page-apps">
     <div class="page-content">
       <div class="page-title">Apps <span style="background:var(--hover);color:var(--sub);font-size:11px;padding:2px 8px;border-radius:12px;font-weight:500">BETA</span></div>
-      <div class="apps-hero"><div class="apps-hero-icon">🎨</div><div><h2>Create with Canva</h2><p>Make designs and flyers directly from the chat</p><button class="btn" style="background:#fff;color:#0070f3;margin-top:10px;padding:7px 16px" onclick="window.open('https://www.canva.com','_blank')">Open Canva</button></div></div>
+      <div class="apps-hero"><div class="apps-hero-icon">&#127912;</div><div><h2>Create with Canva</h2><p>Make designs and flyers directly from the chat</p><button class="btn" style="background:#fff;color:#0070f3;margin-top:10px;padding:7px 16px" onclick="window.open('https://www.canva.com','_blank')">Open Canva</button></div></div>
       <div class="apps-grid">
-        <div class="app-row" onclick="window.open('https://www.adobe.com/products/photoshop.html','_blank')"><div class="app-left"><div class="app-icon" style="background:#0078d4">🖊️</div><div><div class="app-name">Adobe Photoshop</div><div class="app-desc">Edit and transform images</div></div></div><div class="app-chev">›</div></div>
-        <div class="app-row" onclick="window.open('https://airtable.com','_blank')"><div class="app-left"><div class="app-icon" style="background:#fcb400">📊</div><div><div class="app-name">Airtable</div><div class="app-desc">Structured data and databases</div></div></div><div class="app-chev">›</div></div>
-        <div class="app-row" onclick="window.open('https://www.canva.com','_blank')"><div class="app-left"><div class="app-icon" style="background:#7d2ae8">🎨</div><div><div class="app-name">Canva</div><div class="app-desc">Search, create, edit designs</div></div></div><div class="app-chev">›</div></div>
-        <div class="app-row" onclick="window.open('https://www.figma.com','_blank')"><div class="app-left"><div class="app-icon" style="background:#f24e1e">🎯</div><div><div class="app-name">Figma</div><div class="app-desc">Make diagrams and slides</div></div></div><div class="app-chev">›</div></div>
-        <div class="app-row" onclick="window.open('https://replit.com','_blank')"><div class="app-left"><div class="app-icon" style="background:#0d6efd">💻</div><div><div class="app-name">Replit</div><div class="app-desc">Turn ideas into real apps</div></div></div><div class="app-chev">›</div></div>
-        <div class="app-row" onclick="window.open('https://open.spotify.com','_blank')"><div class="app-left"><div class="app-icon" style="background:#1db954">🎵</div><div><div class="app-name">Spotify</div><div class="app-desc">Music and podcasts for you</div></div></div><div class="app-chev">›</div></div>
-        <div class="app-row" onclick="window.open('https://www.booking.com','_blank')"><div class="app-left"><div class="app-icon" style="background:#003580">🏨</div><div><div class="app-name">Booking.com</div><div class="app-desc">Find stays and rental cars</div></div></div><div class="app-chev">›</div></div>
-        <div class="app-row" onclick="window.open('https://www.expedia.com','_blank')"><div class="app-left"><div class="app-icon" style="background:#ff6b6b">✈️</div><div><div class="app-name">Expedia</div><div class="app-desc">Plan trips and flights</div></div></div><div class="app-chev">›</div></div>
+        <div class="app-row" onclick="window.open('https://www.adobe.com/products/photoshop.html','_blank')"><div class="app-left"><div class="app-icon" style="background:#0078d4">&#128394;</div><div><div class="app-name">Adobe Photoshop</div><div class="app-desc">Edit and transform images</div></div></div><div class="app-chev">&#8250;</div></div>
+        <div class="app-row" onclick="window.open('https://airtable.com','_blank')"><div class="app-left"><div class="app-icon" style="background:#fcb400">&#128202;</div><div><div class="app-name">Airtable</div><div class="app-desc">Structured data and databases</div></div></div><div class="app-chev">&#8250;</div></div>
+        <div class="app-row" onclick="window.open('https://www.canva.com','_blank')"><div class="app-left"><div class="app-icon" style="background:#7d2ae8">&#127912;</div><div><div class="app-name">Canva</div><div class="app-desc">Search, create, edit designs</div></div></div><div class="app-chev">&#8250;</div></div>
+        <div class="app-row" onclick="window.open('https://www.figma.com','_blank')"><div class="app-left"><div class="app-icon" style="background:#f24e1e">&#127917;</div><div><div class="app-name">Figma</div><div class="app-desc">Make diagrams and slides</div></div></div><div class="app-chev">&#8250;</div></div>
+        <div class="app-row" onclick="window.open('https://replit.com','_blank')"><div class="app-left"><div class="app-icon" style="background:#0d6efd">&#128187;</div><div><div class="app-name">Replit</div><div class="app-desc">Turn ideas into real apps</div></div></div><div class="app-chev">&#8250;</div></div>
+        <div class="app-row" onclick="window.open('https://open.spotify.com','_blank')"><div class="app-left"><div class="app-icon" style="background:#1db954">&#127911;</div><div><div class="app-name">Spotify</div><div class="app-desc">Music and podcasts for you</div></div></div><div class="app-chev">&#8250;</div></div>
+        <div class="app-row" onclick="window.open('https://www.booking.com','_blank')"><div class="app-left"><div class="app-icon" style="background:#003580">&#127976;</div><div><div class="app-name">Booking.com</div><div class="app-desc">Find stays and rental cars</div></div></div><div class="app-chev">&#8250;</div></div>
+        <div class="app-row" onclick="window.open('https://www.expedia.com','_blank')"><div class="app-left"><div class="app-icon" style="background:#ff6b6b">&#9992;</div><div><div class="app-name">Expedia</div><div class="app-desc">Plan trips and flights</div></div></div><div class="app-chev">&#8250;</div></div>
       </div>
     </div>
   </div>
 
-  <!-- PRICING -->
   <div class="page" id="page-pricing">
     <div class="page-content" style="max-width:920px">
       <div class="pricing-hdr"><h1>Plans &amp; Pricing</h1><p>Choose the plan that fits your needs.</p></div>
       <div class="plan-grid">
         <div class="plan"><div><div class="plan-name">Free</div><div class="plan-tag">Try OptimaSeek</div></div><div class="plan-price">CA$0<span>/mo</span></div><button class="btn btn-outline btn-full" onclick="openModal()">Get Started</button><ul class="plan-feats"><li>9 free AI searches</li><li>3 free image generations</li><li>Add photos to chat</li><li>No account needed</li></ul></div>
-        <div class="plan"><div><div class="plan-name">Go</div><div class="plan-tag">Expanded access</div></div><div class="plan-price">CA$11<span>/mo</span></div><button class="btn btn-outline btn-full" id="btn-go" onclick="subscribe('go')">Get Go</button><ul class="plan-feats"><li>Unlimited AI messages</li><li>50 image generations/mo</li><li>File uploads</li><li>Priority responses</li></ul></div>
+        <div class="plan"><div><div class="plan-name">Go</div><div class="plan-tag">Expanded access</div></div><div class="plan-price">CA$11<span>/mo</span></div><button class="btn btn-outline btn-full" id="btn-go" onclick="subscribe('go')">Get Go</button><ul class="plan-feats"><li>Unlimited AI messages</li><li>50 image generations/mo</li><li>File uploads</li><li>PDF, Word, PPT creation</li></ul></div>
         <div class="plan featured"><div><div class="plan-name">Plus</div><div class="plan-tag">Advanced intelligence</div></div><div class="plan-price">CA$25<span>/mo</span></div><button class="btn btn-primary btn-full" id="btn-plus" onclick="subscribe('plus')">Get Plus</button><ul class="plan-feats"><li>Everything in Go</li><li>Unlimited images</li><li>Advanced AI reasoning</li><li>Deep research</li><li>Early access features</li></ul></div>
         <div class="plan"><div><div class="plan-name">Pro</div><div class="plan-tag">Maximum productivity</div></div><div class="plan-price">CA$55<span>/mo</span></div><button class="btn btn-outline btn-full" id="btn-pro" onclick="subscribe('pro')">Get Pro</button><ul class="plan-feats"><li>Everything in Plus</li><li>Highest usage limits</li><li>Fastest responses</li><li>Unlimited HD images</li><li>Priority support</li></ul></div>
       </div>
     </div>
   </div>
 
-  <!-- SETTINGS -->
   <div class="page" id="page-settings">
     <div class="page-content">
       <div class="settings-wrap">
@@ -421,10 +406,9 @@ body{font-family:var(--font);font-size:14px;color:var(--text);background:#fff;di
   </div>
 </main>
 
-<!-- MODAL -->
 <div class="overlay" id="modal" onclick="if(event.target===this)closeModal()">
   <div class="modal">
-    <button class="modal-close" onclick="closeModal()">✕</button>
+    <button class="modal-close" onclick="closeModal()">&#10005;</button>
     <div class="modal-logo"><div class="logo-dot" style="margin:0 auto;width:38px;height:38px;font-size:17px">O</div></div>
     <div class="modal-title">Welcome to OptimaSeek</div>
     <div class="modal-sub">Log in or sign up to continue</div>
@@ -435,13 +419,13 @@ body{font-family:var(--font);font-size:14px;color:var(--text);background:#fff;di
     <div class="modal-div">or</div>
     <input class="modal-input" type="email" placeholder="Email address"/>
     <button class="btn btn-primary" style="width:100%">Continue with Email</button>
-    <p style="text-align:center;font-size:12px;color:var(--muted)">No account? <a href="#" onclick="return false;" style="color:var(--text);font-weight:500">Sign up free</a></p>
+    <p style="text-align:center;font-size:12px;color:var(--muted)">No account? <a href="#" style="color:var(--text);font-weight:500">Sign up free</a></p>
   </div>
 </div>
 
 <script>
 // ============================================================
-// LIMITS  (change these numbers anytime)
+// LIMITS
 // ============================================================
 var FREE_SEARCH_LIMIT = 9;
 var FREE_IMAGE_LIMIT  = 3;
@@ -449,82 +433,78 @@ var FREE_IMAGE_LIMIT  = 3;
 // ============================================================
 // STATE
 // ============================================================
-var currentUser  = null;
-var isPaidUser   = false;
-var chatHistory  = [];
-var isSending    = false;
-var pendingImgs  = [];   // {dataUrl, name}
+var currentUser = null;
+var isPaidUser  = false;
+var chatHistory = [];
+var isSending   = false;
+var pendingImgs = [];
 
 // ============================================================
 // STORAGE
 // ============================================================
-function getN(k){ try{return parseInt(localStorage.getItem(k)||'0');}catch(e){return 0;} }
-function setN(k,v){ try{localStorage.setItem(k,v);}catch(e){} }
-function getSearchCount(){ return getN('os_s'); }
-function bumpSearch(){ var n=getSearchCount()+1; setN('os_s',n); return n; }
-function getImgCount(){ return getN('os_i'); }
-function bumpImg(){ var n=getImgCount()+1; setN('os_i',n); return n; }
-
-function canSearch(){ return isPaidUser || getSearchCount()<FREE_SEARCH_LIMIT; }
-function canImg(){    return isPaidUser || getImgCount()<FREE_IMAGE_LIMIT; }
+function getN(k){try{return parseInt(localStorage.getItem(k)||'0');}catch(e){return 0;}}
+function setN(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+function getSearchCount(){return getN('os_s');}
+function bumpSearch(){var n=getSearchCount()+1;setN('os_s',n);return n;}
+function getImgCount(){return getN('os_i');}
+function bumpImg(){var n=getImgCount()+1;setN('os_i',n);return n;}
+function canSearch(){return isPaidUser||getSearchCount()<FREE_SEARCH_LIMIT;}
+function canImg(){return isPaidUser||getImgCount()<FREE_IMAGE_LIMIT;}
 
 // ============================================================
 // BANNER
 // ============================================================
 function updateBanner(){
   var bar=document.getElementById('limit-bar');
-  if(isPaidUser){ bar.classList.remove('show'); return; }
-  var n=getSearchCount(), rem=FREE_SEARCH_LIMIT-n;
+  if(isPaidUser){bar.classList.remove('show');return;}
+  var n=getSearchCount(),rem=FREE_SEARCH_LIMIT-n;
   document.getElementById('used-count').textContent=n;
   if(n>=FREE_SEARCH_LIMIT){
     bar.className='limit-bar danger show';
-    document.getElementById('limit-text').innerHTML='🚫 All <strong>'+FREE_SEARCH_LIMIT+'</strong> free searches used. Upgrade to continue.';
-  } else if(n>=5){
+    document.getElementById('limit-text').innerHTML='&#128683; All <strong>'+FREE_SEARCH_LIMIT+'</strong> free searches used. Upgrade to continue.';
+  }else if(n>=5){
     bar.className='limit-bar warn show';
-    document.getElementById('limit-text').innerHTML='⚠️ <strong>'+n+'</strong>/'+FREE_SEARCH_LIMIT+' free searches — <strong>'+rem+'</strong> left.';
-  } else { bar.classList.remove('show'); }
-  // dots
+    document.getElementById('limit-text').innerHTML='&#9888; <strong>'+n+'</strong>/'+FREE_SEARCH_LIMIT+' free searches &mdash; <strong>'+rem+'</strong> left.';
+  }else{bar.classList.remove('show');}
   if(n>0){
     document.getElementById('usage-indicator').style.display='block';
-    var dots=document.getElementById('usage-dots'); dots.innerHTML='';
+    var dots=document.getElementById('usage-dots');dots.innerHTML='';
     for(var i=0;i<FREE_SEARCH_LIMIT;i++){
       var d=document.createElement('div');
       d.className='usage-dot'+(i<n?(n>=FREE_SEARCH_LIMIT?' danger':n>=6?' warn':' used'):'');
       dots.appendChild(d);
     }
-    document.getElementById('usage-text').textContent=n+'/'+FREE_SEARCH_LIMIT+' searches used'+(rem>0?' ('+rem+' left)':'');
+    document.getElementById('usage-text').textContent=n+'/'+FREE_SEARCH_LIMIT+' searches'+(rem>0?' ('+rem+' left)':'');
   }
 }
 
 function updateImgCounter(){
-  var el=document.getElementById('img-counter'); if(!el) return;
+  var el=document.getElementById('img-counter');if(!el)return;
   if(isPaidUser){el.textContent='';return;}
   var rem=FREE_IMAGE_LIMIT-getImgCount();
-  el.textContent=rem>0?'('+rem+' free '+(rem===1?'generation':'generations')+' left)':'(upgrade for more)';
+  el.textContent=rem>0?'('+rem+' free left)':'(upgrade for more)';
   el.style.color=rem<=1?'#ef4444':'var(--sub)';
 }
 
 function checkImgWall(){
   var wall=document.getElementById('img-upgrade-wall');
   var cont=document.getElementById('img-content');
-  if(!isPaidUser&&getImgCount()>=FREE_IMAGE_LIMIT){ wall.classList.add('show'); cont.style.display='none'; }
-  else { wall.classList.remove('show'); cont.style.display=''; updateImgCounter(); }
+  if(!isPaidUser&&getImgCount()>=FREE_IMAGE_LIMIT){wall.classList.add('show');cont.style.display='none';}
+  else{wall.classList.remove('show');cont.style.display='';updateImgCounter();}
 }
 
 // ============================================================
 // AUTH
 // ============================================================
-function getCookie(n){ var m=document.cookie.match(new RegExp('(^| )'+n+'=([^;]+)')); return m?m[2]:null; }
-
+function getCookie(n){var m=document.cookie.match(new RegExp('(^| )'+n+'=([^;]+)'));return m?m[2]:null;}
 function checkLogin(){
   var c=getCookie('os_user');
-  if(!c){ updateBanner(); return; }
-  try{ currentUser=JSON.parse(atob(c)); }catch(e){ updateBanner(); return; }
+  if(!c){updateBanner();return;}
+  try{currentUser=JSON.parse(atob(c));}catch(e){updateBanner();return;}
   var plan=getCookie('os_plan');
   isPaidUser=!!(plan&&plan!=='free');
   applyUser(currentUser);
 }
-
 function applyUser(u){
   var init=u.name?u.name[0].toUpperCase():'U';
   document.getElementById('topbar-auth').innerHTML=
@@ -532,23 +512,22 @@ function applyUser(u){
     '<span style="font-size:13px;color:var(--sub);max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+u.name+'</span>'+
     (u.picture?'<img src="'+u.picture+'" style="width:28px;height:28px;border-radius:50%;border:2px solid var(--border)">':'<div class="logo-dot" style="width:28px;height:28px;font-size:12px">'+init+'</div>')+
     '<button class="btn btn-outline" style="padding:5px 11px;font-size:13px" onclick="logout()">Log out</button></div>';
-  document.getElementById('side-card').innerHTML='<strong>Hi, '+u.name+'!</strong>'+u.email+'<br><small style="color:var(--green)">'+(isPaidUser?'✓ Paid plan active':'Free plan active')+'</small>';
+  document.getElementById('side-card').innerHTML='<strong>Hi, '+u.name+'!</strong>'+u.email+'<br><small style="color:var(--green)">'+(isPaidUser?'&#10003; Paid plan active':'Free plan &mdash; upgrade for unlimited')+'</small>';
   document.getElementById('side-btns').style.display='none';
   document.getElementById('dd-login-label').style.display='none';
   document.getElementById('dd-files').style.color='';
-  if(isPaidUser) document.getElementById('limit-bar').classList.remove('show');
+  if(isPaidUser)document.getElementById('limit-bar').classList.remove('show');
   else updateBanner();
 }
-
-function logout(){ document.cookie='os_user=;Path=/;Max-Age=0'; document.cookie='os_plan=;Path=/;Max-Age=0'; window.location.href='/'; }
-function openModal(){ document.getElementById('modal').classList.add('open'); }
-function closeModal(){ document.getElementById('modal').classList.remove('open'); }
+function logout(){document.cookie='os_user=;Path=/;Max-Age=0';document.cookie='os_plan=;Path=/;Max-Age=0';window.location.href='/';}
+function openModal(){document.getElementById('modal').classList.add('open');}
+function closeModal(){document.getElementById('modal').classList.remove('open');}
 
 // ============================================================
-// SIDEBAR MOBILE
+// SIDEBAR
 // ============================================================
-function openSidebar(){ document.getElementById('sidebar').classList.add('open'); document.getElementById('mob-overlay').classList.add('show'); }
-function closeSidebar(){ document.getElementById('sidebar').classList.remove('open'); document.getElementById('mob-overlay').classList.remove('show'); }
+function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('mob-overlay').classList.add('show');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('mob-overlay').classList.remove('show');}
 
 // ============================================================
 // PAGES
@@ -556,22 +535,20 @@ function closeSidebar(){ document.getElementById('sidebar').classList.remove('op
 function showPage(name){
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
   document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
-  var pg=document.getElementById('page-'+name); if(pg) pg.classList.add('active');
-  var nv=document.getElementById('nav-'+name); if(nv) nv.classList.add('active');
-  if(name==='images') checkImgWall();
+  var pg=document.getElementById('page-'+name);if(pg)pg.classList.add('active');
+  var nv=document.getElementById('nav-'+name);if(nv)nv.classList.add('active');
+  if(name==='images')checkImgWall();
 }
-function sTab(el){ document.querySelectorAll('.settings-nav-item').forEach(function(x){x.classList.remove('active');}); el.classList.add('active'); }
-
+function sTab(el){document.querySelectorAll('.settings-nav-item').forEach(function(x){x.classList.remove('active');});el.classList.add('active');}
 function goHome(){
-  showPage('chat');
-  chatHistory=[]; pendingImgs=[];
+  showPage('chat');chatHistory=[];pendingImgs=[];
   document.getElementById('msgs').innerHTML='';
   document.getElementById('msgs').classList.remove('show');
   document.getElementById('chat-center').style.display='';
   document.getElementById('bottom-bar').classList.remove('show');
   ['send1','send2'].forEach(function(id){document.getElementById(id).disabled=false;});
   ['inp1','inp2'].forEach(function(id){var e=document.getElementById(id);e.value='';e.style.height='auto';});
-  clearPreviews(); isSending=false; updateBanner();
+  clearPreviews();isSending=false;updateBanner();
 }
 function enterChat(){
   document.getElementById('chat-center').style.display='none';
@@ -592,7 +569,7 @@ function md(t){
   h=h.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
   h=h.replace(/\*([^*]+)\*/g,'<em>$1</em>');
   h=h.replace(/^[-*] (.+)$/gm,'<li>$1</li>');
-  h=h.replace(/(<li>[\s\S]*?<\/li>)+/g,function(m){return '<ul>'+m+'</ul>';});
+  h=h.replace(/(<li>[\s\S]*?<\/li>)+/g,function(m){return'<ul>'+m+'</ul>';});
   h=h.replace(/^\d+\. (.+)$/gm,'<li>$1</li>');
   h=h.split(/\n\n+/).map(function(b){b=b.trim();if(!b)return'';if(/^<(h[1-3]|ul|ol|pre)/.test(b))return b;return'<p>'+b.replace(/\n/g,'<br>')+'</p>';}).join('');
   return h;
@@ -603,7 +580,7 @@ function md(t){
 // ============================================================
 function addMsg(role,text,imgs){
   var box=document.getElementById('msgs');
-  var d=document.createElement('div'); d.className='msg '+role;
+  var d=document.createElement('div');d.className='msg '+role;
   var init=role==='ai'?'O':(currentUser&&currentUser.name?currentUser.name[0].toUpperCase():'U');
   var imgH='';
   if(imgs&&imgs.length){
@@ -613,130 +590,101 @@ function addMsg(role,text,imgs){
   }
   if(role==='user'){
     d.innerHTML='<div class="avatar user">'+init+'</div><div class="bubble">'+imgH+(text?'<span>'+text+'</span>':'')+'</div>';
-  } else {
+  }else{
     d.innerHTML='<div class="avatar ai">O</div><div class="bubble">'+md(text)+'</div>';
   }
-  box.appendChild(d); box.scrollTop=box.scrollHeight;
+  box.appendChild(d);box.scrollTop=box.scrollHeight;return d;
 }
 
-function addFileCard(icon,label,fname,fn){
+// KEY FUNCTION: add a download card directly in chat — NO POPUP
+function addDownloadCard(icon, label, filename, dataUrl, mimeType){
   var box=document.getElementById('msgs');
-  var d=document.createElement('div'); d.className='msg ai';
-  d.innerHTML='<div class="avatar ai">O</div><div class="bubble"><p>Here is your <strong>'+label+'</strong> — ready to download!</p><div class="file-card" onclick="'+fn+'"><div class="file-icon">'+icon+'</div><div class="file-info"><div class="file-name">'+fname+'</div><div class="file-dl">⬇ Click to download</div></div></div></div>';
-  box.appendChild(d); box.scrollTop=box.scrollHeight;
+  var d=document.createElement('div');d.className='msg ai';
+  var inner='<div class="avatar ai">O</div><div class="bubble">'
+    +'<p>&#10003; Your <strong>'+label+'</strong> is ready!</p>'
+    +'<a class="dl-card" href="'+dataUrl+'" download="'+filename+'">'
+    +'<div class="dl-icon">'+icon+'</div>'
+    +'<div class="dl-info"><div class="dl-name">'+filename+'</div><div class="dl-meta">Click to download &bull; Ready now</div></div>'
+    +'<button class="dl-btn">&#11015; Download</button>'
+    +'</a></div>';
+  d.innerHTML=inner;
+  box.appendChild(d);box.scrollTop=box.scrollHeight;
 }
 
-function showTyping(){ removeTyping(); var box=document.getElementById('msgs'); var d=document.createElement('div'); d.className='msg ai'; d.id='typing'; d.innerHTML='<div class="avatar ai">O</div><div class="bubble"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>'; box.appendChild(d); box.scrollTop=box.scrollHeight; }
-function removeTyping(){ var e=document.getElementById('typing'); if(e) e.remove(); }
+function showTyping(){removeTyping();var box=document.getElementById('msgs');var d=document.createElement('div');d.className='msg ai';d.id='typing';d.innerHTML='<div class="avatar ai">O</div><div class="bubble"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>';box.appendChild(d);box.scrollTop=box.scrollHeight;}
+function removeTyping(){var e=document.getElementById('typing');if(e)e.remove();}
 
 // ============================================================
-// INPUT HELPERS
+// INPUT
 // ============================================================
-function resizeTA(el){ el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,200)+'px'; }
-function fillPrompt(t){ var e=document.getElementById('inp1'); e.value=t; resizeTA(e); e.focus(); }
-
-// ============================================================
-// DROPDOWN
-// ============================================================
+function resizeTA(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,200)+'px';}
+function fillPrompt(t){var e=document.getElementById('inp1');e.value=t;resizeTA(e);e.focus();}
 var ddOpen=false;
-function toggleDD(e){
-  if(e){e.preventDefault();e.stopPropagation();}
-  ddOpen=!ddOpen;
-  document.getElementById('dd').className='dropdown'+(ddOpen?' open':'');
-}
-function closeDD(){ ddOpen=false; document.getElementById('dd').classList.remove('open'); }
+function toggleDD(e){if(e){e.preventDefault();e.stopPropagation();}ddOpen=!ddOpen;document.getElementById('dd').className='dropdown'+(ddOpen?' open':'');}
+function closeDD(){ddOpen=false;document.getElementById('dd').classList.remove('open');}
+function doPhoto(){closeDD();document.getElementById('photo-input').click();}
+function doFile(){if(!currentUser){openModal();closeDD();return;}closeDD();document.getElementById('file-input').click();}
 
 // ============================================================
-// PHOTO / FILE — separate from dropdown click
-// ============================================================
-function doPhoto(){ closeDD(); document.getElementById('photo-input').click(); }
-function doFile(){
-  if(!currentUser){ openModal(); closeDD(); return; }
-  closeDD();
-  document.getElementById('file-input').click();
-}
-
-// ============================================================
-// ATTACH PREVIEWS (multiple images supported)
+// PREVIEWS
 // ============================================================
 function clearPreviews(){
   pendingImgs=[];
   ['attach-preview1','attach-preview2'].forEach(function(id){
-    var el=document.getElementById(id); if(!el) return;
-    el.innerHTML=''; el.classList.add('hide');
+    var el=document.getElementById(id);if(!el)return;
+    el.innerHTML='';el.classList.add('hide');
   });
 }
-
 function renderPreviews(){
   ['attach-preview1','attach-preview2'].forEach(function(id){
-    var el=document.getElementById(id); if(!el) return;
+    var el=document.getElementById(id);if(!el)return;
     el.innerHTML='';
-    if(!pendingImgs.length){ el.classList.add('hide'); return; }
+    if(!pendingImgs.length){el.classList.add('hide');return;}
     el.classList.remove('hide');
     pendingImgs.forEach(function(img,i){
-      var w=document.createElement('div'); w.className='attach-thumb';
-      var im=document.createElement('img'); im.src=img.dataUrl; w.appendChild(im);
-      var btn=document.createElement('button'); btn.className='attach-remove'; btn.textContent='✕';
-      btn.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();pendingImgs.splice(i,1);renderPreviews();});
-      w.appendChild(btn); el.appendChild(w);
+      var w=document.createElement('div');w.className='attach-thumb';
+      var im=document.createElement('img');im.src=img.dataUrl;w.appendChild(im);
+      var btn=document.createElement('button');btn.className='attach-remove';btn.textContent='&#10005;';
+      btn.addEventListener('click',function(ev){ev.preventDefault();ev.stopPropagation();pendingImgs.splice(i,1);renderPreviews();});
+      w.appendChild(btn);el.appendChild(w);
     });
   });
 }
 
 // ============================================================
-// DOCUMENT GENERATION
+// DOCUMENT GENERATION — builds files as data URLs, no popups
 // ============================================================
-function sleep(ms){ return new Promise(function(r){setTimeout(r,ms);}); }
+function sleep(ms){return new Promise(function(r){setTimeout(r,ms);});}
 
-async function getAIContent(topic, dtype){
-  var sysprompts={
-    pdf:'You are a professional document writer. Write a complete, well-structured, professional document. Use ## for headings. Write real, detailed content — at least 400 words. Write the full letter or document, not a template.',
-    word:'You are a professional letter writer. Write a complete, properly formatted formal letter with address, date, salutation, 3+ body paragraphs, and closing signature. Write the full letter with real content.',
-    ppt:'Create a 6-slide presentation. Format exactly:\nSLIDE 1: [title]\nBULLETS: [point1] | [point2] | [point3]\n\nRepeat for 6 slides with real informative content.'
-  };
-  try{
-    var res=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:sysprompts[dtype]||sysprompts.pdf,messages:[{role:'user',content:'Write a '+dtype+' document about: '+topic}]})});
-    var data=await res.json();
-    return(data&&data.reply)?data.reply:'';
-  }catch(e){return'';}
-}
-
-function openDocWindow(title,content){
-  var lines=(content||'').split('\n'), body='';
+// Build HTML content string from AI text
+function buildHTMLDoc(title, content){
+  var lines=(content||'').split('\n'),body='';
   lines.forEach(function(l){
-    var t=l.trim(); if(!t)return;
+    var t=l.trim();if(!t)return;
     if(t.startsWith('### '))body+='<h3>'+t.slice(4)+'</h3>';
     else if(t.startsWith('## '))body+='<h2>'+t.slice(3)+'</h2>';
-    else if(t.startsWith('# '))body+='<h1>'+t.slice(2)+'</h1>';
+    else if(t.startsWith('# '))body+='<h1 class="doc-title">'+t.slice(2)+'</h1>';
     else if(t.startsWith('- ')||t.startsWith('* '))body+='<li>'+t.slice(2).replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')+'</li>';
     else body+='<p>'+t.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')+'</p>';
   });
   body=body.replace(/(<li>[\s\S]*?<\/li>)+/g,function(m){return'<ul>'+m+'</ul>';});
-  var win=window.open('','_blank');
-  if(!win){alert('Please allow popups to open documents.');return;}
-  win.document.write('<!DOCTYPE html><html><head><title>'+title+'</title>'
-    +'<style>body{font-family:Arial,sans-serif;font-size:12pt;margin:48px;color:#222;line-height:1.8;max-width:720px}'
-    +'h1{font-size:20pt;color:#1F3864;border-bottom:2px solid #1F3864;padding-bottom:8px;margin:0 0 20px}'
+  return '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>'+title+'</title>'
+    +'<style>body{font-family:Arial,sans-serif;font-size:12pt;margin:48px 56px;color:#222;line-height:1.8;max-width:720px}'
+    +'.doc-title{font-size:20pt;color:#1F3864;border-bottom:2px solid #1F3864;padding-bottom:10px;margin:0 0 22px}'
     +'h2{font-size:14pt;color:#2E75B6;margin:22px 0 8px}'
     +'h3{font-size:12pt;color:#374151;margin:16px 0 6px}'
     +'p{margin:6px 0}ul{margin:8px 0;padding-left:24px}li{margin:4px 0}'
-    +'.tb{margin-bottom:24px;display:flex;gap:10px;flex-wrap:wrap}'
-    +'.b1{background:#0d0d0d;color:#fff;padding:10px 20px;border:none;border-radius:6px;cursor:pointer;font-size:13px}'
-    +'.b2{background:#f5f5f5;color:#333;padding:10px 20px;border:1px solid #ddd;border-radius:6px;cursor:pointer;font-size:13px}'
-    +'.ft{margin-top:48px;font-size:9pt;color:#aaa;border-top:1px solid #eee;padding-top:10px}'
-    +'@media print{.tb{display:none}}</style>'
-    +'</head><body>'
-    +'<div class="tb"><button class="b1" onclick="window.print()">⬇ Save as PDF</button>'
-    +'<button class="b2" onclick="sel()">Select All (copy to Word)</button></div>'
-    +'<div id="doc"><h1>'+title+'</h1>'+body+'</div>'
-    +'<div class="ft">Generated by OptimaSeek &bull; '+new Date().toLocaleDateString()+'</div>'
-    +'<script>function sel(){var r=document.createRange();r.selectNode(document.getElementById("doc"));window.getSelection().removeAllRanges();window.getSelection().addRange(r);}<\/script>'
-    +'</body></html>');
-  win.document.close();
+    +'.footer{margin-top:48px;font-size:9pt;color:#aaa;border-top:1px solid #eee;padding-top:10px}'
+    +'</style></head><body>'
+    +'<h1 class="doc-title">'+title+'</h1>'
+    +body
+    +'<div class="footer">Generated by OptimaSeek &bull; '+new Date().toLocaleDateString()+'</div>'
+    +'</body></html>';
 }
 
-function openPPTWindow(title,aiContent){
-  var slides=[], cur=null;
+// Build PPT HTML
+function buildPPTDoc(title, aiContent){
+  var slides=[],cur=null;
   (aiContent||'').split('\n').forEach(function(l){
     var t=l.trim();
     var sm=t.match(/^SLIDE\s*\d+[:\-]\s*(.+)/i);
@@ -747,10 +695,10 @@ function openPPTWindow(title,aiContent){
   if(cur)slides.push(cur);
   if(!slides.length){
     slides=[
-      {title:'Introduction',bullets:['What is '+title,'Why it matters','Key objectives']},
-      {title:'Background & Context',bullets:['Historical perspective','Current situation','Key stakeholders']},
+      {title:'Introduction',bullets:['Overview of '+title,'Why it matters','Key objectives']},
+      {title:'Background',bullets:['Historical context','Current landscape','Key stakeholders']},
       {title:'Key Points',bullets:['Main finding one','Main finding two','Main finding three']},
-      {title:'Benefits & Opportunities',bullets:['Primary advantage','Secondary benefit','Long-term impact']},
+      {title:'Benefits',bullets:['Primary advantage','Secondary benefit','Long-term impact']},
       {title:'Challenges & Solutions',bullets:['Challenge identified','Proposed solution','Implementation steps']},
       {title:'Conclusion',bullets:['Summary of key points','Recommended actions','Next steps']}
     ];
@@ -758,27 +706,45 @@ function openPPTWindow(title,aiContent){
   var colors=['#1F3864','#1a5276','#154360','#0d3b6e','#1b2a4a','#2c3e6b'];
   var shtml=slides.map(function(s,i){
     return '<div class="slide" style="background:'+colors[i%colors.length]+'">'
-      +'<div class="sn">'+(i+1)+'/'+slides.length+'</div>'
+      +'<div class="sn">'+(i+1)+' / '+slides.length+'</div>'
       +'<h2>'+s.title+'</h2>'
       +'<ul>'+s.bullets.map(function(b){return'<li>'+b+'</li>';}).join('')+'</ul>'
       +'</div>';
   }).join('');
-  var win=window.open('','_blank');
-  if(!win){alert('Please allow popups.');return;}
-  win.document.write('<!DOCTYPE html><html><head><title>'+title+'</title>'
+  return '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>'+title+'</title>'
     +'<style>*{box-sizing:border-box;margin:0;padding:0}body{background:#0a0a0a;font-family:Arial,sans-serif}'
-    +'.tb{background:#111;padding:14px 24px;display:flex;align-items:center;gap:12px;color:#ccc;font-size:13px}'
-    +'.tb button{background:#10a37f;color:#fff;border:none;padding:8px 20px;border-radius:6px;font-size:13px;cursor:pointer}'
-    +'.slide{width:900px;min-height:506px;margin:24px auto;border-radius:12px;padding:56px 64px;display:flex;flex-direction:column;justify-content:center;position:relative}'
+    +'.slide{width:900px;min-height:506px;margin:24px auto;border-radius:12px;padding:56px 64px;display:flex;flex-direction:column;justify-content:center;position:relative;page-break-after:always}'
     +'.sn{position:absolute;top:18px;right:24px;color:rgba(255,255,255,.4);font-size:12px}'
     +'h2{font-size:28px;font-weight:700;color:#fff;border-bottom:3px solid rgba(255,255,255,.25);padding-bottom:16px;margin-bottom:22px}'
     +'ul{list-style:none}li{font-size:17px;padding:9px 0;color:rgba(255,255,255,.88);display:flex;align-items:flex-start;gap:12px}'
-    +'li::before{content:"▶";color:#ffd700;font-size:11px;margin-top:4px;flex-shrink:0}'
-    +'@media print{body{background:#fff}.tb{display:none}.slide{margin:0;border-radius:0;width:100%;page-break-after:always}}'
-    +'</style></head><body>'
-    +'<div class="tb"><span>📊 '+title+'</span><button onclick="window.print()">🖨 Print / Save as PDF</button></div>'
-    +shtml+'</body></html>');
-  win.document.close();
+    +'li::before{content:"\\25B6";color:#ffd700;font-size:11px;margin-top:4px;flex-shrink:0}'
+    +'</style></head><body>'+shtml+'</body></html>';
+}
+
+// Convert HTML string to data URL for download
+function htmlToDataUrl(html){
+  return 'data:text/html;charset=utf-8,'+encodeURIComponent(html);
+}
+
+// Get AI content for documents
+async function getAIContent(topic, dtype){
+  var prompts={
+    pdf:'You are a professional document writer. Write a complete, well-structured document with real content. Use ## for section headings. Write at least 400 words of actual content, not placeholders.',
+    word:'You are a professional letter writer. Write a complete formal letter with: full address block, date, subject line, proper salutation, 3+ detailed body paragraphs, and a proper closing with signature. Write real content, not placeholders.',
+    ppt:'Create a 6-slide presentation. For EACH slide use EXACTLY this format:\nSLIDE 1: [Title Here]\nBULLETS: [Point one] | [Point two] | [Point three]\n\nDo all 6 slides with real informative content.'
+  };
+  try{
+    var res=await fetch('/api/chat',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        system:prompts[dtype]||prompts.pdf,
+        messages:[{role:'user',content:'Write about: '+topic}]
+      })
+    });
+    var data=await res.json();
+    return(data&&data.reply)?data.reply:'';
+  }catch(e){return'';}
 }
 
 // ============================================================
@@ -786,70 +752,77 @@ function openPPTWindow(title,aiContent){
 // ============================================================
 function detectFile(text){
   var t=text.toLowerCase();
-  if(/\bexcel\b|xlsx|spreadsheet|payscal|pay.?scale|salary|payroll/.test(t)) return 'excel';
-  if(/\bpdf\b|send.?me.?pdf|create.?pdf|make.?pdf|generate.?pdf|write.{0,20}pdf|pdf.{0,20}letter/.test(t)) return 'pdf';
-  if(/\bword\b|\bdocx\b|\bwordpad\b|\bletter\b|\bmemo\b|\bresume\b|\bcv\b|send.?word|create.?word/.test(t)&&!/pdf/.test(t)) return 'word';
-  if(/powerpoint|pptx|presentation|slideshow|slide.?deck|send.{0,10}ppt/.test(t)) return 'ppt';
+  if(/\bexcel\b|xlsx|spreadsheet|payscal|pay.?scale|salary|payroll/.test(t))return'excel';
+  if(/\bpdf\b|send.?pdf|create.?pdf|make.?pdf|write.{0,20}pdf|pdf.{0,20}letter|letter.{0,20}pdf/.test(t))return'pdf';
+  if(/\bword\b|\bdocx\b|\bwordpad\b|\bletter\b|\bmemo\b|\bresume\b|\bcv\b|send.?word|word.?doc/.test(t)&&!/pdf/.test(t))return'word';
+  if(/powerpoint|pptx|presentation|slideshow|slide.?deck|send.?ppt|make.?ppt/.test(t))return'ppt';
   return null;
 }
-
 function extractTopic(text){
-  var stop=/\b(create|make|generate|write|send|me|a|an|the|for|to|and|pdf|word|docx|wordpad|powerpoint|pptx|presentation|letter|document|file|please|can|you)\b/gi;
-  var t=text.replace(stop,'').replace(/\s+/g,' ').trim();
-  return t.length>3?t:text.trim();
+  return text.replace(/\b(create|make|generate|write|send|me|a|an|the|for|to|and|pdf|word|docx|wordpad|powerpoint|pptx|presentation|letter|document|file|please|can|you|i|want|need)\b/gi,'').replace(/\s+/g,' ').trim()||text.trim();
 }
 
+// Excel base64
 var EXCEL_B64='UEsDBBQAAAAIACqHr1xGx01IlQAAAM0AAAAQAAAAZG9jUHJvcHMvYXBwLnhtbE3PTQvCMAwG4L9SdreZih6kDkQ9ip68zy51hbYpbYT67+0EP255ecgboi6JIia2mEXxLuRtMzLHDUDWI/o+y8qhiqHke64x3YGMsRoPpB8eA8OibdeAhTEMOMzit7Dp1C5GZ3XPlkJ3sjpRJsPiWDQ6sScfq9wcChDneiU+ixNLOZcrBf+LU8sVU57mym/8ZAW/B7oXUEsDBBQAAAAIACqHr1y7Jszd7wAAACsCAAARAAAAAAAAAAAAAACAAcMAAABkb2NQcm9wcy9jb3JlLnhtbFBLAQIUAxQAAAAIACqHr1yZXJwjEAYAAJwnAAATAAAAAAAAAAAAAACAAeEBAAB4bC90aGVtZS90aGVtZTEueG1sUEsBAhQDFAAAAAgAKoevXOWHHM8QBwAAvCMAABgAAAAAAAAAAAAAAICBIggAAHhsL3dvcmtzaGVldHMvc2hlZXQxLnhtbFBLAQIUAxQAAAAIACqHr1yMvJ6jEAIAAEEFAAAYAAAAAAAAAAAAAACAgWgPAAB4bC93b3Jrc2hlZXRzL3NoZWV0Mi54bWxQSwECFAMUAAAACAAqh69cYaaHWo0DAAC/FwAADQAAAAAAAAAAAAAAgAGuEQAAeGwvc3R5bGVzLnhtbFBLAQIUAxQAAAAIACqHr1yXirscwAAAABMCAAALAAAAAAAAAAAAAACAAWYVAABfcmVscy8ucmVsc1BLAQIUAxQAAAAIACqHr1zXpTXxTwEAALsCAAAPAAAAAAAAAAAAAACAAU8WAAB4bC93b3JrYm9vay54bWxQSwECFAMUAAAACAAqh69cjfcsWrQAAACJAgAAGgAAAAAAAAAAAAAAgAHLFwAAeGwvX3JlbHMvd29ya2Jvb2sueG1sLnJlbHNQSwECFAMUAAAACAAqh69cbqckvB4BAABXBAAAEwAAAAAAAAAAAAAAgAG3GAAAW0NvbnRlbnRfVHlwZXNdLnhtbFBLBQYAAAAACgAKAIQCAAAGGgAAAAA=';
-function downloadExcel(){ var a=document.createElement('a'); a.href='data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,'+EXCEL_B64; a.download='Employee_Payscale.xlsx'; document.body.appendChild(a); a.click(); document.body.removeChild(a); }
 
 // ============================================================
 // SEND MESSAGE
 // ============================================================
 async function sendText(text){
-  if(!text.trim()||isSending) return;
+  if(!text.trim()||isSending)return;
   if(!canSearch()){
     enterChat();
-    addMsg('ai','🚫 You have used all **'+FREE_SEARCH_LIMIT+' free searches**. Please upgrade to continue.');
+    addMsg('ai','&#128683; You have used all **'+FREE_SEARCH_LIMIT+' free searches**. Please upgrade to continue.');
     var box=document.getElementById('msgs');
-    var d=document.createElement('div'); d.className='msg ai';
-    d.innerHTML='<div class="avatar ai">O</div><div class="bubble" style="padding-top:8px"><button class="btn btn-primary" onclick="showPage(\'pricing\')" style="padding:10px 24px">See upgrade plans →</button></div>';
-    box.appendChild(d); box.scrollTop=box.scrollHeight;
+    var d=document.createElement('div');d.className='msg ai';
+    d.innerHTML='<div class="avatar ai">O</div><div class="bubble" style="padding-top:8px"><button class="btn btn-primary" onclick="showPage(\'pricing\')" style="padding:10px 24px">See upgrade plans &#8594;</button></div>';
+    box.appendChild(d);box.scrollTop=box.scrollHeight;
     return;
   }
-
   enterChat();
   var imgs=pendingImgs.map(function(i){return i.dataUrl;});
   addMsg('user',text,imgs);
-  chatHistory.push({role:'user',content:text+(imgs.length?' ['+imgs.length+' image(s) attached]':'')});
+  chatHistory.push({role:'user',content:text});
   clearPreviews();
   isSending=true;
   ['send1','send2'].forEach(function(id){document.getElementById(id).disabled=true;});
-  bumpSearch(); updateBanner();
+  bumpSearch();updateBanner();
 
   var ftype=detectFile(text);
   if(ftype){
     var topic=extractTopic(text);
     if(ftype==='excel'){
-      showTyping(); await sleep(600); removeTyping();
-      addFileCard('📊','Employee Payscale Excel','Employee_Payscale.xlsx','downloadExcel()');
-    } else if(ftype==='pdf'){
+      showTyping();await sleep(500);removeTyping();
+      // Excel: direct base64 download link
+      addDownloadCard('&#128202;','Employee Payscale Excel','Employee_Payscale.xlsx',
+        'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,'+EXCEL_B64,
+        'xlsx');
+    }else if(ftype==='pdf'){
       showTyping();
-      addMsg('ai','📝 Writing your PDF document about "**'+topic+'**" — please wait…');
-      var c=await getAIContent(topic,'pdf'); removeTyping();
-      openDocWindow(topic, c||('## '+topic+'\n\nThis document provides detailed information about '+topic+'.\n\n## Overview\n\nThe following sections cover the key aspects of this topic.\n\n## Main Content\n\nDetailed analysis and information about '+topic+' including background context, current state, and recommendations.\n\n## Conclusion\n\nIn conclusion, '+topic+' represents an important area that warrants careful consideration and action.'));
-      addMsg('ai','✅ Your PDF document about "**'+topic+'**" has opened in a new tab!\n\n- Click **"⬇ Save as PDF"** to download it\n- Click **"Select All"** to copy into Microsoft Word or Google Docs');
-    } else if(ftype==='word'){
+      addMsg('ai','&#128221; Writing your PDF about "**'+topic+'**" &mdash; please wait a moment&#8230;');
+      var content=await getAIContent(topic,'pdf');
+      removeTyping();
+      var fallback='## Introduction\n\nThis document covers the topic: '+topic+'.\n\n## Overview\n\n'+topic+' is an important subject that requires careful consideration and analysis.\n\n## Main Content\n\nThe following sections provide detailed information about '+topic+', including key points, analysis, and practical recommendations for readers.\n\n## Key Points\n\n- First important aspect of '+topic+'\n- Second critical consideration\n- Third relevant factor to consider\n\n## Conclusion\n\nIn conclusion, '+topic+' represents an area of significant importance. The information presented in this document serves as a comprehensive guide for understanding the subject matter.';
+      var html=buildHTMLDoc(topic, content||fallback);
+      addDownloadCard('&#128196;',topic+' (PDF Document)',topic.replace(/[^a-z0-9]/gi,'_')+'.html',htmlToDataUrl(html),'html');
+      addMsg('ai','Your document is ready to download above. Open the file in your browser then press **Ctrl+P** (or Cmd+P on Mac) and choose **"Save as PDF"** to get a PDF file.');
+    }else if(ftype==='word'){
       showTyping();
-      addMsg('ai','📝 Writing your document/letter about "**'+topic+'**" — please wait…');
-      var c2=await getAIContent(topic,'word'); removeTyping();
-      openDocWindow(topic, c2||('## '+topic+'\n\nDear Sir/Madam,\n\nI am writing to you regarding '+topic+'.\n\nI hope this letter finds you well. The purpose of this correspondence is to formally address the matter of '+topic+' and provide relevant details for your consideration.\n\nPlease review the information provided and do not hesitate to reach out if you require any clarification or additional documentation.\n\nThank you for your time and attention to this matter.\n\nYours sincerely,\n[Your Name]\n[Your Contact Information]'));
-      addMsg('ai','✅ Your letter/document about "**'+topic+'**" opened in a new tab!\n\n- **To save as Word:** Click "Select All" → Paste into Microsoft Word or Google Docs\n- **To save as PDF:** Click "⬇ Save as PDF"');
-    } else if(ftype==='ppt'){
+      addMsg('ai','&#128221; Writing your letter/document about "**'+topic+'**" &mdash; please wait&#8230;');
+      var content2=await getAIContent(topic,'word');
+      removeTyping();
+      var fallback2='## '+topic+'\n\n[Your Address]\n[City, Province, Postal Code]\n[Date: '+new Date().toLocaleDateString()+']\n\nDear Sir/Madam,\n\n**Subject: '+topic+'**\n\nI am writing to formally address the matter of '+topic+'. This letter outlines the key aspects and considerations relevant to this subject.\n\nI kindly request your attention to this matter and ask that you review the enclosed information carefully. Should you require any additional documentation or clarification, please do not hesitate to contact me at your earliest convenience.\n\nI look forward to your prompt response and thank you for your time and consideration.\n\nYours sincerely,\n\n[Your Name]\n[Your Title]\n[Contact Information]';
+      var html2=buildHTMLDoc(topic, content2||fallback2);
+      addDownloadCard('&#128196;',topic+' (Word Document)',topic.replace(/[^a-z0-9]/gi,'_')+'_letter.html',htmlToDataUrl(html2),'html');
+      addMsg('ai','Your document is ready! Download it above.\n\n- **To use in Word:** Open the file, select all text (Ctrl+A), copy, then paste into Microsoft Word or Google Docs.\n- **To save as PDF:** Open file in browser then print → Save as PDF.');
+    }else if(ftype==='ppt'){
       showTyping();
-      addMsg('ai','📊 Creating your presentation about "**'+topic+'**" — please wait…');
-      var c3=await getAIContent(topic,'ppt'); removeTyping();
-      openPPTWindow(topic,c3);
-      addMsg('ai','✅ Your presentation about "**'+topic+'**" opened in a new tab!\n\n- Click **"🖨 Print / Save as PDF"** to save it\n- Each slide will be a separate page in the PDF');
+      addMsg('ai','&#128202; Creating your presentation about "**'+topic+'**" &mdash; please wait&#8230;');
+      var content3=await getAIContent(topic,'ppt');
+      removeTyping();
+      var pptHtml=buildPPTDoc(topic,content3);
+      addDownloadCard('&#128202;',topic+' (Presentation)',topic.replace(/[^a-z0-9]/gi,'_')+'_presentation.html',htmlToDataUrl(pptHtml),'html');
+      addMsg('ai','Your presentation is ready! Download it above.\n\n- **To view:** Open the downloaded file in any browser\n- **To save as PDF:** Open in browser then print → Save as PDF (each slide = one page)');
     }
     isSending=false;
     ['send1','send2'].forEach(function(id){document.getElementById(id).disabled=false;});
@@ -873,72 +846,63 @@ async function sendText(text){
 }
 
 // ============================================================
-// IMAGE GENERATION — parallel loading = fast
+// IMAGE GENERATION — parallel, fast
 // ============================================================
-function setImgPrompt(t){ document.getElementById('img-prompt').value=t; document.getElementById('img-prompt').focus(); }
+function setImgPrompt(t){document.getElementById('img-prompt').value=t;document.getElementById('img-prompt').focus();}
 
 async function generateImage(){
-  if(!canImg()){ checkImgWall(); return; }
+  if(!canImg()){checkImgWall();return;}
   var promptEl=document.getElementById('img-prompt');
   var prompt=promptEl.value.trim();
-  if(!prompt){ promptEl.style.borderColor='#ef4444'; promptEl.focus(); setTimeout(function(){promptEl.style.borderColor='';},1500); return; }
-
-  bumpImg(); updateImgCounter();
-
+  if(!prompt){promptEl.style.borderColor='#ef4444';promptEl.focus();setTimeout(function(){promptEl.style.borderColor='';},1500);return;}
+  bumpImg();updateImgCounter();
   var btn=document.getElementById('gen-btn');
   var sec=document.getElementById('gen-section');
   var grid=document.getElementById('gen-grid');
   var spinner=document.getElementById('gen-spinner');
-  btn.disabled=true; btn.textContent='Generating…';
-  sec.style.display='block'; spinner.style.display='flex'; grid.innerHTML='';
+  btn.disabled=true;btn.textContent='Generating&#8230;';
+  sec.style.display='block';spinner.style.display='flex';grid.innerHTML='';
   sec.scrollIntoView({behavior:'smooth',block:'nearest'});
-
-  // Paid: 4 variations; Free: 1
   var variants=isPaidUser
-    ?[{s:'',l:'Original'},{s:', vibrant colors, detailed',l:'Vibrant'},{s:', artistic soft light',l:'Artistic'},{s:', cinematic style',l:'Cinematic'}]
+    ?[{s:'',l:'Original'},{s:', vibrant colors',l:'Vibrant'},{s:', artistic',l:'Artistic'},{s:', cinematic',l:'Cinematic'}]
     :[{s:'',l:'Generated'}];
-
-  // Create skeleton cards
   variants.forEach(function(v,i){
-    var c=document.createElement('div'); c.className='gen-card'; c.id='gc'+i;
+    var c=document.createElement('div');c.className='gen-card';c.id='gc'+i;
     c.innerHTML='<div class="skeleton"></div><div class="gen-label">'+v.l+'</div>';
     grid.appendChild(c);
   });
-
-  // Load all in parallel — much faster
   await Promise.all(variants.map(function(v,i){
-    return (async function(){
+    return(async function(){
       var seed=Math.floor(Math.random()*99999)+1;
       var url='https://image.pollinations.ai/prompt/'+encodeURIComponent(prompt+v.s)+'?width=512&height=512&seed='+seed+'&nologo=true&model=flux&enhance=false';
       var card=document.getElementById('gc'+i);
       try{
-        await new Promise(function(res,rej){var img=new Image();img.onload=res;img.onerror=rej;img.src=url;setTimeout(function(){rej(new Error('timeout'));},35000);});
-        card.innerHTML='<img src="'+url+'" loading="eager" alt="'+v.l+'"/><div class="gen-label">'+v.l+'</div><div class="gen-actions"><a href="'+url+'" target="_blank" download>⬇ Download</a></div>';
+        await new Promise(function(res,rej){var img=new Image();img.onload=res;img.onerror=rej;img.src=url;setTimeout(function(){rej(new Error('timeout'));},40000);});
+        card.innerHTML='<img src="'+url+'" loading="eager" alt="'+v.l+'"/><div class="gen-label">'+v.l+'</div><div class="gen-actions"><a href="'+url+'" target="_blank" download>&#11015; Download</a></div>';
       }catch(e){
-        card.innerHTML='<div class="skeleton" style="display:flex;align-items:center;justify-content:center;color:#bbb;font-size:12px">Failed to load</div><div class="gen-actions"><a onclick="retryCard('+i+',\''+encodeURIComponent(prompt+v.s)+'\',\''+v.l+'\')">↺ Retry</a></div>';
+        card.innerHTML='<div class="skeleton" style="display:flex;align-items:center;justify-content:center;color:#bbb;font-size:12px">Failed to load</div><div class="gen-actions"><a onclick="retryCard('+i+',\''+encodeURIComponent(prompt+v.s)+'\',\''+v.l+'\')">&#8635; Retry</a></div>';
       }
     })();
   }));
-
-  spinner.style.display='none'; btn.disabled=false; btn.textContent='✨ Generate image';
+  spinner.style.display='none';btn.disabled=false;btn.textContent='&#10024; Generate image';
   if(!isPaidUser&&getImgCount()>=FREE_IMAGE_LIMIT){
     var w=document.createElement('div');
     w.style.cssText='background:#fff8e1;border:1px solid #ffd54f;border-radius:10px;padding:14px 18px;font-size:13px;color:#5d4037;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px;flex-wrap:wrap';
-    w.innerHTML='<span>⚠️ That was your last free image. Upgrade for unlimited.</span><button class="btn btn-primary" style="padding:7px 14px;font-size:13px;flex-shrink:0" onclick="showPage(\'pricing\')">Upgrade</button>';
+    w.innerHTML='<span>&#9888; Last free image used. Upgrade for unlimited.</span><button class="btn btn-primary" style="padding:7px 14px;font-size:13px" onclick="showPage(\'pricing\')">Upgrade</button>';
     sec.appendChild(w);
   }
 }
 
 async function retryCard(idx,encPrompt,label){
-  var card=document.getElementById('gc'+idx); if(!card) return;
-  card.innerHTML='<div class="skeleton"></div><div class="gen-label">Retrying…</div>';
+  var card=document.getElementById('gc'+idx);if(!card)return;
+  card.innerHTML='<div class="skeleton"></div><div class="gen-label">Retrying&#8230;</div>';
   var seed=Math.floor(Math.random()*99999)+1;
   var url='https://image.pollinations.ai/prompt/'+decodeURIComponent(encPrompt)+'?width=512&height=512&seed='+seed+'&nologo=true&model=flux&enhance=false';
   try{
-    await new Promise(function(res,rej){var img=new Image();img.onload=res;img.onerror=rej;img.src=url;setTimeout(function(){rej();},35000);});
-    card.innerHTML='<img src="'+url+'" loading="eager" alt="'+label+'"/><div class="gen-label">'+label+'</div><div class="gen-actions"><a href="'+url+'" target="_blank" download>⬇ Download</a></div>';
+    await new Promise(function(res,rej){var img=new Image();img.onload=res;img.onerror=rej;img.src=url;setTimeout(function(){rej();},40000);});
+    card.innerHTML='<img src="'+url+'" loading="eager" alt="'+label+'"/><div class="gen-label">'+label+'</div><div class="gen-actions"><a href="'+url+'" target="_blank" download>&#11015; Download</a></div>';
   }catch(e){
-    card.innerHTML='<div class="skeleton" style="display:flex;align-items:center;justify-content:center;color:#bbb;font-size:12px">Still failing</div><div class="gen-actions"><a onclick="retryCard('+idx+',\''+encPrompt+'\',\''+label+'\')">↺ Try again</a></div>';
+    card.innerHTML='<div class="skeleton" style="display:flex;align-items:center;justify-content:center;color:#bbb;font-size:12px">Still failing</div><div class="gen-actions"><a onclick="retryCard('+idx+',\''+encPrompt+'\',\''+label+'\')">&#8635; Try again</a></div>';
   }
 }
 
@@ -946,93 +910,64 @@ async function retryCard(idx,encPrompt,label){
 // SUBSCRIBE
 // ============================================================
 async function subscribe(plan){
-  var btn=document.getElementById('btn-'+plan), orig=btn.textContent;
-  btn.textContent='Loading…'; btn.disabled=true;
+  var btn=document.getElementById('btn-'+plan),orig=btn.textContent;
+  btn.textContent='Loading&#8230;';btn.disabled=true;
   try{
     var r=await fetch('/api/stripe/checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan:plan})});
     var d=await r.json();
     if(d.url){window.location.href=d.url;return;}
     throw new Error(d.error||'Failed');
-  }catch(e){ alert('Checkout error: '+e.message); btn.textContent=orig; btn.disabled=false; }
+  }catch(e){alert('Checkout error: '+e.message);btn.textContent=orig;btn.disabled=false;}
 }
 
 // ============================================================
 // INIT
 // ============================================================
 document.addEventListener('DOMContentLoaded',function(){
-  // Textarea auto-resize + send on Enter
-  ['inp1','inp2'].forEach(function(id,idx){
+  ['inp1','inp2'].forEach(function(id){
     var inp=document.getElementById(id);
     inp.addEventListener('input',function(){resizeTA(this);});
     inp.addEventListener('keydown',function(e){
-      if(e.key==='Enter'&&!e.shiftKey){
-        e.preventDefault();
-        var t=this.value.trim();
-        if(t){this.value='';resizeTA(this);sendText(t);}
-      }
+      if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();var t=this.value.trim();if(t){this.value='';resizeTA(this);sendText(t);}}
     });
   });
-
   document.getElementById('send1').addEventListener('click',function(){var t=document.getElementById('inp1').value.trim();if(t){document.getElementById('inp1').value='';resizeTA(document.getElementById('inp1'));sendText(t);}});
   document.getElementById('send2').addEventListener('click',function(){var t=document.getElementById('inp2').value.trim();if(t){document.getElementById('inp2').value='';resizeTA(document.getElementById('inp2'));sendText(t);}});
-
-  // Generate image button
   document.getElementById('gen-btn').addEventListener('click',generateImage);
   document.getElementById('img-prompt').addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();generateImage();}});
-
-  // Dropdown buttons
   document.getElementById('add-btn1').addEventListener('click',function(e){e.preventDefault();e.stopPropagation();toggleDD(e);});
   document.getElementById('add-btn2').addEventListener('click',function(e){e.preventDefault();e.stopPropagation();toggleDD(e);});
   document.getElementById('dd-photo').addEventListener('click',doPhoto);
   document.getElementById('dd-files').addEventListener('click',doFile);
-
-  // Close dropdown when clicking outside
-  document.addEventListener('click',function(e){
-    if(!e.target.closest('#dd')&&!e.target.closest('#add-btn1')&&!e.target.closest('#add-btn2')) closeDD();
-  });
-
-  // PHOTO INPUT — mobile + desktop
+  document.addEventListener('click',function(e){if(!e.target.closest('#dd')&&!e.target.closest('#add-btn1')&&!e.target.closest('#add-btn2'))closeDD();});
   document.getElementById('photo-input').addEventListener('change',function(e){
-    var files=Array.from(e.target.files||[]); if(!files.length) return;
+    var files=Array.from(e.target.files||[]);if(!files.length)return;
     var done=0;
     files.forEach(function(f){
       if(!f.type.startsWith('image/')){done++;return;}
       var reader=new FileReader();
-      reader.onload=function(ev){
-        pendingImgs.push({dataUrl:ev.target.result,name:f.name});
-        done++;
-        if(done===files.length) renderPreviews();
-      };
+      reader.onload=function(ev){pendingImgs.push({dataUrl:ev.target.result,name:f.name});done++;if(done===files.length)renderPreviews();};
       reader.readAsDataURL(f);
     });
-    this.value=''; // allow reselecting same file
-  });
-
-  // FILE INPUT
-  document.getElementById('file-input').addEventListener('change',function(e){
-    var f=e.target.files[0]; if(!f) return;
-    enterChat();
-    addMsg('user','📄 File: '+f.name);
-    addMsg('ai','I can see you uploaded **'+f.name+'**. What would you like me to do with it? I can summarize, extract information, or answer questions about it.');
     this.value='';
   });
-
-  // Auth & init
-  checkLogin();
-  updateBanner();
-
-  // URL param handling after redirects
+  document.getElementById('file-input').addEventListener('change',function(e){
+    var f=e.target.files[0];if(!f)return;
+    enterChat();addMsg('user','&#128206; File: '+f.name);
+    addMsg('ai','I can see you uploaded **'+f.name+'**. What would you like me to do with it?');
+    this.value='';
+  });
+  checkLogin();updateBanner();
   var qs=window.location.search;
-  if(qs.includes('login=success')){ history.replaceState({},'','/'); closeModal(); }
-  if(qs.includes('login=error')){ history.replaceState({},'','/'); alert('Google login failed. Please try again.'); }
+  if(qs.includes('login=success')){history.replaceState({},'','/');closeModal();}
+  if(qs.includes('login=error')){history.replaceState({},'','/');alert('Google login failed. Please try again.');}
   if(qs.includes('payment=success')){
     history.replaceState({},'','/');
     try{localStorage.removeItem('os_s');localStorage.removeItem('os_i');}catch(e){}
-    isPaidUser=true;
-    goHome();
-    setTimeout(function(){enterChat();addMsg('ai','🎉 Payment successful! You now have **unlimited access** to all OptimaSeek features!');},400);
+    isPaidUser=true;goHome();
+    setTimeout(function(){enterChat();addMsg('ai','&#127881; Payment successful! You now have **unlimited access** to all OptimaSeek features!');},400);
   }
-  if(qs.includes('payment=cancelled')){ history.replaceState({},'','/'); showPage('pricing'); }
+  if(qs.includes('payment=cancelled')){history.replaceState({},'','/');showPage('pricing');}
 });
 </script>
 </body>
